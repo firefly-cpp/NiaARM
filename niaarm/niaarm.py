@@ -4,8 +4,6 @@ from niapy.problems import Problem
 import numpy as np
 import csv
 
-__all__ = ["NiaARM"]
-
 
 class NiaARM(Problem):
     r"""Implementation of NiaARM.
