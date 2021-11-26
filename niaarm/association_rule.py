@@ -1,26 +1,16 @@
-import sys
 import math
-from niaarm.feature import _Feature
 
 
-class AssociationRule(object):
+class AssociationRule:
     r"""Class for main operations and quality measures.
 
-    Date:
-        2021
-
-    License:
-        MIT
-
     Attributes:
-        value (Optional(any)): Categorical feature value.
-        min (Optional(float)): Maximum numerical feature's value.
-        max (Optional(float)): Minimum numerical feature's value.
+        features (Iterable[Feature]): List of features.
+        permutation (Iterable[])
     """
 
     def __init__(self, features):
         self.features = features
-
         self.permutation = []
 
     def build_rule(self, vector):
@@ -29,7 +19,6 @@ class AssociationRule(object):
         permutation = self.map_permutation(vector)
         self.permutation = self.get_permutation(permutation)
 
-        vector_position = 0
         for i in range(len(self.features)):
             current_feature = self.permutation[i]
 
@@ -47,7 +36,6 @@ class AssociationRule(object):
                     vector_position = vector_position + 1
                     border2 = (vector[vector_position] * (self.features[current_feature].max_val -
                                self.features[current_feature].min_val)) + self.features[current_feature].min_val
-                    vector_position = vector_position + 1
 
                     if border1 > border2:
                         inter = border1
@@ -73,8 +61,6 @@ class AssociationRule(object):
                                 self.features[current_feature].min_val))) +
                         self.features[current_feature].min_val)
 
-                    vector_position = vector_position + 1
-
                     if border1 > border2:
                         inter = border1
                         border1 = border2
@@ -86,7 +72,6 @@ class AssociationRule(object):
                     categories = self.features[current_feature].categories
                     selected = int(vector[vector_position]
                                    * (len(categories) - 1))
-                    vector_position = vector_position + 1
                     rule.append(
                         [self.features[current_feature].categories[selected]])
             else:
@@ -99,7 +84,7 @@ class AssociationRule(object):
     def is_rule_feasible(self, ant, con):
         ant_count = ant.count("NO")
         con_count = con.count("NO")
-        if ((ant_count == len(ant)) or (con_count == len(con))):
+        if (ant_count == len(ant)) or (con_count == len(con)):
             return False
         else:
             return True
@@ -112,14 +97,13 @@ class AssociationRule(object):
         return move
 
     def get_current_position_of_feature(self, feature):
-        position = feature * 3
-        return position
+        return feature * 3
 
     def return_permutation(self):
         return self.permutation
 
     def get_cut_point(self, sol, num_attr):
-        cut = int(float(sol) * num_attr)
+        cut = int(sol * num_attr)
         if cut == 0:
             cut = 1
         if cut > num_attr - 1:
@@ -210,11 +194,11 @@ class AssociationRule(object):
             if (missing_ant + missing_con) == len(self.features):
                 supp = 0.0
 
-        skupni_supp = float(float(supp) / float(len(transactions)))
+        skupni_supp = supp / transactions
         if conf_counter == 0:
             skupni_conf = 0.0
         else:
-            skupni_conf = float(float(conf) / float(conf_counter))
+            skupni_conf = conf / conf_counter
 
         return skupni_supp, skupni_conf
 

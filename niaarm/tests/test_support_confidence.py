@@ -1,16 +1,16 @@
 from unittest import TestCase
 from niaarm.association_rule import AssociationRule
-from niaarm.feature import _Feature
-from niaarm.dataset import _Dataset
+from niaarm.dataset import Dataset
+
 
 class TestSupportConfidence(TestCase):
     # let's borrow test case from wikipedia: https://en.wikipedia.org/wiki/Lift_(data_mining)
     def test_numerical_categorical(self):
-        data = _Dataset("datasets/wiki_test_case.csv")
+        data = Dataset("datasets/wiki_test_case.csv")
 
         features = data.get_features()
 
-        transactions = data.get_transaction_data()
+        transactions = data.transaction_data
 
         antecedent_a = [['A']]
 
@@ -23,17 +23,15 @@ class TestSupportConfidence(TestCase):
 
         vector = [0.83393188, 0.66680227, 0.67480834, 0.13308981, 0.55182048, 0.04805541, 0.51910747]
 
-        Oper = AssociationRule(features)
+        oper = AssociationRule(features)
 
-        rule = Oper.build_rule(vector)
+        cut = oper.get_cut_point(0, len(features))
 
-        cut = Oper.get_cut_point(0, len(features))
+        rule = oper.build_rule(vector)
 
-        rule = Oper.build_rule(vector)
+        antecedent, consequence = oper.get_ant_con(rule, cut)
 
-        antecedent, consequence = Oper.get_ant_con(rule, cut)
-
-        support, confidence = Oper.calculate_support_confidence(
+        support, confidence = oper.calculate_support_confidence(
                 antecedent, consequence, transactions)
 
         self.assertEqual(antecedent, antecedent_a)
