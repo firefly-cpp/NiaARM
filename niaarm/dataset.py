@@ -1,18 +1,9 @@
-import numpy as np
 import pandas as pd
-from niaarm.feature import _Feature
-
-__all__ = ["Dataset"]
+from niaarm.feature import Feature
 
 
-class _Dataset:
+class Dataset:
     r"""Class for working with dataset.
-
-    Date:
-        2021
-
-    License:
-        MIT
 
     Attributes:
         path (str): Path to the dataset.
@@ -25,53 +16,33 @@ class _Dataset:
         self.has_header = has_header
         self.delimiter = delimiter
 
+        self.data = None
         self.header = []
         self.features = []
 
     def read_file(self):
-        r"""Read dataset from file.
-            Arguments:
-                None
-            Returns:
-                None
-        """
+        r"""Read dataset from file."""
         self.data = pd.read_csv(self.path, sep=self.delimiter)
 
     def print_raw_output(self):
-        r"""Print the whole datatable.
-            Arguments:
-                None
-            Returns:
-                None
-        """
+        r"""Print the whole datatable."""
         print(self.data)
 
     def get_all_column_names(self):
-        r"""Preprocess all column names.
-            Arguments:
-                None
-            Returns:
-                None
-        """
+        r"""Preprocess all column names."""
         for col in self.data.columns:
             self.header.append(col)
 
     def return_header(self):
         r"""Return all column names.
-            Arguments:
-                None
+
             Returns:
                 Iterable[any]: list of columns.
         """
         return self.header
 
     def analyse_types(self):
-        r"""Extract data types for data in dataset..
-            Arguments:
-                None
-            Returns:
-                None
-        """
+        r"""Extract data types for data in dataset."""
         for head in self.header:
             col = self.data[head]
 
@@ -94,7 +65,7 @@ class _Dataset:
                 max_value = None
 
             self.features.append(
-                _Feature(
+                Feature(
                     head,
                     dtype,
                     min_value,
@@ -102,35 +73,23 @@ class _Dataset:
                     unique_categories))
 
     def get_features(self):
-        r"""Get feature data.
-            Arguments:
-                None
-            Returns:
-                None
-        """
+        r"""Get feature data."""
         self.read_file()
         self.get_all_column_names()
         self.analyse_types()
 
         return self.features
 
-    def get_transaction_data(self):
-        r"""Get all transactions.
-            Arguments:
-                None
-            Returns:
-                None
-        """
+    @property
+    def transaction_data(self):
         return self.data.values
 
     def calculate_dimension_of_individual(self):
         r"""Calculate the dimension of the problem.
             Dimension of the problem is used in optimization task.
 
-            Arguments:
-                None
             Returns:
-                number (int)
+                int: dimension
         """
         dimension = 0
         for feature in self.features:
@@ -144,13 +103,6 @@ class _Dataset:
         return dimension
 
     def get_feature_report(self):
-        r"""Print feature details.
-
-            Arguments:
-                None
-            Returns:
-                None
-        """
+        r"""Print feature details."""
         for feature in self.features:
-            print("Name: ", feature.name, " Type: ", feature.dtype,
-                  " Range: (", feature.min_val, ", ", feature.max_val, ")")
+            print(feature)

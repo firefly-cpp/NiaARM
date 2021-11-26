@@ -1,12 +1,8 @@
-from pandas.api.types import is_numeric_dtype
-from niaarm.dataset import _Dataset
-from niaarm.rule import _Rule
+from niaarm.rule import Rule
 from niaarm.association_rule import AssociationRule
 from niapy.problems import Problem
 import numpy as np
 import csv
-
-__all__ = ["NiaARM"]
 
 
 class NiaARM(Problem):
@@ -16,7 +12,7 @@ class NiaARM(Problem):
         2021
 
     Reference:
-        The implementation is composed from ideas found in the following papers:
+        The implementation is composed of ideas found in the following papers:
 
         I. Fister Jr., A. Iglesias, A. Gálvez, J. Del Ser, E. Osaba, I Fister. [Differential evolution for association rule mining using categorical and numerical attributes](http://www.iztok-jr-fister.eu/static/publications/231.pdf) In: Intelligent data engineering and automated learning - IDEAL 2018, pp. 79-88, 2018.
 
@@ -38,10 +34,11 @@ class NiaARM(Problem):
             transactions,
             alpha=1.0,
             beta=1.0,
-            gamma=1.0, # TODO (for shrinking)
-            delta=1.0): # TODO (for coverage)
+            gamma=1.0,  # TODO (for shrinking)
+            delta=1.0):  # TODO (for coverage)
         r"""Initialize instance of NiaARM.
-            Arguments:
+
+        Arguments:
 
         """
         self.dim = dimension
@@ -61,6 +58,7 @@ class NiaARM(Problem):
             Arguments:
                 antecedent (array): .
                 consequence (array): .
+
             Returns:
                 None
         """
@@ -81,27 +79,16 @@ class NiaARM(Problem):
                 for rule in self.rules:
                     writer.writerow(
                         [rule.antecedent, rule.consequence, rule.fitness])
-        except BaseException as e:
-            print('BaseException:', output_file)
+        except OSError:
+            print('OSError:', output_file)
         else:
             print("Output successfully")
 
     def sort_rules(self):
         self.rules.sort(key=lambda x: x.fitness, reverse=True)
 
-    def print_improvement(self, fitness, support, confidence):
-        print(
-            "Fitness: ",
-            fitness,
-            " Support: ",
-            support,
-            " Confidence: ",
-            confidence)
-
     def _evaluate(self, sol):
-        r"""Evaluate association rule.
-
-        """
+        r"""Evaluate association rule."""
         arm = AssociationRule(self.features)
 
         cut_value = sol[self.dim - 1]  # get cut point value
@@ -135,18 +122,17 @@ class NiaARM(Problem):
                 # save feasible rule
                 if self.rule_not_exist(antecedent, consequence):
                     self.rules.append(
-                        _Rule(
+                        Rule(
                             antecedent,
                             consequence,
                             fitness,
                             support,
                             confidence,
-                            None,
-                            None))
+                            ))
 
                 if fitness > self.best_fitness:
                     self.best_fitness = fitness
-                    self.print_improvement(fitness, support, confidence)
+                    print("Fitness:", fitness, "Support:", support, "Confidence:", confidence)
             return fitness
         else:
             return -1.0
