@@ -222,3 +222,6 @@ class AssociationRule:
         missing_total = missing_ant + missing_con
 
         return (1 - float(float(missing_total) / float(len(self.features))))
+
+    def calculate_fitness(self, alpha, beta, gamma, delta, support, confidence, shrinkage, coverage):
+        fitness = ((alpha * support) +  (beta * confidence) + (gamma * shrinkage) + (delta * coverage)) / (alpha + beta + gamma + delta)
