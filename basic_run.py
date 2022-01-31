@@ -21,7 +21,7 @@ problem = NiaARM(dimension, 0, 1, features, transactions, dimension)
 # build niapy task
 task = Task(
     problem=problem,
-    max_iters=100,
+    max_iters=1000,
     optimization_type=OptimizationType.MAXIMIZATION)
 
 # use DE

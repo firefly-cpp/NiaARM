@@ -109,9 +109,9 @@ class NiaARM(Problem):
                 antecedent, consequence, self.transactions)
 
             if self.gamma == None:
-                shrinkage = 0 # TODO: implement shrinkage
+                shrinkage = 0
             else:
-                shrinkage = 1
+                shrinkage = arm.calculate_shrinkage(antecedent, consequence)
 
             if self.delta == None:
                 coverage = 0
@@ -141,7 +141,7 @@ class NiaARM(Problem):
 
                 if fitness > self.best_fitness:
                     self.best_fitness = fitness
-                    print("Fitness:", fitness, "Support:", support, "Confidence:", confidence)
+                    print("Fitness:", fitness, "Support:", support, "Confidence:", confidence, "Coverage:", coverage, "Shrinkage:", shrinkage)
             return fitness
         else:
             return -1.0

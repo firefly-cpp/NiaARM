@@ -186,21 +186,21 @@ class AssociationRule:
                 if (missing_con + match2) == len(consequence):
                     conf = conf + 1
 
-            skupno = match1 + match2 + missing_ant + missing_con
+            total = match1 + match2 + missing_ant + missing_con
 
-            if skupno == len(self.features):
+            if total == len(self.features):
                 supp = supp + 1
 
             if (missing_ant + missing_con) == len(self.features):
                 supp = 0.0
 
-        skupni_supp = supp / transactions
+        total_supp = supp / len(transactions)
         if conf_counter == 0:
-            skupni_conf = 0.0
+            total_conf = 0.0
         else:
-            skupni_conf = conf / conf_counter
+            total_conf = conf / conf_counter
 
-        return skupni_supp, skupni_conf
+        return total_supp, total_conf
 
     def check_no(self, antecedent, consequence):
         check = True
@@ -223,5 +223,47 @@ class AssociationRule:
 
         return (1 - float(float(missing_total) / float(len(self.features))))
 
+    def normalize(self, value, actual_bounds, real_bounds):
+        return (real_bounds[0] + (value - real_bounds[0]) * (real_bounds[1] - real_bounds[0]) / (actual_bounds[1] - actual_bounds[0]))
+
+    def calculate_shrinkage(self, antecedent, consequence):
+        differences = []
+
+        for i in range(len(antecedent)):
+            if self.features[self.permutation[i]].dtype == 'float' or self.features[self.permutation[i]].dtype == 'int':
+                if antecedent[i] == 'NO':
+                    pass
+                else:
+                    borders = antecedent[i]
+                    diff_borders = borders[1] - borders[0]
+                    total_borders = self.features[self.permutation[i]].max_val - self.features[self.permutation[i]].min_val
+                    diff = float(diff_borders / total_borders)
+                    differences.append(diff)
+
+        con_counter = 0
+        for ll in range(len(antecedent), len(antecedent)+len(consequence)):
+            if self.features[self.permutation[ll]].dtype == 'float' or self.features[self.permutation[ll]].dtype == 'int':
+                if consequence[con_counter] == 'NO':
+                    pass
+                else:
+                    borders = consequence[con_counter]
+                    diff_borders = borders[1] - borders[0]
+                    total_borders = self.features[self.permutation[ll]].max_val - self.features[self.permutation[ll]].min_val
+                    diff = float(diff_borders / total_borders)
+                    differences.append(diff)
+            con_counter = con_counter + 1
+
+        value = 0.0
+        for i in range(len(differences)):
+            value = value + differences[i]
+
+        if len(differences) > 0:
+            normalized = self.normalize(value, [0, len(differences)], [0, 1])
+        else:
+            return 0.0
+
+        return (1 - normalized)
+
     def calculate_fitness(self, alpha, beta, gamma, delta, support, confidence, shrinkage, coverage):
         fitness = ((alpha * support) +  (beta * confidence) + (gamma * shrinkage) + (delta * coverage)) / (alpha + beta + gamma + delta)
+        return fitness
