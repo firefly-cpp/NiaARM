@@ -34,7 +34,7 @@ class NiaARM(Problem):
             transactions,
             alpha=1.0,
             beta=1.0,
-            gamma=None,  # TODO (for shrinking)
+            gamma=1.0,  # TODO (for shrinking)
             delta=1.0):  # TODO (for coverage)
         r"""Initialize instance of NiaARM.
 
@@ -108,12 +108,12 @@ class NiaARM(Problem):
             support, confidence = arm.calculate_support_confidence(
                 antecedent, consequence, self.transactions)
 
-            if gamma == None:
+            if self.gamma == None:
                 shrinkage = 0 # TODO: implement shrinkage
             else:
                 shrinkage = 1
 
-            if delta == None:
+            if self.delta == None:
                 coverage = 0
             else:
                 coverage = arm.calculate_coverage(antecedent, consequence)
