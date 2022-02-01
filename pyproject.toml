@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "niaarm"
 version = "0.1.0"
-description = ""
+description = "Nature-inspired algorithms for Association Rule Mining"
 authors = ["Iztok Fister, Jr. <iztok.fister1@um.si>", "Žiga Stupan <ziga.stupan1@student.um.si"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
-niapy = "2.0.0rc18"
+python = "^3.6"
+niapy = "*"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
