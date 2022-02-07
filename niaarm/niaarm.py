@@ -68,6 +68,32 @@ class NiaARM(Problem):
                 return False
         return True
 
+    def is_border_value_the_same(self, antecedent, consequence):
+        r"""In case lower and upper bounds of interval are the same.
+            We need this in order to provide clean output.
+
+            Arguments:
+                antecedent (array): .
+                consequence (array): .
+
+            Returns:
+                antecedent (array):
+                consequence (array):
+        """
+
+        for i in range(len(antecedent)):
+            if len(antecedent[i]) > 1:
+                if antecedent[i][0] == antecedent[i][1]:
+                    antecedent[i] = antecedent[i][0]
+
+
+        for i in range(len(consequence)):
+            if len(consequence[i]) > 1:
+                if consequence[i][0] == consequence[i][1]:
+                    consequence[i] = consequence[i][0]
+
+        return antecedent, consequence
+
     def rules_to_csv(self):
         r"""Save all association rules found to csv file.
 
@@ -77,6 +103,7 @@ class NiaARM(Problem):
             with open(output_file, 'w', newline='') as f:
                 writer = csv.writer(f)
                 for rule in self.rules:
+                    rule.antecedent, rule.consequence = self.is_border_value_the_same(rule.antecedent, rule.consequence)
                     writer.writerow(
                         [rule.antecedent, rule.consequence, rule.fitness])
         except OSError:
