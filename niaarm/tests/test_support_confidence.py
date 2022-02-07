@@ -2,10 +2,9 @@ from unittest import TestCase
 from niaarm.association_rule import AssociationRule
 from niaarm.dataset import Dataset
 
-
 class TestSupportConfidence(TestCase):
     # let's borrow test case from wikipedia: https://en.wikipedia.org/wiki/Lift_(data_mining)
-    def test_numerical_categorical(self):
+    def test_a(self):
         data = Dataset("datasets/wiki_test_case.csv")
 
         features = data.get_features()
@@ -21,7 +20,7 @@ class TestSupportConfidence(TestCase):
 
         confidence_a = 0.75
 
-        vector = [0.83393188, 0.66680227, 0.67480834, 0.13308981, 0.55182048, 0.04805541, 0.51910747]
+        vector =  [0.27989089, 0.0, 0.28412449, 0.75629334, 0.0796189,  0.0, 0.0]
 
         oper = AssociationRule(features)
 
