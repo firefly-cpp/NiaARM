@@ -37,7 +37,7 @@ class TestReadCSVAbalone(TestCase):
 
 class TestReadCSVWiki(TestCase):
     def test_read_features(self):
-        header = ['Antecedent', 'Consequent']
+        header = ['Feat1', 'Feat2']
         minval = [None, 0]
         maxval = [None, 1]
         dtypes_a = ['cat', 'int']
@@ -67,4 +67,3 @@ class TestReadCSVWiki(TestCase):
         self.assertEqual(min_value, minval)
         self.assertEqual(max_value, maxval)
         self.assertEqual(dtypes, dtypes_a)
-        # TODO: Sort
