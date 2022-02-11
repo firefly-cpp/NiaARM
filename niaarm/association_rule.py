@@ -1,5 +1,5 @@
 import math
-
+import sys
 
 class AssociationRule:
     r"""Class for main operations and quality measures.
@@ -17,16 +17,22 @@ class AssociationRule:
         rule = []
 
         permutation = self.map_permutation(vector)
+
+
         self.permutation = self.get_permutation(permutation)
+
 
         for i in range(len(self.features)):
             current_feature = self.permutation[i]
-
-            threshold_position = self.get_current_position_of_feature(
+            
+            # calculate threshold for each feature
+            threshold_position = self.get_vector_position_of_feature(
                 current_feature) + self.calculate_threshold_move(current_feature)
-
-            vector_position = self.get_current_position_of_feature(
+            
+            # set current position of vector
+            vector_position = self.get_vector_position_of_feature(
                 current_feature)
+
 
             if vector[vector_position] > vector[threshold_position]:
                 vector_position = vector_position + 2
@@ -76,6 +82,7 @@ class AssociationRule:
                         [self.features[current_feature].categories[selected]])
             else:
                 rule.append('NO')
+
         return rule
 
     def map_permutation(self, vector):
@@ -96,8 +103,14 @@ class AssociationRule:
             move = 1
         return move
 
-    def get_current_position_of_feature(self, feature):
-        return feature * 3
+    def get_vector_position_of_feature(self, feature):
+        position = 0
+        for i in range(feature):
+            if self.features[i].dtype == "float" or self.features[i].dtype == "int":
+                position = position + 3
+            else:
+                position = position + 2
+        return position
 
     def return_permutation(self):
         return self.permutation
