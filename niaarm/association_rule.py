@@ -1,5 +1,5 @@
 import math
-import sys
+
 
 class AssociationRule:
     r"""Class for main operations and quality measures.
@@ -18,29 +18,25 @@ class AssociationRule:
 
         permutation = self.map_permutation(vector)
 
-
         self.permutation = self.get_permutation(permutation)
-
 
         for i in range(len(self.features)):
             current_feature = self.permutation[i]
-            
+
             # get threshold for each feature
             threshold_position = self.get_vector_position_of_feature(
                 current_feature) + self.calculate_threshold_move(current_feature)
-            
+
             # set current position in vector
             vector_position = self.get_vector_position_of_feature(
                 current_feature)
 
-
             if vector[vector_position] > vector[threshold_position]:
-                vector_position = vector_position + 2
                 if self.features[current_feature].dtype == 'float':
-                    border1 = (vector[vector_position] * (self.features[current_feature].max_val -
+                    border1 = (vector[vector_position] * (self.features[current_feature].max_val - \
                                self.features[current_feature].min_val)) + self.features[current_feature].min_val
                     vector_position = vector_position + 1
-                    border2 = (vector[vector_position] * (self.features[current_feature].max_val -
+                    border2 = (vector[vector_position] * (self.features[current_feature].max_val - \
                                self.features[current_feature].min_val)) + self.features[current_feature].min_val
 
                     if border1 > border2:
@@ -51,20 +47,19 @@ class AssociationRule:
                     rule.append(borders)
 
                 elif self.features[current_feature].dtype == 'int':
-                    border1 = int(
-                        math.ceil(
-                            (vector[vector_position] *
-                             (
-                                self.features[current_feature].max_val -
-                                self.features[current_feature].min_val))) +
+                    border1 = round(
+                        (vector[vector_position] *
+                         (
+                            self.features[current_feature].max_val -
+                            self.features[current_feature].min_val)) +
                         self.features[current_feature].min_val)
                     vector_position = vector_position + 1
-                    border2 = int(
-                        math.ceil(
-                            (vector[vector_position] *
-                             (
-                                self.features[current_feature].max_val -
-                                self.features[current_feature].min_val))) +
+
+                    border2 = round(
+                        (vector[vector_position] *
+                         (
+                            self.features[current_feature].max_val -
+                            self.features[current_feature].min_val)) +
                         self.features[current_feature].min_val)
 
                     if border1 > border2:
@@ -72,13 +67,14 @@ class AssociationRule:
                         border1 = border2
                         border2 = inter
                     borders = [border1, border2]
+
                     rule.append(borders)
 
                 else:
                     categories = self.features[current_feature].categories
 
                     selected = round(vector[vector_position]
-                                   * (len(categories) - 1))
+                                     * (len(categories) - 1))
 
                     rule.append(
                         [self.features[current_feature].categories[selected]])
@@ -239,31 +235,41 @@ class AssociationRule:
         return (1 - float(float(missing_total) / float(len(self.features))))
 
     def normalize(self, value, actual_bounds, real_bounds):
-        return (real_bounds[0] + (value - real_bounds[0]) * (real_bounds[1] - real_bounds[0]) / (actual_bounds[1] - actual_bounds[0]))
+        return (real_bounds[0] +
+                (value -
+                 real_bounds[0]) *
+                (real_bounds[1] -
+                 real_bounds[0]) /
+                (actual_bounds[1] -
+                 actual_bounds[0]))
 
     def calculate_shrinkage(self, antecedent, consequence):
         differences = []
 
         for i in range(len(antecedent)):
-            if self.features[self.permutation[i]].dtype == 'float' or self.features[self.permutation[i]].dtype == 'int':
+            if self.features[self.permutation[i]
+                             ].dtype == 'float' or self.features[self.permutation[i]].dtype == 'int':
                 if antecedent[i] == 'NO':
                     pass
                 else:
                     borders = antecedent[i]
                     diff_borders = borders[1] - borders[0]
-                    total_borders = self.features[self.permutation[i]].max_val - self.features[self.permutation[i]].min_val
+                    total_borders = self.features[self.permutation[i]
+                                                  ].max_val - self.features[self.permutation[i]].min_val
                     diff = float(diff_borders / total_borders)
                     differences.append(diff)
 
         con_counter = 0
-        for ll in range(len(antecedent), len(antecedent)+len(consequence)):
-            if self.features[self.permutation[ll]].dtype == 'float' or self.features[self.permutation[ll]].dtype == 'int':
+        for ll in range(len(antecedent), len(antecedent) + len(consequence)):
+            if self.features[self.permutation[ll]
+                             ].dtype == 'float' or self.features[self.permutation[ll]].dtype == 'int':
                 if consequence[con_counter] == 'NO':
                     pass
                 else:
                     borders = consequence[con_counter]
                     diff_borders = borders[1] - borders[0]
-                    total_borders = self.features[self.permutation[ll]].max_val - self.features[self.permutation[ll]].min_val
+                    total_borders = self.features[self.permutation[ll]
+                                                  ].max_val - self.features[self.permutation[ll]].min_val
                     diff = float(diff_borders / total_borders)
                     differences.append(diff)
             con_counter = con_counter + 1
@@ -279,6 +285,16 @@ class AssociationRule:
 
         return (1 - normalized)
 
-    def calculate_fitness(self, alpha, beta, gamma, delta, support, confidence, shrinkage, coverage):
-        fitness = ((alpha * support) +  (beta * confidence) + (gamma * shrinkage) + (delta * coverage)) / (alpha + beta + gamma + delta)
+    def calculate_fitness(
+            self,
+            alpha,
+            beta,
+            gamma,
+            delta,
+            support,
+            confidence,
+            shrinkage,
+            coverage):
+        fitness = ((alpha * support) + (beta * confidence) + (gamma *
+                   shrinkage) + (delta * coverage)) / (alpha + beta + gamma + delta)
         return fitness

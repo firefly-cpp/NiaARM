@@ -5,10 +5,28 @@ from niaarm.dataset import Dataset
 class TestReadCSVAbalone(TestCase):
     def test_read_features(self):
 
-        header = ['Sex', 'Length', 'Diameter', 'Height', 'Whole weight', 'Shucked weight', 'Viscera weight', 'Shell weight', 'Rings']
+        header = [
+            'Sex',
+            'Length',
+            'Diameter',
+            'Height',
+            'Whole weight',
+            'Shucked weight',
+            'Viscera weight',
+            'Shell weight',
+            'Rings']
         minval = [None, 0.075, 0.055, 0.0, 0.002, 0.001, 0.0005, 0.0015, 1]
         maxval = [None, 0.815, 0.65, 1.13, 2.8255, 1.488, 0.76, 1.005, 29]
-        dtypes_a = ['cat', 'float', 'float', 'float', 'float', 'float', 'float', 'float', 'int']
+        dtypes_a = [
+            'cat',
+            'float',
+            'float',
+            'float',
+            'float',
+            'float',
+            'float',
+            'float',
+            'int']
 
         data = Dataset("datasets/Abalone.csv")
 
