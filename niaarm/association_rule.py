@@ -25,11 +25,11 @@ class AssociationRule:
         for i in range(len(self.features)):
             current_feature = self.permutation[i]
             
-            # calculate threshold for each feature
+            # get threshold for each feature
             threshold_position = self.get_vector_position_of_feature(
                 current_feature) + self.calculate_threshold_move(current_feature)
             
-            # set current position of vector
+            # set current position in vector
             vector_position = self.get_vector_position_of_feature(
                 current_feature)
 
@@ -76,8 +76,10 @@ class AssociationRule:
 
                 else:
                     categories = self.features[current_feature].categories
-                    selected = int(vector[vector_position]
+
+                    selected = round(vector[vector_position]
                                    * (len(categories) - 1))
+
                     rule.append(
                         [self.features[current_feature].categories[selected]])
             else:
