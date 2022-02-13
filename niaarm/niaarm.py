@@ -34,8 +34,8 @@ class NiaARM(Problem):
             transactions,
             alpha=1.0,
             beta=1.0,
-            gamma=1.0,  # TODO (for shrinking)
-            delta=1.0):  # TODO (for coverage)
+            gamma=1.0,
+            delta=1.0):
         r"""Initialize instance of NiaARM.
 
         Arguments:

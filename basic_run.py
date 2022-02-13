@@ -24,10 +24,11 @@ task = Task(
     max_iters=1000,
     optimization_type=OptimizationType.MAXIMIZATION)
 
-# use DE
+# use Differential Evolution (DE) algorithm
+# see full list of available algorithms: https://github.com/NiaOrg/NiaPy/blob/master/Algorithms.md
 algo = DifferentialEvolution(population_size=50, differential_weight=0.5, crossover_probability=0.9)
 
-# use PSO algorithm from niapy library
+# use Particle swarm Optimization (PSO) algorithm from NiaPy library
 algo2 = ParticleSwarmAlgorithm(
     population_size=100,
     min_velocity=-4.0,
@@ -39,5 +40,5 @@ best = algo.run(task=task)
 # sort rules
 problem.sort_rules()
 
-# print all rules to csv
+# export all rules to csv
 problem.rules_to_csv()
