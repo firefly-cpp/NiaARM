@@ -119,7 +119,7 @@ class NiaARM(Problem):
         arm = AssociationRule(self.features)
 
         cut_value = sol[self.dim - 1]  # get cut point value
-        solution = sol[1:]  # remove cut point
+        solution = sol[:-1]  # remove cut point
 
         cut = arm.get_cut_point(cut_value, len(self.features))
 
