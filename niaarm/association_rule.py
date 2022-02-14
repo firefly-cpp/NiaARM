@@ -298,3 +298,32 @@ class AssociationRule:
         fitness = ((alpha * support) + (beta * confidence) + (gamma *
                    shrinkage) + (delta * coverage)) / (alpha + beta + gamma + delta)
         return fitness
+
+    def format_rules(self, antecedent, consequence):
+        antecedent1 = []
+        consequence1 = []
+        
+        for i in range(len(antecedent)):
+            if antecedent[i] == "NO":
+                pass
+            else:
+                if self.features[self.permutation[i]].dtype == "cat":
+                    rule = self.features[self.permutation[i]].name + "(" + str(antecedent[i][0]) + ")"
+                else:
+                    rule = self.features[self.permutation[i]].name + "(" + str(antecedent[i]) + ")"
+                    
+                antecedent1.append(rule)
+                
+
+        for i in range(len(consequence)):
+            if consequence[i] == "NO":
+                pass
+            else:
+                if self.features[self.permutation[i+len(antecedent)]].dtype == "cat":
+                    rule = self.features[self.permutation[i+len(antecedent)]].name + "(" + str(consequence[i]) + ")"
+                else:
+                    rule = self.features[self.permutation[i+len(antecedent)]].name + "(" + str(consequence[i]) + ")"
+                    
+                consequence1.append(rule)        
+
+        return antecedent1, consequence1                

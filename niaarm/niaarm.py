@@ -32,10 +32,11 @@ class NiaARM(Problem):
             upper,
             features,
             transactions,
-            alpha=1.0,
-            beta=1.0,
-            gamma=1.0,
-            delta=1.0):
+            alpha,
+            beta,
+            gamma,
+            delta,
+            output):
         r"""Initialize instance of NiaARM.
 
         Arguments:
@@ -44,10 +45,11 @@ class NiaARM(Problem):
         self.dim = dimension
         self.features = features
         self.transactions = transactions
-        self.alpha = alpha
-        self.beta = beta
-        self.gamma = gamma
-        self.delta = delta
+        self.alpha = self.if_criteria_excluded(alpha)
+        self.beta = self.if_criteria_excluded(beta)
+        self.gamma = self.if_criteria_excluded(gamma)
+        self.delta = self.if_criteria_excluded(delta)
+        self.output = output
 
         self.best_fitness = np.NINF
         self.rules = []
@@ -68,6 +70,12 @@ class NiaARM(Problem):
                 return False
         return True
 
+    def if_criteria_excluded(self, criteria):
+        """In case we do not include specific criteria in final calculation"""
+        if criteria == None:
+            criteria = 0.0
+        return criteria    
+    
     def is_border_value_the_same(self, antecedent, consequence):
         r"""In case lower and upper bounds of interval are the same.
             We need this in order to provide clean output.
@@ -98,14 +106,16 @@ class NiaARM(Problem):
         r"""Save all association rules found to csv file.
 
         """
-        output_file = "output/output.csv"
         try:
-            with open(output_file, 'w', newline='') as f:
+            with open(self.output, 'w', newline='') as f:
                 writer = csv.writer(f)
+                
+                # write header
+                writer.writerow(["Antecedent", "Consequence", "Fitness", "Support", "Confidence", "Coverage", "Shrinkage"])
+                
                 for rule in self.rules:
-                    rule.antecedent, rule.consequence = self.is_border_value_the_same(rule.antecedent, rule.consequence)
                     writer.writerow(
-                        [rule.antecedent, rule.consequence, rule.fitness])
+                        [rule.antecedent, rule.consequence, rule.fitness, rule.support, rule.confidence, rule.coverage, rule.shrink])
         except OSError:
             print('OSError:', output_file)
         else:
@@ -135,12 +145,12 @@ class NiaARM(Problem):
             support, confidence = arm.calculate_support_confidence(
                 antecedent, consequence, self.transactions)
 
-            if self.gamma == None:
+            if self.gamma == 0.0:
                 shrinkage = 0
             else:
                 shrinkage = arm.calculate_shrinkage(antecedent, consequence)
 
-            if self.delta == None:
+            if self.delta == 0.0:
                 coverage = 0
             else:
                 coverage = arm.calculate_coverage(antecedent, consequence)
@@ -152,18 +162,25 @@ class NiaARM(Problem):
             # in case no attributes were selected for antecedent or consequence
             if not check_no:
                 fitness = 0.0
-
+            
+            
             if support > 0.0 and confidence > 0.0:
-
+                
+                antecedent, consequence = self.is_border_value_the_same(antecedent, consequence)
+                # format rule; remove NO; add name of features
+                antecedent1, consequence1 = arm.format_rules(antecedent, consequence)
+                
                 # save feasible rule
-                if self.rule_not_exist(antecedent, consequence):
+                if self.rule_not_exist(antecedent1, consequence1):
                     self.rules.append(
                         Rule(
-                            antecedent,
-                            consequence,
+                            antecedent1,
+                            consequence1,
                             fitness,
                             support,
                             confidence,
+                            coverage,
+                            shrinkage
                             ))
 
                 if fitness > self.best_fitness:

@@ -22,5 +22,5 @@ class Rule:
     fitness: float
     support: float
     confidence: float
-    shrink: Optional[float] = None
     coverage: Optional[float] = None
+    shrink: Optional[float] = None
