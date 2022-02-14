@@ -5,7 +5,7 @@ description = "Nature-inspired algorithms for Association Rule Mining"
 authors = ["Iztok Fister, Jr. <iztok.fister1@um.si>", "Žiga Stupan <ziga.stupan1@student.um.si"]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 niapy = "*"
 
 [tool.poetry.dev-dependencies]
