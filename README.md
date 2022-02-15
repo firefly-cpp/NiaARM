@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="200" src=".github/logo/logo.png">
+  <img width="300" src=".github/logo/logo.png">
 </p>
 
 # NiaARM
