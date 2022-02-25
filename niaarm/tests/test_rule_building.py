@@ -8,7 +8,7 @@ class TestBuildRuleA(TestCase):
     # https://en.wikipedia.org/wiki/Lift_(data_mining)
     def setUp(self):
         data = Dataset("datasets/wiki_test_case.csv")
-        self.features = data.get_features()
+        self.features = data.features
         self.oper = AssociationRule(self.features)
 
     def test_get_permutation(self):
@@ -146,7 +146,7 @@ class TestBuildRuleB(TestCase):
     # Abalone test case
     def setUp(self):
         data = Dataset("datasets/Abalone.csv")
-        self.features = data.get_features()
+        self.features = data.features
         self.oper = AssociationRule(self.features)
 
     def test_get_permutation(self):

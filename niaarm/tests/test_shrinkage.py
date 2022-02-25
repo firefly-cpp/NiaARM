@@ -5,7 +5,7 @@ from niaarm.dataset import Dataset
 class TestShrinkageA(TestCase):
     def setUp(self):
         data = Dataset("datasets/wiki_test_case.csv")
-        self.features = data.get_features()
+        self.features = data.features
         self.oper = AssociationRule(self.features)
 
     def test_A(self):

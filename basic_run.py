@@ -3,26 +3,15 @@ from niaarm.dataset import Dataset
 from niapy.algorithms.basic import ParticleSwarmAlgorithm, DifferentialEvolution
 from niapy.task import Task, OptimizationType
 
-# load dataset from csv
+# load and preprocess dataset from csv
 data = Dataset("datasets/Abalone.csv")
-
-# preprocess dataset and obtain features
-features = data.get_features()
-
-# calculate dimension of the problem
-dimension = data.calculate_dimension_of_individual()
-
-# obtain transaction database
-transactions = data.transaction_data
 
 # Create a problem::: 
 # dimension represents dimension of the problem;
-# 0, 1 represents the range of search space
 # features represent the list of features, while transactions depicts the list of transactions
 # the following 4 elements represent weights (support, confidence, coverage, shrinkage)
 # None defines that criteria is omitted and is therefore excluded from fitness function
-# final element represents the filename in which obtained rules in csv format are stored
-problem = NiaARM(dimension, 0, 1, features, transactions, 1.0, 1.0, None, None, "results.csv")
+problem = NiaARM(data.dimension, data.features, data.transactions, alpha=1.0, beta=1.0)
 
 # build niapy task
 task = Task(
@@ -47,4 +36,4 @@ best = algo.run(task=task)
 problem.sort_rules()
 
 # export all rules to csv
-problem.rules_to_csv()
+problem.rules_to_csv('output.csv')

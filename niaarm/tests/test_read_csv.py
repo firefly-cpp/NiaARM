@@ -30,11 +30,11 @@ class TestReadCSVAbalone(TestCase):
 
         data = Dataset("datasets/Abalone.csv")
 
-        features = data.get_features()
+        features = data.features
 
-        individual = data.calculate_dimension_of_individual()
+        individual = data.dimension
 
-        header_a = data.return_header()
+        header_a = data.header
 
         min_value = []
         max_value = []
@@ -62,11 +62,11 @@ class TestReadCSVWiki(TestCase):
 
         data = Dataset("datasets/wiki_test_case.csv")
 
-        features = data.get_features()
+        features = data.features
 
-        individual = data.calculate_dimension_of_individual()
+        individual = data.dimension
 
-        header_a = data.return_header()
+        header_a = data.header
 
         min_value = []
         max_value = []

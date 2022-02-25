@@ -8,7 +8,7 @@ class TestCutPoint(TestCase):
     # https://en.wikipedia.org/wiki/Lift_(data_mining)
     def setUp(self):
         data = Dataset("datasets/wiki_test_case.csv")
-        self.features = data.get_features()
+        self.features = data.features
         self.oper = AssociationRule(self.features)
 
     def test_cut_pointA(self):
@@ -33,10 +33,11 @@ class TestCutPoint(TestCase):
         self.assertEqual(antecedent, [['B']])
         self.assertEqual(consequence, ['NO'])
 
+
 class TestCutPointB(TestCase):
     def setUp(self):
         data = Dataset("datasets/Abalone.csv")
-        self.features = data.get_features()
+        self.features = data.features
         self.oper = AssociationRule(self.features)
 
     def test_cut_pointB(self):

@@ -1,6 +1,3 @@
-import math
-
-
 class AssociationRule:
     r"""Class for main operations and quality measures.
 
@@ -33,10 +30,10 @@ class AssociationRule:
 
             if vector[vector_position] > vector[threshold_position]:
                 if self.features[current_feature].dtype == 'float':
-                    border1 = (vector[vector_position] * (self.features[current_feature].max_val - \
+                    border1 = (vector[vector_position] * (self.features[current_feature].max_val -
                                self.features[current_feature].min_val)) + self.features[current_feature].min_val
                     vector_position = vector_position + 1
-                    border2 = (vector[vector_position] * (self.features[current_feature].max_val - \
+                    border2 = (vector[vector_position] * (self.features[current_feature].max_val -
                                self.features[current_feature].min_val)) + self.features[current_feature].min_val
 
                     if border1 > border2:
@@ -73,11 +70,9 @@ class AssociationRule:
                 else:
                     categories = self.features[current_feature].categories
 
-                    selected = round(vector[vector_position]
-                                     * (len(categories) - 1))
+                    selected = round(vector[vector_position] * (len(categories) - 1))
 
-                    rule.append(
-                        [self.features[current_feature].categories[selected]])
+                    rule.append([self.features[current_feature].categories[selected]])
             else:
                 rule.append('NO')
 
@@ -141,26 +136,20 @@ class AssociationRule:
         conf_counter = 0
 
         # firstly antecedent
-        for i in range(0, len(transactions)):
+        for i in range(len(transactions)):
             match1 = 0
             match2 = 0
-            for l in range(len(antecedent)):
-                if self.features[self.permutation[l]
-                                 ].dtype == 'float' or self.features[self.permutation[l]].dtype == 'int':
-                    if antecedent[l] == 'NO':
-                        pass
-                    else:
-                        border = antecedent[l]
-                        if (float(transactions[i][self.permutation[l]]) >= border[0]) and (
-                                float(transactions[i][self.permutation[l]]) <= border[1]):
+            for j in range(len(antecedent)):
+                if self.features[self.permutation[j]].dtype == 'float' or self.features[self.permutation[j]].dtype == 'int':
+                    if antecedent[j] != 'NO':
+                        border = antecedent[j]
+                        if (float(transactions[i][self.permutation[j]]) >= border[0]) and (
+                                float(transactions[i][self.permutation[j]]) <= border[1]):
                             match1 = match1 + 1
-                elif self.features[self.permutation[l]].dtype == 'cat':
-                    if antecedent[l] == 'NO':
-                        pass
-                    else:
-                        ant = antecedent[l]
-                        if transactions[i][self.permutation[l]
-                                           ] == ant[0]:
+                elif self.features[self.permutation[j]].dtype == 'cat':
+                    if antecedent[j] != 'NO':
+                        ant = antecedent[j]
+                        if transactions[i][self.permutation[j]] == ant[0]:
                             match1 = match1 + 1
 
             # secondly consequence
@@ -169,19 +158,14 @@ class AssociationRule:
                     len(antecedent),
                     len(antecedent) +
                     len(consequence)):
-                if self.features[self.permutation[ll]
-                                 ].dtype == 'float' or self.features[self.permutation[ll]].dtype == 'int':
-                    if consequence[con_counter] == 'NO':
-                        pass
-                    else:
+                if self.features[self.permutation[ll]].dtype == 'float' or self.features[self.permutation[ll]].dtype == 'int':
+                    if consequence[con_counter] != 'NO':
                         border = consequence[con_counter]
                         if (float(transactions[i][self.permutation[ll]]) >= border[0]) and (
                                 float(transactions[i][self.permutation[ll]]) <= border[1]):
                             match2 = match2 + 1
                 elif self.features[self.permutation[ll]].dtype == 'cat':
-                    if consequence[con_counter] == 'NO':
-                        pass
-                    else:
+                    if consequence[con_counter] != 'NO':
                         con = consequence[con_counter]
 
                         if transactions[i][self.permutation[ll]] == con[0]:
@@ -213,26 +197,13 @@ class AssociationRule:
 
         return total_supp, total_conf
 
-    def check_no(self, antecedent, consequence):
-        check = True
-        missing_ant = antecedent.count("NO")
-        missing_con = consequence.count("NO")
-
-        if missing_ant == len(antecedent):
-            check = False
-
-        if missing_con == len(consequence):
-            check = False
-
-        return check
-
     def calculate_coverage(self, antecedent, consequence):
         missing_ant = antecedent.count("NO")
         missing_con = consequence.count("NO")
 
         missing_total = missing_ant + missing_con
 
-        return (1 - float(float(missing_total) / float(len(self.features))))
+        return 1 - float(float(missing_total) / float(len(self.features)))
 
     def normalize(self, value, actual_bounds, real_bounds):
         return (real_bounds[0] +
@@ -247,29 +218,21 @@ class AssociationRule:
         differences = []
 
         for i in range(len(antecedent)):
-            if self.features[self.permutation[i]
-                             ].dtype == 'float' or self.features[self.permutation[i]].dtype == 'int':
-                if antecedent[i] == 'NO':
-                    pass
-                else:
+            if self.features[self.permutation[i]].dtype == 'float' or self.features[self.permutation[i]].dtype == 'int':
+                if antecedent[i] != 'NO':
                     borders = antecedent[i]
                     diff_borders = borders[1] - borders[0]
-                    total_borders = self.features[self.permutation[i]
-                                                  ].max_val - self.features[self.permutation[i]].min_val
+                    total_borders = self.features[self.permutation[i]].max_val - self.features[self.permutation[i]].min_val
                     diff = float(diff_borders / total_borders)
                     differences.append(diff)
 
         con_counter = 0
         for ll in range(len(antecedent), len(antecedent) + len(consequence)):
-            if self.features[self.permutation[ll]
-                             ].dtype == 'float' or self.features[self.permutation[ll]].dtype == 'int':
-                if consequence[con_counter] == 'NO':
-                    pass
-                else:
+            if self.features[self.permutation[ll]].dtype == 'float' or self.features[self.permutation[ll]].dtype == 'int':
+                if consequence[con_counter] != 'NO':
                     borders = consequence[con_counter]
                     diff_borders = borders[1] - borders[0]
-                    total_borders = self.features[self.permutation[ll]
-                                                  ].max_val - self.features[self.permutation[ll]].min_val
+                    total_borders = self.features[self.permutation[ll]].max_val - self.features[self.permutation[ll]].min_val
                     diff = float(diff_borders / total_borders)
                     differences.append(diff)
             con_counter = con_counter + 1
@@ -283,7 +246,7 @@ class AssociationRule:
         else:
             return 0.0
 
-        return (1 - normalized)
+        return 1 - normalized
 
     def calculate_fitness(
             self,
@@ -302,28 +265,22 @@ class AssociationRule:
     def format_rules(self, antecedent, consequence):
         antecedent1 = []
         consequence1 = []
-        
+
         for i in range(len(antecedent)):
-            if antecedent[i] == "NO":
-                pass
-            else:
+            if antecedent[i] != "NO":
                 if self.features[self.permutation[i]].dtype == "cat":
                     rule = self.features[self.permutation[i]].name + "(" + str(antecedent[i][0]) + ")"
                 else:
                     rule = self.features[self.permutation[i]].name + "(" + str(antecedent[i]) + ")"
-                    
+
                 antecedent1.append(rule)
-                
 
         for i in range(len(consequence)):
-            if consequence[i] == "NO":
-                pass
-            else:
-                if self.features[self.permutation[i+len(antecedent)]].dtype == "cat":
-                    rule = self.features[self.permutation[i+len(antecedent)]].name + "(" + str(consequence[i]) + ")"
+            if consequence[i] != "NO":
+                if self.features[self.permutation[i + len(antecedent)]].dtype == "cat":
+                    rule = self.features[self.permutation[i + len(antecedent)]].name + "(" + str(consequence[i]) + ")"
                 else:
-                    rule = self.features[self.permutation[i+len(antecedent)]].name + "(" + str(consequence[i]) + ")"
-                    
-                consequence1.append(rule)        
+                    rule = self.features[self.permutation[i + len(antecedent)]].name + "(" + str(consequence[i]) + ")"
 
-        return antecedent1, consequence1                
+                consequence1.append(rule)
+        return antecedent1, consequence1
