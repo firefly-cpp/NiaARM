@@ -1,20 +1,59 @@
-.. NiaARM documentation master file, created by
-   sphinx-quickstart on Sun Jan 30 18:26:57 2022.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+NiaARM documentation!
+========================================
 
-Welcome to NiaARM's documentation!
-==================================
+.. automodule:: niaarm
+
+NiaARM is a minimalistic framework for numerical association rule mining.
+
+* **Free software:** MIT license
+* **Github repository:** https://github.com/firefly-cpp/NiaARM
+* **Python versions:** 3.6.x, 3.7.x, 3.8.x
+
+General outline of the framework
+---------------------------------
+
+NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. The framework is fully written in Python and runs on all platforms. NaARM allows users to automatically preprocess the data in a transaction database, to search for association rules and provide pretty output of rules found. This framework also supports numerical and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization and solved using the nature-inspired algorithms that comes from the related framework called NiaPy.
+
+Detailed features
+-----------------------
+
+Documentation
+=============
+
+The main documentation is organized into a couple of sections:
+
+* :ref:`user-docs`
+* :ref:`dev-docs`
+* :ref:`about-docs`
+
+.. _user-docs:
+
+.. toctree::
+   :maxdepth: 3
+   :caption: User Documentation
+
+   getting_started
+
+.. _dev-docs:
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Developer Documentation
 
+   installation
+   testing
+   documentation
+   api/index
 
+.. _about-docs:
 
-Indices and tables
-==================
+.. toctree::
+   :maxdepth: 3
+   :caption: About
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   contributing
+   code_of_conduct
+   license
+
+.. bibliography::
+   :all:
