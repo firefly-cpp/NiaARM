@@ -1,5 +1,5 @@
 from unittest import TestCase
-from niaarm.association_rule import AssociationRule, normalize, cut_point
+from niaarm.association_rule import AssociationRule, _normalize, _cut_point
 from niaarm.dataset import Dataset
 
 
@@ -22,7 +22,7 @@ class TestShrinkageA(TestCase):
 
         oper = AssociationRule(self.features)
 
-        cut = cut_point(0, len(self.features))
+        cut = _cut_point(0, len(self.features))
 
         rule = oper.build_rule(vector)
 
@@ -54,7 +54,7 @@ class TestShrinkageA(TestCase):
 
         oper = AssociationRule(self.features)
 
-        cut = cut_point(0, len(self.features))
+        cut = _cut_point(0, len(self.features))
 
         rule = oper.build_rule(vector)
 
@@ -135,7 +135,7 @@ class TestShrinkageB(TestCase):
         cut_value = vector1[len(vector1) - 1]
         new_sol = vector1[:-1]
 
-        cut = cut_point(cut_value, len(self.features))
+        cut = _cut_point(cut_value, len(self.features))
 
         rule = oper.build_rule(new_sol)
 
@@ -145,7 +145,7 @@ class TestShrinkageB(TestCase):
 
         shrinkage = oper.shrinkage(antecedent, consequence)
 
-        norm = normalize(1.11324989, [0, 3], [0, 1])
+        norm = _normalize(1.11324989, [0, 3], [0, 1])
 
         self.assertEqual(norm, 0.3710832966666667)
         self.assertEqual(shrinkage, 0.6289167033333334)

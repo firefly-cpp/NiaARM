@@ -5,7 +5,7 @@ class Stats:
     r"""Class for providing statistical evaluation.
 
     Attributes:
-        rules (Iterable[Rule]): List of rules.
+        rules (list[Rule]): List of rules.
     """
 
     def __init__(self, rules):

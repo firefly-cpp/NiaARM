@@ -1,30 +1,9 @@
-def normalize(value, actual_bounds, real_bounds):
-    return real_bounds[0] + (value - real_bounds[0]) * (real_bounds[1] - real_bounds[0]) / (actual_bounds[1] - actual_bounds[0])
-
-
-def rule_feasible(ant, con):
-    return ant.count("NO") != len(ant) and con.count("NO") != len(con)
-
-
-def cut_point(sol, num_attr):
-    cut = int(sol * num_attr)
-    if cut == 0:
-        cut = 1
-    if cut > num_attr - 1:
-        cut = num_attr - 2
-    return cut
-
-
-def get_permutation(s):
-    return sorted(range(len(s)), key=lambda k: s[k])
-
-
 class AssociationRule:
     r"""Class for main operations and quality measures.
 
     Attributes:
-        features (Iterable[Feature]): List of features.
-        permutation (Iterable[])
+        features (list[Feature]): List of features.
+        permutation (list[int]): Permuted feature indices,
     """
 
     def __init__(self, features):
@@ -35,7 +14,7 @@ class AssociationRule:
         rule = []
 
         permutation = self.map_permutation(vector)
-        self.permutation = get_permutation(permutation)
+        self.permutation = _get_permutation(permutation)
 
         for i in range(len(self.features)):
             current_feature = self.permutation[i]
@@ -191,7 +170,7 @@ class AssociationRule:
         value = sum(differences)
 
         if len(differences) > 0:
-            normalized = normalize(value, [0, len(differences)], [0, 1])
+            normalized = _normalize(value, [0, len(differences)], [0, 1])
         else:
             return 0.0
         return 1 - normalized
@@ -218,3 +197,24 @@ class AssociationRule:
                     rule = feature.name + "(" + str(consequence[i]) + ")"
                 consequence1.append(rule)
         return antecedent1, consequence1
+
+
+def _normalize(value, actual_bounds, real_bounds):
+    return real_bounds[0] + (value - real_bounds[0]) * (real_bounds[1] - real_bounds[0]) / (actual_bounds[1] - actual_bounds[0])
+
+
+def _rule_feasible(ant, con):
+    return ant.count("NO") != len(ant) and con.count("NO") != len(con)
+
+
+def _cut_point(sol, num_attr):
+    cut = int(sol * num_attr)
+    if cut == 0:
+        cut = 1
+    if cut > num_attr - 1:
+        cut = num_attr - 2
+    return cut
+
+
+def _get_permutation(s):
+    return sorted(range(len(s)), key=lambda k: s[k])
