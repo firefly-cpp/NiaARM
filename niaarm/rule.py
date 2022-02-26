@@ -1,14 +1,14 @@
 from dataclasses import dataclass
-from typing import Iterable, Optional
+from typing import Optional
 
 
 @dataclass
 class Rule:
-    r"""Class for representation of association rule.
+    r"""Class representing an association rule.
 
     Attributes:
-        antecedent (Iterable[str]): A list of antecedents of association rule.
-        consequence (Iterable[str]): A list of consequents of association rule.
+        antecedent (list[str]): A list of antecedents of association rule.
+        consequence (list[str]): A list of consequents of association rule.
         fitness (float): Value of fitness function.
         support (float): Value of support.
         confidence (float): Value of confidence.
@@ -17,8 +17,8 @@ class Rule:
 
     """
 
-    antecedent: Iterable[str]
-    consequence: Iterable[str]
+    antecedent: list[str]
+    consequence: list[str]
     fitness: float
     support: float
     confidence: float

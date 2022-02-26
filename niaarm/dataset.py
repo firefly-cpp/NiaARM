@@ -45,13 +45,7 @@ class Dataset:
                 min_value = None
                 max_value = None
 
-            self.features.append(
-                Feature(
-                    head,
-                    dtype,
-                    min_value,
-                    max_value,
-                    unique_categories))
+            self.features.append(Feature(head, dtype, min_value, max_value, unique_categories))
 
     def __problem_dimension(self):
         r"""Calculate the dimension of the problem."""
