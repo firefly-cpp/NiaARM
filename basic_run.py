@@ -1,6 +1,6 @@
 from niaarm import NiaARM
 from niaarm.dataset import Dataset
-from niapy.algorithms.basic import ParticleSwarmAlgorithm, DifferentialEvolution
+from niapy.algorithms.basic import DifferentialEvolution
 from niapy.task import Task, OptimizationType
 
 
@@ -16,14 +16,11 @@ if __name__ == '__main__':
     problem = NiaARM(data.dimension, data.features, data.transactions, alpha=1.0, beta=1.0)
 
     # build niapy task
-    task = Task(problem=problem, max_iters=3, optimization_type=OptimizationType.MAXIMIZATION)
+    task = Task(problem=problem, max_iters=30, optimization_type=OptimizationType.MAXIMIZATION)
 
-    # use Differential Evolution (DE) algorithm
+    # use Differential Evolution (DE) algorithm from the NiaPy library
     # see full list of available algorithms: https://github.com/NiaOrg/NiaPy/blob/master/Algorithms.md
     algo = DifferentialEvolution(population_size=50, differential_weight=0.5, crossover_probability=0.9)
-
-    # use Particle swarm Optimization (PSO) algorithm from NiaPy library
-    algo2 = ParticleSwarmAlgorithm(population_size=100, min_velocity=-4.0, max_velocity=4.0)
 
     # run algorithm
     best = algo.run(task=task)

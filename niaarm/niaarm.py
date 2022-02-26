@@ -76,7 +76,7 @@ class NiaARM(Problem):
         self.rules = []
         super().__init__(dimension, 0.0, 1.0)
 
-    def rule_not_exist(self, antecedent, consequence):
+    def rule_exists(self, antecedent, consequence):
         r"""Check if association rule already exists.
             Arguments:
                 antecedent (array): .
@@ -85,11 +85,10 @@ class NiaARM(Problem):
             Returns:
                 None
         """
-        for i in range(len(self.rules)):
-            if ((self.rules[i].antecedent == antecedent) and (
-                    self.rules[i].consequence == consequence)):
-                return False
-        return True
+        for rule in self.rules:
+            if rule.antecedent == antecedent and rule.consequence == consequence:
+                return True
+        return False
 
     def export_rules(self, path):
         r"""Save all association rules found to csv file.
@@ -160,7 +159,7 @@ class NiaARM(Problem):
                 antecedent1, consequence1 = arm.format_rules(antecedent, consequence)
 
                 # save feasible rule
-                if self.rule_not_exist(antecedent1, consequence1):
+                if not self.rule_exists(antecedent1, consequence1):
                     self.rules.append(
                         Rule(
                             antecedent1,
