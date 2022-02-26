@@ -29,20 +29,19 @@ class Dataset:
         for head in self.header:
             col = self.data[head]
 
-            if col.dtype == "float64":
+            if col.dtype == "float":
                 dtype = "float"
                 min_value = col.min()
                 max_value = col.max()
                 unique_categories = None
-            elif col.dtype == "int64":
+            elif col.dtype == "int":
                 dtype = "int"
                 min_value = col.min()
                 max_value = col.max()
                 unique_categories = None
             else:
                 dtype = "cat"
-                unique_categories = col.unique()
-                unique_categories.sort(key=str.lower)
+                unique_categories = sorted(col.astype('string').unique().tolist(), key=str.lower)  # convert to str just in case
                 min_value = None
                 max_value = None
 
@@ -56,15 +55,12 @@ class Dataset:
 
     def __problem_dimension(self):
         r"""Calculate the dimension of the problem."""
-        dimension = 0
+        dimension = len(self.features) + 1
         for feature in self.features:
             if feature.dtype == "float" or feature.dtype == "int":
                 dimension += 3
             else:
                 dimension += 2
-
-        # add dimension for permutation and cut point
-        dimension += len(self.features) + 1
         return dimension
 
     def feature_report(self):

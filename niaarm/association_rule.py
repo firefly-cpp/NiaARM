@@ -1,3 +1,35 @@
+def normalize(value, actual_bounds, real_bounds):
+    return (real_bounds[0] +
+            (value -
+             real_bounds[0]) *
+            (real_bounds[1] -
+             real_bounds[0]) /
+            (actual_bounds[1] -
+             actual_bounds[0]))
+
+
+def is_rule_feasible(ant, con):
+    ant_count = ant.count("NO")
+    con_count = con.count("NO")
+    if (ant_count == len(ant)) or (con_count == len(con)):
+        return False
+    else:
+        return True
+
+
+def get_cut_point(sol, num_attr):
+    cut = int(sol * num_attr)
+    if cut == 0:
+        cut = 1
+    if cut > num_attr - 1:
+        cut = num_attr - 2
+    return cut
+
+
+def get_permutation(s):
+    return sorted(range(len(s)), key=lambda k: s[k])
+
+
 class AssociationRule:
     r"""Class for main operations and quality measures.
 
@@ -15,7 +47,7 @@ class AssociationRule:
 
         permutation = self.map_permutation(vector)
 
-        self.permutation = self.get_permutation(permutation)
+        self.permutation = get_permutation(permutation)
 
         for i in range(len(self.features)):
             current_feature = self.permutation[i]
@@ -81,14 +113,6 @@ class AssociationRule:
     def map_permutation(self, vector):
         return vector[-len(self.features):]
 
-    def is_rule_feasible(self, ant, con):
-        ant_count = ant.count("NO")
-        con_count = con.count("NO")
-        if (ant_count == len(ant)) or (con_count == len(con)):
-            return False
-        else:
-            return True
-
     def calculate_threshold_move(self, current_feature):
         if self.features[current_feature].dtype == "float" or self.features[current_feature].dtype == "int":
             move = 2
@@ -107,23 +131,6 @@ class AssociationRule:
 
     def return_permutation(self):
         return self.permutation
-
-    def get_cut_point(self, sol, num_attr):
-        cut = int(sol * num_attr)
-        if cut == 0:
-            cut = 1
-        if cut > num_attr - 1:
-            cut = num_attr - 2
-        return cut
-
-    def get_ant_con(self, rule, cut):
-        ant = rule[:cut]
-        con = rule[cut:]
-
-        return ant, con
-
-    def get_permutation(self, s):
-        return sorted(range(len(s)), key=lambda k: s[k])
 
     def calculate_support_confidence(
             self,
@@ -205,15 +212,6 @@ class AssociationRule:
 
         return 1 - float(float(missing_total) / float(len(self.features)))
 
-    def normalize(self, value, actual_bounds, real_bounds):
-        return (real_bounds[0] +
-                (value -
-                 real_bounds[0]) *
-                (real_bounds[1] -
-                 real_bounds[0]) /
-                (actual_bounds[1] -
-                 actual_bounds[0]))
-
     def calculate_shrinkage(self, antecedent, consequence):
         differences = []
 
@@ -242,25 +240,11 @@ class AssociationRule:
             value = value + differences[i]
 
         if len(differences) > 0:
-            normalized = self.normalize(value, [0, len(differences)], [0, 1])
+            normalized = normalize(value, [0, len(differences)], [0, 1])
         else:
             return 0.0
 
         return 1 - normalized
-
-    def calculate_fitness(
-            self,
-            alpha,
-            beta,
-            gamma,
-            delta,
-            support,
-            confidence,
-            shrinkage,
-            coverage):
-        fitness = ((alpha * support) + (beta * confidence) + (gamma *
-                   shrinkage) + (delta * coverage)) / (alpha + beta + gamma + delta)
-        return fitness
 
     def format_rules(self, antecedent, consequence):
         antecedent1 = []

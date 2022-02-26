@@ -1,5 +1,5 @@
 from unittest import TestCase
-from niaarm.association_rule import AssociationRule
+from niaarm.association_rule import AssociationRule, get_cut_point
 from niaarm.dataset import Dataset
 
 
@@ -19,12 +19,13 @@ class TestCutPoint(TestCase):
         cut_value = sol[len(sol) - 1]
         new_sol = sol[:-1]
 
-        cut = arm.get_cut_point(cut_value, len(self.features))
+        cut = get_cut_point(cut_value, len(self.features))
 
         rule = arm.build_rule(new_sol)
 
         # get antecedent and consequence of rule
-        antecedent, consequence = arm.get_ant_con(rule, cut)
+        antecedent = rule[:cut]
+        consequence = rule[cut:]
 
         self.assertEqual(cut_value, 0.33333333)
         self.assertEqual(new_sol, [0.98328107, 0.93655004, 0.6860223, 0.78527931, 0.96291945, 0.18117294, 0.50567635])
@@ -122,12 +123,13 @@ class TestCutPointB(TestCase):
 
         new_sol = sol[:-1]
 
-        cut = arm.get_cut_point(cut_value, len(self.features))
+        cut = get_cut_point(cut_value, len(self.features))
 
         rule = arm.build_rule(new_sol)
 
         # get antecedent and consequence of rule
-        antecedent, consequence = arm.get_ant_con(rule, cut)
+        antecedent = rule[:cut]
+        consequence = rule[cut:]
 
         self.assertEqual(cut_value, 0.33333333)
         self.assertEqual(new_sol, new_sol_a)
@@ -218,12 +220,13 @@ class TestCutPointB(TestCase):
 
         new_sol = sol[:-1]
 
-        cut = arm.get_cut_point(cut_value, len(self.features))
+        cut = get_cut_point(cut_value, len(self.features))
 
         rule = arm.build_rule(new_sol)
 
         # get antecedent and consequence of rule
-        antecedent, consequence = arm.get_ant_con(rule, cut)
+        antecedent = rule[:cut]
+        consequence = rule[cut:]
 
         self.assertEqual(cut_value, 0.53333333)
         self.assertEqual(new_sol, new_sol_a)

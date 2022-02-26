@@ -1,8 +1,34 @@
 from niaarm.rule import Rule
-from niaarm.association_rule import AssociationRule
+from niaarm.association_rule import AssociationRule, is_rule_feasible, get_cut_point
 from niapy.problems import Problem
 import numpy as np
 import csv
+
+
+def is_border_value_the_same(antecedent, consequence):
+    r"""In case lower and upper bounds of interval are the same.
+        We need this in order to provide clean output.
+
+        Arguments:
+            antecedent (np.ndarray): .
+            consequence (np.ndarray): .
+
+        Returns:
+            antecedent (array):
+            consequence (array):
+    """
+
+    for i in range(len(antecedent)):
+        if len(antecedent[i]) > 1:
+            if antecedent[i][0] == antecedent[i][1]:
+                antecedent[i] = antecedent[i][0]
+
+    for i in range(len(consequence)):
+        if len(consequence[i]) > 1:
+            if consequence[i][0] == consequence[i][1]:
+                consequence[i] = consequence[i][0]
+
+    return antecedent, consequence
 
 
 class NiaARM(Problem):
@@ -39,7 +65,6 @@ class NiaARM(Problem):
         Arguments:
 
         """
-        self.dim = dimension
         self.features = features
         self.transactions = transactions
         self.alpha = alpha
@@ -66,37 +91,12 @@ class NiaARM(Problem):
                 return False
         return True
 
-    def is_border_value_the_same(self, antecedent, consequence):
-        r"""In case lower and upper bounds of interval are the same.
-            We need this in order to provide clean output.
-
-            Arguments:
-                antecedent (np.ndarray): .
-                consequence (np.ndarray): .
-
-            Returns:
-                antecedent (array):
-                consequence (array):
-        """
-
-        for i in range(len(antecedent)):
-            if len(antecedent[i]) > 1:
-                if antecedent[i][0] == antecedent[i][1]:
-                    antecedent[i] = antecedent[i][0]
-
-        for i in range(len(consequence)):
-            if len(consequence[i]) > 1:
-                if consequence[i][0] == consequence[i][1]:
-                    consequence[i] = consequence[i][0]
-
-        return antecedent, consequence
-
-    def rules_to_csv(self, output):
+    def export_rules(self, path):
         r"""Save all association rules found to csv file.
 
         """
         try:
-            with open(output, 'w', newline='') as f:
+            with open(path, 'w', newline='') as f:
                 writer = csv.writer(f)
 
                 # write header
@@ -108,7 +108,7 @@ class NiaARM(Problem):
                         [rule.antecedent, rule.consequence, rule.fitness, rule.support, rule.confidence, rule.coverage,
                          rule.shrink])
         except OSError:
-            print('OSError:', output)
+            print('OSError:', path)
         else:
             print("Output successfully")
 
@@ -119,18 +119,19 @@ class NiaARM(Problem):
         r"""Evaluate association rule."""
         arm = AssociationRule(self.features)
 
-        cut_value = sol[self.dim - 1]  # get cut point value
+        cut_value = sol[self.dimension - 1]  # get cut point value
         solution = sol[:-1]  # remove cut point
 
-        cut = arm.get_cut_point(cut_value, len(self.features))
+        cut = get_cut_point(cut_value, len(self.features))
 
         rule = arm.build_rule(solution)
 
         # get antecedent and consequence of rule
-        antecedent, consequence = arm.get_ant_con(rule, cut)
+        antecedent = rule[:cut]
+        consequence = rule[cut:]
 
         # check if rule is feasible
-        if arm.is_rule_feasible(antecedent, consequence):
+        if is_rule_feasible(antecedent, consequence):
 
             # get support and confidence of rule
             support, confidence = arm.calculate_support_confidence(antecedent, consequence, self.transactions)
@@ -145,8 +146,8 @@ class NiaARM(Problem):
             else:
                 coverage = arm.calculate_coverage(antecedent, consequence)
 
-            fitness = arm.calculate_fitness(self.alpha, self.beta, self.gamma, self.delta, support, confidence,
-                                            shrinkage, coverage)
+            fitness = ((self.alpha * support) + (self.beta * confidence) + (self.gamma * shrinkage) +
+                       (self.delta * coverage)) / (self.alpha + self.beta + self.gamma + self.delta)
 
             # in case no attributes were selected for antecedent or consequence
             if antecedent.count("NO") == len(antecedent) or consequence.count("NO") == len(consequence):
@@ -154,7 +155,7 @@ class NiaARM(Problem):
 
             if support > 0.0 and confidence > 0.0:
 
-                antecedent, consequence = self.is_border_value_the_same(antecedent, consequence)
+                antecedent, consequence = is_border_value_the_same(antecedent, consequence)
                 # format rule; remove NO; add name of features
                 antecedent1, consequence1 = arm.format_rules(antecedent, consequence)
 
