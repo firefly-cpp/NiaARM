@@ -1,5 +1,5 @@
 from niaarm.rule import Rule
-from niaarm.association_rule import AssociationRule, is_rule_feasible, get_cut_point
+from niaarm.association_rule import AssociationRule, rule_feasible, cut_point
 from niapy.problems import Problem
 import numpy as np
 import csv
@@ -121,7 +121,7 @@ class NiaARM(Problem):
         cut_value = sol[self.dimension - 1]  # get cut point value
         solution = sol[:-1]  # remove cut point
 
-        cut = get_cut_point(cut_value, len(self.features))
+        cut = cut_point(cut_value, len(self.features))
 
         rule = arm.build_rule(solution)
 
@@ -130,20 +130,20 @@ class NiaARM(Problem):
         consequence = rule[cut:]
 
         # check if rule is feasible
-        if is_rule_feasible(antecedent, consequence):
+        if rule_feasible(antecedent, consequence):
 
             # get support and confidence of rule
-            support, confidence = arm.calculate_support_confidence(antecedent, consequence, self.transactions)
+            support, confidence = arm.support_confidence(antecedent, consequence, self.transactions)
 
             if self.gamma == 0.0:
                 shrinkage = 0
             else:
-                shrinkage = arm.calculate_shrinkage(antecedent, consequence)
+                shrinkage = arm.shrinkage(antecedent, consequence)
 
             if self.delta == 0.0:
                 coverage = 0
             else:
-                coverage = arm.calculate_coverage(antecedent, consequence)
+                coverage = arm.coverage(antecedent, consequence)
 
             fitness = ((self.alpha * support) + (self.beta * confidence) + (self.gamma * shrinkage) +
                        (self.delta * coverage)) / (self.alpha + self.beta + self.gamma + self.delta)

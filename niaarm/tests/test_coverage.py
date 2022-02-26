@@ -19,7 +19,7 @@ class TestCoverage(TestCase):
 
         oper = AssociationRule(self.features)
 
-        coverage = oper.calculate_coverage(antecedent, consequence)
+        coverage = oper.coverage(antecedent, consequence)
 
         self.assertEqual(coverage, 1)
 
@@ -31,6 +31,6 @@ class TestCoverage(TestCase):
 
         oper = AssociationRule(self.features)
 
-        coverage = oper.calculate_coverage(antecedent, consequence)
+        coverage = oper.coverage(antecedent, consequence)
 
         self.assertEqual(coverage, 0.5)

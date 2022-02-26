@@ -1,5 +1,5 @@
 from unittest import TestCase
-from niaarm.association_rule import AssociationRule, is_rule_feasible, get_permutation
+from niaarm.association_rule import AssociationRule, rule_feasible, get_permutation
 from niaarm.dataset import Dataset
 
 
@@ -31,34 +31,34 @@ class TestBuildRuleA(TestCase):
         consequence_c = ["NO"]
 
         self.assertEqual(
-            is_rule_feasible(
+            rule_feasible(
                 antecedent_a,
                 consequence_a),
             False)
         self.assertEqual(
-            is_rule_feasible(
+            rule_feasible(
                 antecedent_b,
                 consequence_b),
             True)
         self.assertEqual(
-            is_rule_feasible(
+            rule_feasible(
                 antecedent_c,
                 consequence_a),
             True)
         self.assertEqual(
-            is_rule_feasible(
+            rule_feasible(
                 antecedent_c,
                 consequence_b),
             True)
         self.assertEqual(
-            is_rule_feasible(
+            rule_feasible(
                 antecedent_a,
                 consequence_c),
             False)
 
     def test_threshold_move(self):
-        move = self.oper.calculate_threshold_move(0)
-        move2 = self.oper.calculate_threshold_move(1)
+        move = self.oper.threshold_move(0)
+        move2 = self.oper.threshold_move(1)
 
         self.assertEqual(move, 1)
         self.assertEqual(move2, 2)
@@ -75,8 +75,8 @@ class TestBuildRuleA(TestCase):
 
         order = get_permutation(permutation)
 
-        position1 = self.oper.get_vector_position_of_feature(0)
-        position2 = self.oper.get_vector_position_of_feature(1)
+        position1 = self.oper.feature_position(0)
+        position2 = self.oper.feature_position(1)
 
         self.assertEqual(position1, 0)
         self.assertEqual(position2, 2)
@@ -204,11 +204,11 @@ class TestBuildRuleB(TestCase):
                           0.49068101])
 
     def test_threshold_move(self):
-        move = self.oper.calculate_threshold_move(0)
-        move2 = self.oper.calculate_threshold_move(1)
-        move3 = self.oper.calculate_threshold_move(2)
-        move4 = self.oper.calculate_threshold_move(3)
-        move5 = self.oper.calculate_threshold_move(4)
+        move = self.oper.threshold_move(0)
+        move2 = self.oper.threshold_move(1)
+        move3 = self.oper.threshold_move(2)
+        move4 = self.oper.threshold_move(3)
+        move5 = self.oper.threshold_move(4)
 
         self.assertEqual(move, 1)
         self.assertEqual(move2, 2)
@@ -260,9 +260,9 @@ class TestBuildRuleB(TestCase):
 
         self.assertEqual(order, [1, 3, 5, 4, 8, 7, 2, 6, 0])
 
-        position1 = self.oper.get_vector_position_of_feature(0)
-        position2 = self.oper.get_vector_position_of_feature(1)
-        position3 = self.oper.get_vector_position_of_feature(2)
+        position1 = self.oper.feature_position(0)
+        position2 = self.oper.feature_position(1)
+        position3 = self.oper.feature_position(2)
 
         self.assertEqual(position1, 0)
         self.assertEqual(position2, 2)
