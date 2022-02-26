@@ -6,61 +6,42 @@ class Dataset:
     r"""Class for working with dataset.
 
     Attributes:
-        path (str): Path to the dataset.
-        has_header (Optional(str)): Is header present in csv file.
-        delimiter (Optional(str)): Delimiter in csv file.
+        data (pd.DataFrame): Data as a pandas Dataframe.
+        transactions (np.ndarray): Transactional data.
+        header (list[str]): Feature names.
+        features (list[Feature]): List of features.
+        dimension (int): Dimension of the optimization problem for dataset.
+
     """
 
-    def __init__(self, path, has_header="Yes", delimiter=","):
-        self.path = path
-        self.has_header = has_header
-        self.delimiter = delimiter
-
-        self.data = None
-        self.header = []
+    def __init__(self, path, delimiter=',', header=0, names=None):
+        self.data = pd.read_csv(path, delimiter=delimiter, header=header, names=names)
+        if names is None and header is None:
+            self.data.columns = pd.Index([f'Feature{i}' for i in range(len(self.data.columns))])
+        self.header = self.data.columns.tolist()
+        self.transactions = self.data.values
         self.features = []
+        self.__analyse_types()
+        self.dimension = self.__problem_dimension()
 
-    def read_file(self):
-        r"""Read dataset from file."""
-        self.data = pd.read_csv(self.path, sep=self.delimiter)
-
-    def print_raw_output(self):
-        r"""Print the whole datatable."""
-        print(self.data)
-
-    def get_all_column_names(self):
-        r"""Preprocess all column names."""
-        for col in self.data.columns:
-            self.header.append(col)
-
-    def return_header(self):
-        r"""Return all column names.
-
-            Returns:
-                Iterable[any]: list of columns.
-        """
-        return self.header
-
-    def analyse_types(self):
+    def __analyse_types(self):
         r"""Extract data types for data in dataset."""
         for head in self.header:
             col = self.data[head]
 
-            if col.dtype == "float64":
+            if col.dtype == "float":
                 dtype = "float"
                 min_value = col.min()
                 max_value = col.max()
                 unique_categories = None
-            elif col.dtype == "int64":
+            elif col.dtype == "int":
                 dtype = "int"
                 min_value = col.min()
                 max_value = col.max()
                 unique_categories = None
             else:
                 dtype = "cat"
-                categories = col.values.tolist()
-                unique_categories = list(set(categories))
-                unique_categories.sort(key=str.lower)
+                unique_categories = sorted(col.astype('string').unique().tolist(), key=str.lower)  # convert to str just in case
                 min_value = None
                 max_value = None
 
@@ -72,37 +53,17 @@ class Dataset:
                     max_value,
                     unique_categories))
 
-    def get_features(self):
-        r"""Get feature data."""
-        self.read_file()
-        self.get_all_column_names()
-        self.analyse_types()
-
-        return self.features
-
-    @property
-    def transaction_data(self):
-        return self.data.values
-
-    def calculate_dimension_of_individual(self):
-        r"""Calculate the dimension of the problem.
-            Dimension of the problem is used in optimization task.
-
-            Returns:
-                int: dimension
-        """
-        dimension = 0
+    def __problem_dimension(self):
+        r"""Calculate the dimension of the problem."""
+        dimension = len(self.features) + 1
         for feature in self.features:
             if feature.dtype == "float" or feature.dtype == "int":
                 dimension += 3
             else:
                 dimension += 2
-
-        # add dimension for permutation and cut point
-        dimension += len(self.features) + 1
         return dimension
 
-    def get_feature_report(self):
+    def feature_report(self):
         r"""Print feature details."""
         for feature in self.features:
             print(feature)

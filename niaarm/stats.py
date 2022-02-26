@@ -1,4 +1,4 @@
-import math
+import numpy as np
 
 
 class Stats:
@@ -10,35 +10,35 @@ class Stats:
 
     def __init__(self, rules):
         self.rules = rules
-    
+
     @property
     def total_rules(self):
         return len(self.rules)
-    
+
     @property
     def avg_fitness(self):
-        pass
-    
+        return np.mean([rule.fitness for rule in self.rules])
+
     @property
     def avg_support(self):
-        pass
-    
+        return np.mean([rule.support for rule in self.rules])
+
     @property
-    def avg_consequence(self):
-        pass
-    
+    def avg_confidence(self):
+        return np.mean([rule.confidence for rule in self.rules])
+
     @property
     def avg_coverage(self):
-        pass
-    
+        return np.mean([rule.coverage for rule in self.rules])
+
     @property
     def avg_shrinkage(self):
-        pass
-    
+        return np.mean([rule.shrink for rule in self.rules])
+
     @property
     def avg_ant_len(self):
-        pass
-    
+        return np.mean([len(rule.antecedent) for rule in self.rules])
+
     @property
     def avg_con_len(self):
-        pass
+        return np.mean([len(rule.consequence) for rule in self.rules])

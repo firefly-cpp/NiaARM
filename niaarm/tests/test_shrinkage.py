@@ -1,11 +1,12 @@
 from unittest import TestCase
-from niaarm.association_rule import AssociationRule
+from niaarm.association_rule import AssociationRule, normalize, get_cut_point
 from niaarm.dataset import Dataset
+
 
 class TestShrinkageA(TestCase):
     def setUp(self):
         data = Dataset("datasets/wiki_test_case.csv")
-        self.features = data.get_features()
+        self.features = data.features
         self.oper = AssociationRule(self.features)
 
     def test_A(self):
@@ -21,11 +22,12 @@ class TestShrinkageA(TestCase):
 
         oper = AssociationRule(self.features)
 
-        cut = oper.get_cut_point(0, len(self.features))
+        cut = get_cut_point(0, len(self.features))
 
         rule = oper.build_rule(vector)
 
-        antecedent, consequence = oper.get_ant_con(rule, cut)
+        antecedent = rule[:cut]
+        consequence = rule[cut:]
 
         shrinkage = oper.calculate_shrinkage(antecedent, consequence)
 
@@ -52,38 +54,40 @@ class TestShrinkageA(TestCase):
 
         oper = AssociationRule(self.features)
 
-        cut = oper.get_cut_point(0, len(self.features))
+        cut = get_cut_point(0, len(self.features))
 
         rule = oper.build_rule(vector)
 
-        antecedent, consequence = oper.get_ant_con(rule, cut)
+        antecedent = rule[:cut]
+        consequence = rule[cut:]
 
         shrinkage = oper.calculate_shrinkage(antecedent, consequence)
 
         self.assertEqual(shrinkage, 1)
 
+
 class TestShrinkageB(TestCase):
-    #Rule ==
-    #Ant:  ['Diameter([0.34108412769999996, 0.56784007355])', 'Viscera weight([0.13678483190000001, 0.44964727704])']
-    #Con:  ['Length([0.2620357326, 0.4989950842])']
+    # Rule ==
+    # Ant:  ['Diameter([0.34108412769999996, 0.56784007355])', 'Viscera weight([0.13678483190000001, 0.44964727704])']
+    # Con:  ['Length([0.2620357326, 0.4989950842])']
 
-    #n1 = 0.56784007355 - 0.34108412769999996 = 0.22675594585000004
-    #n1a = 0.65 - 0.055 = 0.595
-    #n1f = n1 / n1a = 0.22675594585000004 / 0.595 = 0.38110243
+    # n1 = 0.56784007355 - 0.34108412769999996 = 0.22675594585000004
+    # n1a = 0.65 - 0.055 = 0.595
+    # n1f = n1 / n1a = 0.22675594585000004 / 0.595 = 0.38110243
 
-    #n2 = 0.44964727704 - 0.13678483190000001 = 0.31286244513999999
-    #n2a = 0.76 - 0.0005 = 0.7595
-    #n2f = 0.31286244513999999 / 0.7595 = 0.41193212
+    # n2 = 0.44964727704 - 0.13678483190000001 = 0.31286244513999999
+    # n2a = 0.76 - 0.0005 = 0.7595
+    # n2f = 0.31286244513999999 / 0.7595 = 0.41193212
 
-    #n3 = 0.4989950842 - 0.2620357326 = 0.2369593516
-    #n3a = 0.815 - 0.075 = 0.740
-    #n3f = 0.2369593516 / 0.740 = 0.32021534
+    # n3 = 0.4989950842 - 0.2620357326 = 0.2369593516
+    # n3a = 0.815 - 0.075 = 0.740
+    # n3f = 0.2369593516 / 0.740 = 0.32021534
 
-    #val = n1f + n2f + n3f = 0.38110243 + 0.41193212 + 0.32021534 =  1.11324989
+    # val = n1f + n2f + n3f = 0.38110243 + 0.41193212 + 0.32021534 =  1.11324989
 
     def setUp(self):
         data = Dataset("datasets/Abalone.csv")
-        self.features = data.get_features()
+        self.features = data.features
         self.oper = AssociationRule(self.features)
 
     def test_get_permutation(self):
@@ -131,16 +135,17 @@ class TestShrinkageB(TestCase):
         cut_value = vector1[len(vector1) - 1]
         new_sol = vector1[:-1]
 
-        cut = oper.get_cut_point(cut_value, len(self.features))
+        cut = get_cut_point(cut_value, len(self.features))
 
         rule = oper.build_rule(new_sol)
 
         # get antecedent and consequence of rule
-        antecedent, consequence = oper.get_ant_con(rule, cut)
+        antecedent = rule[:cut]
+        consequence = rule[cut:]
 
         shrinkage = oper.calculate_shrinkage(antecedent, consequence)
 
-        norm = oper.normalize(1.11324989, [0, 3], [0, 1])
+        norm = normalize(1.11324989, [0, 3], [0, 1])
 
         self.assertEqual(norm, 0.3710832966666667)
         self.assertEqual(shrinkage, 0.6289167033333334)

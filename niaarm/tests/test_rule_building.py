@@ -1,5 +1,5 @@
 from unittest import TestCase
-from niaarm.association_rule import AssociationRule
+from niaarm.association_rule import AssociationRule, is_rule_feasible, get_permutation
 from niaarm.dataset import Dataset
 
 
@@ -8,7 +8,7 @@ class TestBuildRuleA(TestCase):
     # https://en.wikipedia.org/wiki/Lift_(data_mining)
     def setUp(self):
         data = Dataset("datasets/wiki_test_case.csv")
-        self.features = data.get_features()
+        self.features = data.features
         self.oper = AssociationRule(self.features)
 
     def test_get_permutation(self):
@@ -31,27 +31,27 @@ class TestBuildRuleA(TestCase):
         consequence_c = ["NO"]
 
         self.assertEqual(
-            self.oper.is_rule_feasible(
+            is_rule_feasible(
                 antecedent_a,
                 consequence_a),
             False)
         self.assertEqual(
-            self.oper.is_rule_feasible(
+            is_rule_feasible(
                 antecedent_b,
                 consequence_b),
             True)
         self.assertEqual(
-            self.oper.is_rule_feasible(
+            is_rule_feasible(
                 antecedent_c,
                 consequence_a),
             True)
         self.assertEqual(
-            self.oper.is_rule_feasible(
+            is_rule_feasible(
                 antecedent_c,
                 consequence_b),
             True)
         self.assertEqual(
-            self.oper.is_rule_feasible(
+            is_rule_feasible(
                 antecedent_a,
                 consequence_c),
             False)
@@ -73,7 +73,7 @@ class TestBuildRuleA(TestCase):
         permutation = self.oper.map_permutation(
             [0.98328107, 0.93655004, 0.6860223, 0.78527931, 0.96291945, 0.18117294, 0.50567635])
 
-        order = self.oper.get_permutation(permutation)
+        order = get_permutation(permutation)
 
         position1 = self.oper.get_vector_position_of_feature(0)
         position2 = self.oper.get_vector_position_of_feature(1)
@@ -146,7 +146,7 @@ class TestBuildRuleB(TestCase):
     # Abalone test case
     def setUp(self):
         data = Dataset("datasets/Abalone.csv")
-        self.features = data.get_features()
+        self.features = data.features
         self.oper = AssociationRule(self.features)
 
     def test_get_permutation(self):
@@ -256,7 +256,7 @@ class TestBuildRuleB(TestCase):
 
         permutation = self.oper.map_permutation(vector1)
 
-        order = self.oper.get_permutation(permutation)
+        order = get_permutation(permutation)
 
         self.assertEqual(order, [1, 3, 5, 4, 8, 7, 2, 6, 0])
 
@@ -352,7 +352,7 @@ class TestBuildRuleB(TestCase):
 
         permutation = self.oper.map_permutation(vector2)
 
-        order2 = self.oper.get_permutation(permutation)
+        order2 = get_permutation(permutation)
 
         rule2 = self.oper.build_rule(vector2)
 
@@ -400,7 +400,7 @@ class TestBuildRuleB(TestCase):
 
         permutation = self.oper.map_permutation(vector3)
 
-        order3 = self.oper.get_permutation(permutation)
+        order3 = get_permutation(permutation)
 
         rule3 = self.oper.build_rule(vector3)
 
