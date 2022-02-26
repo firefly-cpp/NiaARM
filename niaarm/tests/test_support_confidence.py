@@ -1,5 +1,5 @@
 from unittest import TestCase
-from niaarm.association_rule import AssociationRule, get_cut_point
+from niaarm.association_rule import AssociationRule, cut_point
 from niaarm.dataset import Dataset
 
 
@@ -33,14 +33,14 @@ class TestSupportConfidence(TestCase):
 
         oper = AssociationRule(self.features)
 
-        cut = get_cut_point(0, len(self.features))
+        cut = cut_point(0, len(self.features))
 
         rule = oper.build_rule(vector)
 
         antecedent = rule[:cut]
         consequence = rule[cut:]
 
-        support, confidence = oper.calculate_support_confidence(
+        support, confidence = oper.support_confidence(
             antecedent, consequence, self.transactions)
 
         self.assertEqual(antecedent, antecedent_a)
@@ -69,14 +69,14 @@ class TestSupportConfidence(TestCase):
 
         oper = AssociationRule(self.features)
 
-        cut = get_cut_point(0, len(self.features))
+        cut = cut_point(0, len(self.features))
 
         rule = oper.build_rule(vector)
 
         antecedent = rule[:cut]
         consequence = rule[cut:]
 
-        support, confidence = oper.calculate_support_confidence(
+        support, confidence = oper.support_confidence(
             antecedent, consequence, self.transactions)
 
         self.assertEqual(antecedent, antecedent_b)

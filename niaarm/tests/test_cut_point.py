@@ -1,5 +1,5 @@
 from unittest import TestCase
-from niaarm.association_rule import AssociationRule, get_cut_point
+from niaarm.association_rule import AssociationRule, cut_point
 from niaarm.dataset import Dataset
 
 
@@ -19,7 +19,7 @@ class TestCutPoint(TestCase):
         cut_value = sol[len(sol) - 1]
         new_sol = sol[:-1]
 
-        cut = get_cut_point(cut_value, len(self.features))
+        cut = cut_point(cut_value, len(self.features))
 
         rule = arm.build_rule(new_sol)
 
@@ -123,7 +123,7 @@ class TestCutPointB(TestCase):
 
         new_sol = sol[:-1]
 
-        cut = get_cut_point(cut_value, len(self.features))
+        cut = cut_point(cut_value, len(self.features))
 
         rule = arm.build_rule(new_sol)
 
@@ -220,7 +220,7 @@ class TestCutPointB(TestCase):
 
         new_sol = sol[:-1]
 
-        cut = get_cut_point(cut_value, len(self.features))
+        cut = cut_point(cut_value, len(self.features))
 
         rule = arm.build_rule(new_sol)
 
