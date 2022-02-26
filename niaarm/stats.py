@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Stats:
     r"""Class for providing statistical evaluation.
 
@@ -14,28 +17,28 @@ class Stats:
 
     @property
     def avg_fitness(self):
-        return
+        return np.mean([rule.fitness for rule in self.rules])
 
     @property
     def avg_support(self):
-        return
+        return np.mean([rule.support for rule in self.rules])
 
     @property
-    def avg_consequence(self):
-        return
+    def avg_confidence(self):
+        return np.mean([rule.confidence for rule in self.rules])
 
     @property
     def avg_coverage(self):
-        return
+        return np.mean([rule.coverage for rule in self.rules])
 
     @property
     def avg_shrinkage(self):
-        return
+        return np.mean([rule.shrink for rule in self.rules])
 
     @property
     def avg_ant_len(self):
-        return
+        return np.mean([len(rule.antecedent) for rule in self.rules])
 
     @property
     def avg_con_len(self):
-        return
+        return np.mean([len(rule.consequence) for rule in self.rules])
