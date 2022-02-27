@@ -200,7 +200,8 @@ class AssociationRule:
 
 
 def _normalize(value, actual_bounds, real_bounds):
-    return real_bounds[0] + (value - real_bounds[0]) * (real_bounds[1] - real_bounds[0]) / (actual_bounds[1] - actual_bounds[0])
+    return real_bounds[0] + (value - real_bounds[0]) * (real_bounds[1] - real_bounds[0]) / (
+                actual_bounds[1] - actual_bounds[0])
 
 
 def _rule_feasible(ant, con):

@@ -107,11 +107,13 @@ class NiaARM(Problem):
 
                 # save feasible rule
                 if not self.rule_exists(antecedent1, consequence1):
-                    self.rules.append(Rule(antecedent1, consequence1, fitness, support, confidence, coverage, shrinkage))
+                    self.rules.append(
+                        Rule(antecedent1, consequence1, fitness, support, confidence, coverage, shrinkage))
 
                 if fitness > self.best_fitness:
                     self.best_fitness = fitness
-                    print(f'Fitness: {fitness}, Support: {support}, Confidence:{confidence}, Coverage:{coverage}, Shrinkage:{shrinkage}')
+                    print(f'Fitness: {fitness}, Support: {support}, Confidence:{confidence}, Coverage:{coverage}, '
+                          f'Shrinkage:{shrinkage}')
             return fitness
         else:
             return -1.0

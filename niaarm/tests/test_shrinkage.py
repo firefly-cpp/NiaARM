@@ -35,13 +35,13 @@ class TestShrinkageA(TestCase):
 
     def test_B(self):
         # Rule: B => 1
-        antecedent_b = [['B']]
+        # antecedent_b = [['B']]
 
-        consequence_b = [[1, 1]]
+        # consequence_b = [[1, 1]]
 
-        support_b = 0.2857142857142857
+        # support_b = 0.2857142857142857
 
-        confidence_b = 0.666666666667
+        # confidence_b = 0.666666666667
 
         vector = [
             0.95157038,
@@ -128,7 +128,7 @@ class TestShrinkageB(TestCase):
             0.56159659,
             0.49068101]
 
-        permutation = self.oper.map_permutation(vector1)
+        # permutation = self.oper.map_permutation(vector1)
 
         oper = AssociationRule(self.features)
 

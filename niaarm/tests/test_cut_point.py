@@ -136,7 +136,8 @@ class TestCutPointB(TestCase):
         self.assertEqual(cut, 2)
 
         self.assertEqual(antecedent, [[0.2620357326, 0.4989950842], [0.5636729279999999, 1.13]])
-        self.assertEqual(consequence, ['NO', 'NO', 'NO', 'NO', [0.34108412769999996, 0.56784007355], ['I'], [0.13678483190000001, 0.44964727704]])
+        self.assertEqual(consequence, ['NO', 'NO', 'NO', 'NO', [0.34108412769999996, 0.56784007355], ['I'],
+                                       [0.13678483190000001, 0.44964727704]])
 
     def test_cut_pointC(self):
         arm = AssociationRule(self.features)
@@ -233,4 +234,5 @@ class TestCutPointB(TestCase):
         self.assertEqual(cut, 4)
 
         self.assertEqual(antecedent, [[0.2620357326, 0.4989950842], [0.5636729279999999, 1.13], 'NO', 'NO'])
-        self.assertEqual(consequence, ['NO', 'NO', [0.34108412769999996, 0.56784007355], ['I'], [0.13678483190000001, 0.44964727704]])
+        self.assertEqual(consequence, ['NO', 'NO', [0.34108412769999996, 0.56784007355], ['I'],
+                                       [0.13678483190000001, 0.44964727704]])
