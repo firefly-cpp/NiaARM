@@ -34,15 +34,6 @@ class TestShrinkageA(TestCase):
         self.assertEqual(shrinkage, 1)
 
     def test_B(self):
-        # Rule: B => 1
-        # antecedent_b = [['B']]
-
-        # consequent_b = [[1, 1]]
-
-        # support_b = 0.2857142857142857
-
-        # confidence_b = 0.666666666667
-
         vector = [
             0.95157038,
             0.17362622,
