@@ -1,4 +1,4 @@
-Contributing to sport-activities-features
+Contributing to NiaARM
 =========================================
 
 First off, thanks for taking the time to contribute!
