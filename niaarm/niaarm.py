@@ -8,9 +8,6 @@ import csv
 class NiaARM(Problem):
     r"""Implementation of NiaARM.
 
-    Date:
-        2021
-
     Reference:
         The implementation is composed of ideas found in the following papers:
 
@@ -18,10 +15,10 @@ class NiaARM(Problem):
 
         I. Fister Jr., V. Podgorelec, I. Fister. Improved Nature-Inspired Algorithms for Numeric Association Rule Mining. In: Vasant P., Zelinka I., Weber GW. (eds) Intelligent Computing and Optimization. ICO 2020. Advances in Intelligent Systems and Computing, vol 1324. Springer, Cham.
 
-    License:
-        MIT
-
     Attributes:
+        features (list[Feature]): List of features.
+        transactions (np.ndarray): Data from transaction database.
+        rules (list[Rule]): Mined association rules.
 
     """
 
@@ -51,21 +48,17 @@ class NiaARM(Problem):
 
     def export_rules(self, path):
         r"""Save all association rules found to csv file."""
-        try:
-            with open(path, 'w', newline='') as f:
-                writer = csv.writer(f)
+        with open(path, 'w', newline='') as f:
+            writer = csv.writer(f)
 
-                # write header
-                writer.writerow(["Antecedent", "Consequence", "Fitness", "Support", "Confidence", "Coverage", "Shrinkage"])
+            # write header
+            writer.writerow(["Antecedent", "Consequence", "Fitness", "Support", "Confidence", "Coverage", "Shrinkage"])
 
-                for rule in self.rules:
-                    writer.writerow(
-                        [rule.antecedent, rule.consequence, rule.fitness, rule.support, rule.confidence, rule.coverage,
-                         rule.shrink])
-        except OSError:
-            print('OSError:', path)
-        else:
-            print("Output successfully")
+            for rule in self.rules:
+                writer.writerow(
+                    [rule.antecedent, rule.consequence, rule.fitness, rule.support, rule.confidence, rule.coverage,
+                     rule.shrink])
+        print(f"Rules exported to {path}")
 
     def sort_rules(self):
         self.rules.sort(key=lambda x: x.fitness, reverse=True)
@@ -136,7 +129,6 @@ def _fix_border(antecedent, consequence):
             antecedent (array):
             consequence (array):
     """
-
     for i in range(len(antecedent)):
         if len(antecedent[i]) > 1:
             if antecedent[i][0] == antecedent[i][1]:
