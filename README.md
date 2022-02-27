@@ -4,9 +4,28 @@
 
 ---
 
-# NiaARM
+# NiaARM - Framework for Numerical Association Rule Mining
+
+---
+[![PyPI Version](https://img.shields.io/pypi/v/niaarm.svg)](https://pypi.python.org/pypi/niaarm)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/niaarm.svg)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/niaarm.svg)
+[![GitHub license](https://img.shields.io/github/license/firefly-cpp/niaarm.svg)](https://github.com/firefly-cpp/NiaARM/blob/main/LICENSE)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/firefly-cpp/niaarm.svg)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/firefly-cpp/niaarm.svg)](http://isitmaintained.com/project/firefly-cpp/niaarm "Average time to resolve an issue")
+
+## General outline of framework
 NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. The framework is fully written in Python and runs on all platforms.
 NaARM allows users to automatically preprocess the data in a transaction database, to search for association rules and provide pretty output of rules found. This framework also supports numerical and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization and solved using the nature-inspired algorithms that comes from the related framework called [NiaPy](https://github.com/NiaOrg/NiaPy).
+
+## Detailed insights
+Current version witholds (but is not limited to) following functions:
+
+- loading dataset in CSV format,
+- preprocessing of data,
+- searching for association rules,
+- providing output of mined association rules,
+- generating statistics about mined association rules
 
 ## Installation
 
@@ -24,7 +43,7 @@ For a list of examples see the [examples folder]((examples/).
 
 ## Reference Papers:
 
-Ideas in the following papers are composed in a simple framework.
+Ideas are based on the following research papers:
 
 [1] I. Fister Jr., A. Iglesias, A. Gálvez, J. Del Ser, E. Osaba, I Fister. [Differential evolution for association rule mining using categorical and numerical attributes](http://www.iztok-jr-fister.eu/static/publications/231.pdf) In: Intelligent data engineering and automated learning - IDEAL 2018, pp. 79-88, 2018.
 
