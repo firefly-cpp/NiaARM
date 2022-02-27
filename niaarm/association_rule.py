@@ -74,55 +74,60 @@ class AssociationRule:
                 position = position + 2
         return position
 
-    def support_confidence(self, antecedent, consequence, transactions):
+    def __match_antecedent(self, i, antecedent, transactions):
+        match = 0
+        for j in range(len(antecedent)):
+            dtype = self.features[self.permutation[j]].dtype
+            if dtype == 'float' or dtype == 'int':
+                if antecedent[j] != 'NO':
+                    border = antecedent[j]
+                    if border[0] <= transactions[i, self.permutation[j]] <= border[1]:
+                        match = match + 1
+            elif dtype == 'cat':
+                if antecedent[j] != 'NO':
+                    ant = antecedent[j]
+                    if transactions[i, self.permutation[j]] == ant[0]:
+                        match = match + 1
+        return match
+
+    def __match_consequent(self, i, antecedent, consequent, transactions):
+        match = 0
+        con_counter = 0
+        for ll in range(len(antecedent), len(antecedent) + len(consequent)):
+            dtype = self.features[self.permutation[ll]].dtype
+            if dtype == 'float' or dtype == 'int':
+                if consequent[con_counter] != 'NO':
+                    border = consequent[con_counter]
+                    if border[0] <= transactions[i, self.permutation[ll]] <= border[1]:
+                        match = match + 1
+            elif dtype == 'cat':
+                if consequent[con_counter] != 'NO':
+                    con = consequent[con_counter]
+
+                    if transactions[i, self.permutation[ll]] == con[0]:
+                        match = match + 1
+
+            con_counter = con_counter + 1
+        return match
+
+    def support_confidence(self, antecedent, consequent, transactions):
         supp = 0
         conf = 0
         conf_counter = 0
 
-        # firstly antecedent
         for i in range(len(transactions)):
-            match1 = 0
-            match2 = 0
-            for j in range(len(antecedent)):
-                dtype = self.features[self.permutation[j]].dtype
-                if dtype == 'float' or dtype == 'int':
-                    if antecedent[j] != 'NO':
-                        border = antecedent[j]
-                        if border[0] <= transactions[i, self.permutation[j]] <= border[1]:
-                            match1 = match1 + 1
-                elif dtype == 'cat':
-                    if antecedent[j] != 'NO':
-                        ant = antecedent[j]
-                        if transactions[i, self.permutation[j]] == ant[0]:
-                            match1 = match1 + 1
-
-            # secondly consequence
-            con_counter = 0
-            for ll in range(len(antecedent), len(antecedent) + len(consequence)):
-                dtype = self.features[self.permutation[ll]].dtype
-                if dtype == 'float' or dtype == 'int':
-                    if consequence[con_counter] != 'NO':
-                        border = consequence[con_counter]
-                        if border[0] <= transactions[i, self.permutation[ll]] <= border[1]:
-                            match2 = match2 + 1
-                elif dtype == 'cat':
-                    if consequence[con_counter] != 'NO':
-                        con = consequence[con_counter]
-
-                        if transactions[i, self.permutation[ll]] == con[0]:
-                            match2 = match2 + 1
-
-                con_counter = con_counter + 1
+            match_antecedent = self.__match_antecedent(i, antecedent, transactions)
+            match_consequent = self.__match_consequent(i, antecedent, consequent, transactions)
 
             missing_ant = antecedent.count('NO')
-            missing_con = consequence.count('NO')
+            missing_con = consequent.count('NO')
 
-            if (missing_ant + match1) == len(antecedent):
+            if (missing_ant + match_antecedent) == len(antecedent):
                 conf_counter += 1
-                if (missing_con + match2) == len(consequence):
+                if (missing_con + match_consequent) == len(consequent):
                     conf = conf + 1
 
-            total = match1 + match2 + missing_ant + missing_con
+            total = match_antecedent + match_consequent + missing_ant + missing_con
 
             if total == len(self.features):
                 supp = supp + 1
@@ -138,11 +143,11 @@ class AssociationRule:
 
         return total_supp, total_conf
 
-    def coverage(self, antecedent, consequence):
-        missing_total = antecedent.count("NO") + consequence.count("NO")
+    def coverage(self, antecedent, consequent):
+        missing_total = antecedent.count("NO") + consequent.count("NO")
         return 1 - missing_total / len(self.features)
 
-    def shrinkage(self, antecedent, consequence):
+    def shrinkage(self, antecedent, consequent):
         differences = []
 
         for i in range(len(antecedent)):
@@ -156,11 +161,11 @@ class AssociationRule:
                     differences.append(diff)
 
         con_counter = 0
-        for ll in range(len(antecedent), len(antecedent) + len(consequence)):
+        for ll in range(len(antecedent), len(antecedent) + len(consequent)):
             feature = self.features[self.permutation[ll]]
             if feature.dtype == 'float' or feature.dtype == 'int':
-                if consequence[con_counter] != 'NO':
-                    borders = consequence[con_counter]
+                if consequent[con_counter] != 'NO':
+                    borders = consequent[con_counter]
                     diff_borders = borders[1] - borders[0]
                     total_borders = feature.max_val - feature.min_val
                     diff = diff_borders / total_borders
@@ -175,9 +180,9 @@ class AssociationRule:
             return 0.0
         return 1 - normalized
 
-    def format_rules(self, antecedent, consequence):
+    def format_rules(self, antecedent, consequent):
         antecedent1 = []
-        consequence1 = []
+        consequent1 = []
 
         for i in range(len(antecedent)):
             if antecedent[i] != "NO":
@@ -188,19 +193,20 @@ class AssociationRule:
                     rule = feature.name + "(" + str(antecedent[i]) + ")"
                 antecedent1.append(rule)
 
-        for i in range(len(consequence)):
-            if consequence[i] != "NO":
+        for i in range(len(consequent)):
+            if consequent[i] != "NO":
                 feature = self.features[self.permutation[i + len(antecedent)]]
                 if feature.dtype == "cat":
-                    rule = feature.name + "(" + str(consequence[i][0]) + ")"
+                    rule = feature.name + "(" + str(consequent[i][0]) + ")"
                 else:
-                    rule = feature.name + "(" + str(consequence[i]) + ")"
-                consequence1.append(rule)
-        return antecedent1, consequence1
+                    rule = feature.name + "(" + str(consequent[i]) + ")"
+                consequent1.append(rule)
+        return antecedent1, consequent1
 
 
 def _normalize(value, actual_bounds, real_bounds):
-    return real_bounds[0] + (value - real_bounds[0]) * (real_bounds[1] - real_bounds[0]) / (actual_bounds[1] - actual_bounds[0])
+    return real_bounds[0] + (value - real_bounds[0]) * (real_bounds[1] - real_bounds[0]) / (
+                actual_bounds[1] - actual_bounds[0])
 
 
 def _rule_feasible(ant, con):

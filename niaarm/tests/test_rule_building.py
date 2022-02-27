@@ -26,34 +26,34 @@ class TestBuildRuleA(TestCase):
         antecedent_a = ["NO"]
         antecedent_b = ["A"]
         antecedent_c = ["1"]
-        consequence_a = ["A"]
-        consequence_b = ["0"]
-        consequence_c = ["NO"]
+        consequent_a = ["A"]
+        consequent_b = ["0"]
+        consequent_c = ["NO"]
 
         self.assertEqual(
             _rule_feasible(
                 antecedent_a,
-                consequence_a),
+                consequent_a),
             False)
         self.assertEqual(
             _rule_feasible(
                 antecedent_b,
-                consequence_b),
+                consequent_b),
             True)
         self.assertEqual(
             _rule_feasible(
                 antecedent_c,
-                consequence_a),
+                consequent_a),
             True)
         self.assertEqual(
             _rule_feasible(
                 antecedent_c,
-                consequence_b),
+                consequent_b),
             True)
         self.assertEqual(
             _rule_feasible(
                 antecedent_a,
-                consequence_c),
+                consequent_c),
             False)
 
     def test_threshold_move(self):
@@ -70,10 +70,10 @@ class TestBuildRuleA(TestCase):
            each numerical feature consists of three vector elements.
         """
 
-        permutation = self.oper.map_permutation(
-            [0.98328107, 0.93655004, 0.6860223, 0.78527931, 0.96291945, 0.18117294, 0.50567635])
+        # permutation = self.oper.map_permutation(
+        #  [0.98328107, 0.93655004, 0.6860223, 0.78527931, 0.96291945, 0.18117294, 0.50567635])
 
-        order = _get_permutation(permutation)
+        # order = _get_permutation(permutation)
 
         position1 = self.oper.feature_position(0)
         position2 = self.oper.feature_position(1)
@@ -309,7 +309,8 @@ class TestBuildRuleB(TestCase):
             0.49068101]
         rule1 = self.oper.build_rule(vector1)
 
-        rule1_a = [[0.2620357326, 0.4989950842], 'NO', 'NO', 'NO', 'NO', 'NO', [0.34108412769999996, 0.56784007355], [0.13678483190000001, 0.44964727704], 'NO']
+        rule1_a = [[0.2620357326, 0.4989950842], 'NO', 'NO', 'NO', 'NO', 'NO', [0.34108412769999996, 0.56784007355],
+                   [0.13678483190000001, 0.44964727704], 'NO']
 
         self.assertEqual(rule1, rule1_a)
 
@@ -356,7 +357,8 @@ class TestBuildRuleB(TestCase):
 
         rule2 = self.oper.build_rule(vector2)
 
-        rule2_a = [[0.2620357326, 0.4989950842], 'NO', 'NO', 'NO', 'NO', 'NO', [0.34108412769999996, 0.56784007355], [0.13678483190000001, 0.44964727704], ['M']]
+        rule2_a = [[0.2620357326, 0.4989950842], 'NO', 'NO', 'NO', 'NO', 'NO', [0.34108412769999996, 0.56784007355],
+                   [0.13678483190000001, 0.44964727704], ['M']]
 
         self.assertEqual(rule2, rule2_a)
         self.assertEqual(order2, [1, 3, 5, 4, 8, 7, 2, 6, 0])
@@ -404,7 +406,8 @@ class TestBuildRuleB(TestCase):
 
         rule3 = self.oper.build_rule(vector3)
 
-        rule3_a = [[0.2620357326, 0.4989950842], 'NO', 'NO', 'NO', 'NO', 'NO', [0.34108412769999996, 0.56784007355], ['I'], [0.13678483190000001, 0.44964727704]]
+        rule3_a = [[0.2620357326, 0.4989950842], 'NO', 'NO', 'NO', 'NO', 'NO', [0.34108412769999996, 0.56784007355],
+                   ['I'], [0.13678483190000001, 0.44964727704]]
 
         self.assertEqual(rule3, rule3_a)
         self.assertEqual(order3, [1, 3, 5, 4, 8, 7, 2, 0, 6])
@@ -448,6 +451,7 @@ class TestBuildRuleB(TestCase):
 
         rule4 = self.oper.build_rule(vector4)
 
-        rule4_a = [[0.2620357326, 0.4989950842], [0.5636729279999999, 1.13], 'NO', 'NO', 'NO', 'NO', [0.34108412769999996, 0.56784007355], ['I'], [0.13678483190000001, 0.44964727704]]
+        rule4_a = [[0.2620357326, 0.4989950842], [0.5636729279999999, 1.13], 'NO', 'NO', 'NO', 'NO',
+                   [0.34108412769999996, 0.56784007355], ['I'], [0.13678483190000001, 0.44964727704]]
 
         self.assertEqual(rule4, rule4_a)

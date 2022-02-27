@@ -15,11 +15,11 @@ class TestCoverage(TestCase):
         # Rule: A => 0
         antecedent = [['A']]
 
-        consequence = [[0, 0]]
+        consequent = [[0, 0]]
 
         oper = AssociationRule(self.features)
 
-        coverage = oper.coverage(antecedent, consequence)
+        coverage = oper.coverage(antecedent, consequent)
 
         self.assertEqual(coverage, 1)
 
@@ -27,10 +27,10 @@ class TestCoverage(TestCase):
         # Rule: NO => 0
         antecedent = ["NO"]
 
-        consequence = [[0, 0]]
+        consequent = [[0, 0]]
 
         oper = AssociationRule(self.features)
 
-        coverage = oper.coverage(antecedent, consequence)
+        coverage = oper.coverage(antecedent, consequent)
 
         self.assertEqual(coverage, 0.5)

@@ -27,21 +27,21 @@ class TestShrinkageA(TestCase):
         rule = oper.build_rule(vector)
 
         antecedent = rule[:cut]
-        consequence = rule[cut:]
+        consequent = rule[cut:]
 
-        shrinkage = oper.shrinkage(antecedent, consequence)
+        shrinkage = oper.shrinkage(antecedent, consequent)
 
         self.assertEqual(shrinkage, 1)
 
     def test_B(self):
         # Rule: B => 1
-        antecedent_b = [['B']]
+        # antecedent_b = [['B']]
 
-        consequence_b = [[1, 1]]
+        # consequent_b = [[1, 1]]
 
-        support_b = 0.2857142857142857
+        # support_b = 0.2857142857142857
 
-        confidence_b = 0.666666666667
+        # confidence_b = 0.666666666667
 
         vector = [
             0.95157038,
@@ -59,9 +59,9 @@ class TestShrinkageA(TestCase):
         rule = oper.build_rule(vector)
 
         antecedent = rule[:cut]
-        consequence = rule[cut:]
+        consequent = rule[cut:]
 
-        shrinkage = oper.shrinkage(antecedent, consequence)
+        shrinkage = oper.shrinkage(antecedent, consequent)
 
         self.assertEqual(shrinkage, 1)
 
@@ -128,7 +128,7 @@ class TestShrinkageB(TestCase):
             0.56159659,
             0.49068101]
 
-        permutation = self.oper.map_permutation(vector1)
+        # permutation = self.oper.map_permutation(vector1)
 
         oper = AssociationRule(self.features)
 
@@ -139,11 +139,11 @@ class TestShrinkageB(TestCase):
 
         rule = oper.build_rule(new_sol)
 
-        # get antecedent and consequence of rule
+        # get antecedent and consequent of rule
         antecedent = rule[:cut]
-        consequence = rule[cut:]
+        consequent = rule[cut:]
 
-        shrinkage = oper.shrinkage(antecedent, consequence)
+        shrinkage = oper.shrinkage(antecedent, consequent)
 
         norm = _normalize(1.11324989, [0, 3], [0, 1])
 

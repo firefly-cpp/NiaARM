@@ -41,4 +41,4 @@ class Stats:
 
     @property
     def avg_con_len(self):
-        return np.mean([len(rule.consequence) for rule in self.rules])
+        return np.mean([len(rule.consequent) for rule in self.rules])

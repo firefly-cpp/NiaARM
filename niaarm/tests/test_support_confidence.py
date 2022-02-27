@@ -16,7 +16,7 @@ class TestSupportConfidence(TestCase):
         # Rule: A => 0
         antecedent_a = [['A']]
 
-        consequence_a = [[0, 0]]
+        consequent_a = [[0, 0]]
 
         support_a = 0.42857142857142855
 
@@ -38,13 +38,13 @@ class TestSupportConfidence(TestCase):
         rule = oper.build_rule(vector)
 
         antecedent = rule[:cut]
-        consequence = rule[cut:]
+        consequent = rule[cut:]
 
         support, confidence = oper.support_confidence(
-            antecedent, consequence, self.transactions)
+            antecedent, consequent, self.transactions)
 
         self.assertEqual(antecedent, antecedent_a)
-        self.assertEqual(consequence, consequence_a)
+        self.assertEqual(consequent, consequent_a)
         self.assertEqual(support_a, support)
         self.assertEqual(confidence_a, confidence)
 
@@ -52,7 +52,7 @@ class TestSupportConfidence(TestCase):
         # Rule: B => 1
         antecedent_b = [['B']]
 
-        consequence_b = [[1, 1]]
+        consequent_b = [[1, 1]]
 
         support_b = 0.2857142857142857
 
@@ -74,12 +74,12 @@ class TestSupportConfidence(TestCase):
         rule = oper.build_rule(vector)
 
         antecedent = rule[:cut]
-        consequence = rule[cut:]
+        consequent = rule[cut:]
 
         support, confidence = oper.support_confidence(
-            antecedent, consequence, self.transactions)
+            antecedent, consequent, self.transactions)
 
         self.assertEqual(antecedent, antecedent_b)
-        self.assertEqual(consequence, consequence_b)
+        self.assertEqual(consequent, consequent_b)
         self.assertEqual(support_b, support)
         self.assertAlmostEqual(confidence_b, confidence)
