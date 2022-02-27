@@ -23,16 +23,16 @@ class TestCutPoint(TestCase):
 
         rule = arm.build_rule(new_sol)
 
-        # get antecedent and consequence of rule
+        # get antecedent and consequent of rule
         antecedent = rule[:cut]
-        consequence = rule[cut:]
+        consequent = rule[cut:]
 
         self.assertEqual(cut_value, 0.33333333)
         self.assertEqual(new_sol, [0.98328107, 0.93655004, 0.6860223, 0.78527931, 0.96291945, 0.18117294, 0.50567635])
         self.assertEqual(cut, 1)
 
         self.assertEqual(antecedent, [['B']])
-        self.assertEqual(consequence, ['NO'])
+        self.assertEqual(consequent, ['NO'])
 
 
 class TestCutPointB(TestCase):
@@ -127,16 +127,16 @@ class TestCutPointB(TestCase):
 
         rule = arm.build_rule(new_sol)
 
-        # get antecedent and consequence of rule
+        # get antecedent and consequent of rule
         antecedent = rule[:cut]
-        consequence = rule[cut:]
+        consequent = rule[cut:]
 
         self.assertEqual(cut_value, 0.33333333)
         self.assertEqual(new_sol, new_sol_a)
         self.assertEqual(cut, 2)
 
         self.assertEqual(antecedent, [[0.2620357326, 0.4989950842], [0.5636729279999999, 1.13]])
-        self.assertEqual(consequence, ['NO', 'NO', 'NO', 'NO', [0.34108412769999996, 0.56784007355], ['I'],
+        self.assertEqual(consequent, ['NO', 'NO', 'NO', 'NO', [0.34108412769999996, 0.56784007355], ['I'],
                                        [0.13678483190000001, 0.44964727704]])
 
     def test_cut_pointC(self):
@@ -225,14 +225,14 @@ class TestCutPointB(TestCase):
 
         rule = arm.build_rule(new_sol)
 
-        # get antecedent and consequence of rule
+        # get antecedent and consequent of rule
         antecedent = rule[:cut]
-        consequence = rule[cut:]
+        consequent = rule[cut:]
 
         self.assertEqual(cut_value, 0.53333333)
         self.assertEqual(new_sol, new_sol_a)
         self.assertEqual(cut, 4)
 
         self.assertEqual(antecedent, [[0.2620357326, 0.4989950842], [0.5636729279999999, 1.13], 'NO', 'NO'])
-        self.assertEqual(consequence, ['NO', 'NO', [0.34108412769999996, 0.56784007355], ['I'],
+        self.assertEqual(consequent, ['NO', 'NO', [0.34108412769999996, 0.56784007355], ['I'],
                                        [0.13678483190000001, 0.44964727704]])

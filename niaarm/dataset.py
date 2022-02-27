@@ -41,7 +41,7 @@ class Dataset:
                 unique_categories = None
             else:
                 dtype = "cat"
-                unique_categories = sorted(col.astype('string').unique().tolist(), key=str.lower)  # convert to str just in case
+                unique_categories = sorted(col.astype('string').unique().tolist(), key=str.lower)
                 min_value = None
                 max_value = None
 

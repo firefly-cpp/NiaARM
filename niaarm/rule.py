@@ -8,7 +8,7 @@ class Rule:
 
     Attributes:
         antecedent (list[str]): A list of antecedents of association rule.
-        consequence (list[str]): A list of consequents of association rule.
+        consequent (list[str]): A list of consequents of association rule.
         fitness (float): Value of fitness function.
         support (float): Value of support.
         confidence (float): Value of confidence.
@@ -18,7 +18,7 @@ class Rule:
     """
 
     antecedent: list[str]
-    consequence: list[str]
+    consequent: list[str]
     fitness: float
     support: float
     confidence: float

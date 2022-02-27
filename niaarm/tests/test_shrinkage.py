@@ -27,9 +27,9 @@ class TestShrinkageA(TestCase):
         rule = oper.build_rule(vector)
 
         antecedent = rule[:cut]
-        consequence = rule[cut:]
+        consequent = rule[cut:]
 
-        shrinkage = oper.shrinkage(antecedent, consequence)
+        shrinkage = oper.shrinkage(antecedent, consequent)
 
         self.assertEqual(shrinkage, 1)
 
@@ -37,7 +37,7 @@ class TestShrinkageA(TestCase):
         # Rule: B => 1
         # antecedent_b = [['B']]
 
-        # consequence_b = [[1, 1]]
+        # consequent_b = [[1, 1]]
 
         # support_b = 0.2857142857142857
 
@@ -59,9 +59,9 @@ class TestShrinkageA(TestCase):
         rule = oper.build_rule(vector)
 
         antecedent = rule[:cut]
-        consequence = rule[cut:]
+        consequent = rule[cut:]
 
-        shrinkage = oper.shrinkage(antecedent, consequence)
+        shrinkage = oper.shrinkage(antecedent, consequent)
 
         self.assertEqual(shrinkage, 1)
 
@@ -139,11 +139,11 @@ class TestShrinkageB(TestCase):
 
         rule = oper.build_rule(new_sol)
 
-        # get antecedent and consequence of rule
+        # get antecedent and consequent of rule
         antecedent = rule[:cut]
-        consequence = rule[cut:]
+        consequent = rule[cut:]
 
-        shrinkage = oper.shrinkage(antecedent, consequence)
+        shrinkage = oper.shrinkage(antecedent, consequent)
 
         norm = _normalize(1.11324989, [0, 3], [0, 1])
 

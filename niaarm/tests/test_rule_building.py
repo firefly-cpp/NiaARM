@@ -26,34 +26,34 @@ class TestBuildRuleA(TestCase):
         antecedent_a = ["NO"]
         antecedent_b = ["A"]
         antecedent_c = ["1"]
-        consequence_a = ["A"]
-        consequence_b = ["0"]
-        consequence_c = ["NO"]
+        consequent_a = ["A"]
+        consequent_b = ["0"]
+        consequent_c = ["NO"]
 
         self.assertEqual(
             _rule_feasible(
                 antecedent_a,
-                consequence_a),
+                consequent_a),
             False)
         self.assertEqual(
             _rule_feasible(
                 antecedent_b,
-                consequence_b),
+                consequent_b),
             True)
         self.assertEqual(
             _rule_feasible(
                 antecedent_c,
-                consequence_a),
+                consequent_a),
             True)
         self.assertEqual(
             _rule_feasible(
                 antecedent_c,
-                consequence_b),
+                consequent_b),
             True)
         self.assertEqual(
             _rule_feasible(
                 antecedent_a,
-                consequence_c),
+                consequent_c),
             False)
 
     def test_threshold_move(self):
