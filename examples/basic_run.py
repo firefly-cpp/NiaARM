@@ -5,14 +5,14 @@ from niapy.task import Task, OptimizationType
 
 
 if __name__ == '__main__':
-    # load and preprocess dataset from csv
+    # load and preprocess the dataset from csv
     data = Dataset("datasets/Abalone.csv")
 
     # Create a problem:::
-    # dimension represents dimension of the problem;
+    # dimension represents the dimension of the problem;
     # features represent the list of features, while transactions depicts the list of transactions
     # the following 4 elements represent weights (support, confidence, coverage, shrinkage)
-    # None defines that criteria is omitted and is therefore excluded from fitness function
+    # None defines that criteria are omitted and are, therefore, excluded from the fitness function
     problem = NiaARM(data.dimension, data.features, data.transactions, alpha=1.0, beta=1.0)
 
     # build niapy task

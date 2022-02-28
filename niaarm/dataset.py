@@ -3,14 +3,14 @@ from niaarm.feature import Feature
 
 
 class Dataset:
-    r"""Class for working with dataset.
+    r"""Class for working with a dataset.
 
     Attributes:
         data (pd.DataFrame): Data as a pandas Dataframe.
         transactions (np.ndarray): Transactional data.
         header (list[str]): Feature names.
         features (list[Feature]): List of features.
-        dimension (int): Dimension of the optimization problem for dataset.
+        dimension (int): Dimension of the optimization problem for the dataset.
 
     """
 
@@ -25,7 +25,7 @@ class Dataset:
         self.dimension = self.__problem_dimension()
 
     def __analyse_types(self):
-        r"""Extract data types for data in dataset."""
+        r"""Extract data types for the data in a dataset."""
         for head in self.header:
             col = self.data[head]
 

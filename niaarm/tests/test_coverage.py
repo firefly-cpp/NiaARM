@@ -4,7 +4,7 @@ from niaarm.dataset import Dataset
 
 
 class TestCoverage(TestCase):
-    # let's borrow test case from wikipedia:
+    # let's borrow a test case from wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)
 
     def setUp(self):

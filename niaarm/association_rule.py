@@ -20,10 +20,10 @@ class AssociationRule:
             current_feature = self.permutation[i]
             feature = self.features[current_feature]
 
-            # set current position in vector
+            # set current position in the vector
             vector_position = self.feature_position(current_feature)
 
-            # get threshold for each feature
+            # get a threshold for each feature
             threshold_position = vector_position + self.threshold_move(current_feature)
 
             if vector[vector_position] > vector[threshold_position]:

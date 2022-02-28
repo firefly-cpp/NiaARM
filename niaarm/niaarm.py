@@ -23,7 +23,7 @@ class NiaARM(Problem):
 
     Attributes:
         features (list[Feature]): List of features.
-        transactions (np.ndarray): Data from transaction database.
+        transactions (np.ndarray): Data from the transaction database.
         rules (list[Rule]): Mined association rules.
 
     """
@@ -46,14 +46,14 @@ class NiaARM(Problem):
         super().__init__(dimension, 0.0, 1.0)
 
     def rule_exists(self, antecedent, consequent):
-        r"""Check if association rule already exists."""
+        r"""Check if the association rule already exists."""
         for rule in self.rules:
             if rule.antecedent == antecedent and rule.consequent == consequent:
                 return True
         return False
 
     def export_rules(self, path):
-        r"""Save all association rules found to csv file."""
+        r"""Save all association rules found to a csv file."""
         with open(path, 'w', newline='') as f:
             writer = csv.writer(f)
 
@@ -84,7 +84,7 @@ class NiaARM(Problem):
         antecedent = rule[:cut]
         consequent = rule[cut:]
 
-        # check if rule is feasible
+        # check if the rule is feasible
         if _rule_feasible(antecedent, consequent):
             # get support and confidence of rule
             support, confidence = arm.support_confidence(antecedent, consequent, self.transactions)
@@ -126,8 +126,8 @@ class NiaARM(Problem):
 
 
 def _fix_border(antecedent, consequent):
-    r"""In case lower and upper bounds of interval are the same.
-        We need this in order to provide clean output.
+    r"""In case the lower and the upper bounds of interval are the same.
+        We need this in order to provide a clean output.
 
         Arguments:
             antecedent (np.ndarray): .

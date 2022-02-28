@@ -7,13 +7,13 @@ class Rule:
     r"""Class representing an association rule.
 
     Attributes:
-        antecedent (list[str]): A list of antecedents of association rule.
-        consequent (list[str]): A list of consequents of association rule.
-        fitness (float): Value of fitness function.
-        support (float): Value of support.
-        confidence (float): Value of confidence.
-        shrink (Optional[float]): Value of shrink.
-        coverage (Optional[float]): Value of coverage.
+        antecedent (list[str]): A list of antecedents of the association rule.
+        consequent (list[str]): A list of consequents of the association rule.
+        fitness (float): Value of the fitness function.
+        support (float): Value of the support.
+        confidence (float): Value of the confidence.
+        shrink (Optional[float]): Value of the shrink.
+        coverage (Optional[float]): Value of the coverage.
 
     """
 

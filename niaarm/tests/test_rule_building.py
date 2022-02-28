@@ -4,7 +4,7 @@ from niaarm.dataset import Dataset
 
 
 class TestBuildRuleA(TestCase):
-    # let's borrow test case from Wikipedia:
+    # let's borrow a test case from Wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)
     def setUp(self):
         data = Dataset("datasets/wiki_test_case.csv")
@@ -69,12 +69,6 @@ class TestBuildRuleA(TestCase):
            Categorical features consists of two vector elements, while
            each numerical feature consists of three vector elements.
         """
-
-        # permutation = self.oper.map_permutation(
-        #  [0.98328107, 0.93655004, 0.6860223, 0.78527931, 0.96291945, 0.18117294, 0.50567635])
-
-        # order = _get_permutation(permutation)
-
         position1 = self.oper.feature_position(0)
         position2 = self.oper.feature_position(1)
 
@@ -150,9 +144,6 @@ class TestBuildRuleB(TestCase):
         self.oper = AssociationRule(self.features)
 
     def test_get_permutation(self):
-        """Test map permutation method;
-        permutation for ordering elements of association rule is located on the end
-        of the vector"""
         vector1 = [
             0.55841534,
             0.95056955,

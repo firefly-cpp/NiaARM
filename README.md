@@ -14,14 +14,13 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/firefly-cpp/niaarm.svg)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/firefly-cpp/niaarm.svg)](http://isitmaintained.com/project/firefly-cpp/niaarm "Average time to resolve an issue")
 
-## General outline of framework
-NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. The framework is fully written in Python and runs on all platforms.
-NiaARM allows users to automatically preprocess the data in a transaction database, to search for association rules and provide pretty output of rules found. This framework also supports numerical and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization problem and solved using the nature-inspired algorithms that comes from the related framework called [NiaPy](https://github.com/NiaOrg/NiaPy).
+## General outline of the framework
+NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. The framework is written fully in Python and runs on all platforms. NiaARM allows users to preprocess the data in a transaction database automatically, to search for association rules and provide a pretty output of the rules found. This framework also supports numerical and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization problem, and solved using the nature-inspired algorithms that come from the related framework called [NiaPy](https://github.com/NiaOrg/NiaPy).
 
 ## Detailed insights
-Current version witholds (but is not limited to) following functions:
+The current version witholds (but is not limited to) the following functions:
 
-- loading dataset in CSV format,
+- loading datasets in CSV format,
 - preprocessing of data,
 - searching for association rules,
 - providing output of mined association rules,

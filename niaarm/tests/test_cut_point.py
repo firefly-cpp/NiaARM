@@ -4,7 +4,7 @@ from niaarm.dataset import Dataset
 
 
 class TestCutPoint(TestCase):
-    # let's borrow test case from Wikipedia:
+    # let's borrow a test case from Wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)
     def setUp(self):
         data = Dataset("datasets/wiki_test_case.csv")
