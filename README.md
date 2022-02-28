@@ -4,7 +4,7 @@
 
 ---
 
-# NiaARM - Framework for Numerical Association Rule Mining
+# NiaARM - NiaARM is a minimalistic framework for numerical association rule mining.
 
 ---
 [![PyPI Version](https://img.shields.io/pypi/v/niaarm.svg)](https://pypi.python.org/pypi/niaarm)
@@ -24,7 +24,7 @@ The current version witholds (but is not limited to) the following functions:
 - preprocessing of data,
 - searching for association rules,
 - providing output of mined association rules,
-- generating statistics about mined association rules
+- generating statistics about mined association rules.
 
 ## Installation
 
