@@ -1,10 +1,10 @@
 <p align="center">
-  <img width="300" src=".github/logo/logo.png">
+  <img width="300" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/logo/logo.png">
 </p>
 
 ---
 
-# NiaARM - NiaARM is a minimalistic framework for numerical association rule mining.
+# NiaARM - A minimalistic framework for numerical association rule mining.
 
 ---
 [![PyPI Version](https://img.shields.io/pypi/v/niaarm.svg)](https://pypi.python.org/pypi/niaarm)
