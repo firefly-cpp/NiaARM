@@ -51,9 +51,12 @@ def parse_parameters(text):
     for line in lines:
         key, value = line.split('=')
         key = key.strip()
-        value = float(value.strip())
-        if value.is_integer():
-            value = int(value)
+        try:
+            value = float(value.strip())
+            if value.is_integer():
+                value = int(value)
+        except ValueError:
+            pass
         parameters[key] = value
     return parameters
 
@@ -76,7 +79,7 @@ def edit_parameters(parameters):
         try:
             os.unlink(filename)
         except Exception as e:
-            print(e)
+            print('Error:', e, file=sys.stderr)
     return new_parameters
 
 
@@ -101,12 +104,12 @@ def main():
         params = algorithm.get_parameters()
         new_params = edit_parameters(params)
         if new_params is None:
-            print('Invalid parameters', sys.stderr)
+            print('Invalid parameters', file=sys.stderr)
             return 1
 
         for param in new_params:
             if param not in params:
-                print(f'Invalid parameter: {param}', sys.stderr)
+                print(f'Invalid parameter: {param}', file=sys.stderr)
                 return 1
 
         algorithm.set_parameters(**new_params)
@@ -129,5 +132,5 @@ def main():
             print(f'Average length of consequent: {stats.avg_con_len}')
 
     except Exception as e:
-        print(e.args, sys.stderr)
+        print('Error:', e, file=sys.stderr)
         return 1
