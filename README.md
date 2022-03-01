@@ -38,7 +38,7 @@ pip3 install niaarm
 
 ## Usage
 
-###Basic example
+### Basic example
 ```python
 from niaarm import NiaARM, Dataset
 from niapy.algorithms.basic import DifferentialEvolution
