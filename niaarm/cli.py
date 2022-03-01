@@ -13,18 +13,19 @@ from niapy.util.factory import get_algorithm
 
 
 def get_parser():
-    parser = argparse.ArgumentParser(description='Perform ARM, output mined rules as csv, get mined rules\' statistics')
-    parser.add_argument('-a', '--algorithm', type=str, required=True,
-                        help='Algorithm to use (niapy class name, e. g. DifferentialEvolution)')
-    parser.add_argument('-s', '--seed', type=int, help='Seed for thr algorithm\'s random number generator')
-    parser.add_argument('--max-evals', type=int, default=np.inf, help='Maximum number of fitness function evaluations')
-    parser.add_argument('--max-iters', type=int, default=np.inf, help='Maximum number of iterations')
+    parser = argparse.ArgumentParser(prog='niaarm',
+                                     description='Perform ARM, output mined rules as csv, get mined rules\' statistics')
     parser.add_argument('-i', '--input-file', type=str, required=True, help='Input file containing a csv dataset')
     parser.add_argument('-o', '--output-file', type=str, help='Output file for mined rules')
-    parser.add_argument('--alpha', type=float, default=0.0, help='Alpha parameter')
-    parser.add_argument('--beta', type=float, default=0.0, help='Beta parameter')
-    parser.add_argument('--gamma', type=float, default=0.0, help='Gamma parameter')
-    parser.add_argument('--delta', type=float, default=0.0, help='Delta parameter')
+    parser.add_argument('-a', '--algorithm', type=str, required=True,
+                        help='Algorithm to use (niapy class name, e.g. DifferentialEvolution)')
+    parser.add_argument('-s', '--seed', type=int, help='Seed for the algorithm\'s random number generator')
+    parser.add_argument('--max-evals', type=int, default=np.inf, help='Maximum number of fitness function evaluations')
+    parser.add_argument('--max-iters', type=int, default=np.inf, help='Maximum number of iterations')
+    parser.add_argument('--alpha', type=float, default=0.0, help='Alpha parameter. Default 0')
+    parser.add_argument('--beta', type=float, default=0.0, help='Beta parameter. Default 0')
+    parser.add_argument('--gamma', type=float, default=0.0, help='Gamma parameter. Default 0')
+    parser.add_argument('--delta', type=float, default=0.0, help='Delta parameter. Default 0')
     parser.add_argument('--logging', action='store_true', help='Enable logging of fitness improvements')
     parser.add_argument('--show-stats', action='store_true', help='Display stats about mined rules')
 
@@ -117,6 +118,7 @@ def main():
         algorithm.run(task)
 
         if args.output_file:
+            problem.sort_rules()
             problem.export_rules(args.output_file)
 
         if args.show_stats:

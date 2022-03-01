@@ -36,9 +36,75 @@ Install NiaARM with pip3:
 pip3 install niaarm
 ```
 
-## Examples
+## Usage
 
-For a list of examples see the [examples folder](examples/).
+###Basic example
+```python
+from niaarm import NiaARM, Dataset
+from niapy.algorithms.basic import DifferentialEvolution
+from niapy.task import Task, OptimizationType
+
+
+# load and preprocess the dataset from csv
+data = Dataset("datasets/Abalone.csv")
+
+# Create a problem:::
+# dimension represents the dimension of the problem;
+# features represent the list of features, while transactions depicts the list of transactions
+# the following 4 elements represent weights (support, confidence, coverage, shrinkage)
+# None defines that criteria are omitted and are, therefore, excluded from the fitness function
+problem = NiaARM(data.dimension, data.features, data.transactions, alpha=1.0, beta=1.0)
+
+# build niapy task
+task = Task(problem=problem, max_iters=30, optimization_type=OptimizationType.MAXIMIZATION)
+
+# use Differential Evolution (DE) algorithm from the NiaPy library
+# see full list of available algorithms: https://github.com/NiaOrg/NiaPy/blob/master/Algorithms.md
+algo = DifferentialEvolution(population_size=50, differential_weight=0.5, crossover_probability=0.9)
+
+# run algorithm
+best = algo.run(task=task)
+
+# sort rules
+problem.sort_rules()
+
+# export all rules to csv
+problem.export_rules('output.csv')
+```
+For a full list of examples see the [examples folder](examples/).
+
+### Command line interface
+
+```
+niaarm -h
+usage: niaarm [-h] -i INPUT_FILE [-o OUTPUT_FILE] -a ALGORITHM [-s SEED]
+              [--max-evals MAX_EVALS] [--max-iters MAX_ITERS] [--alpha ALPHA]
+              [--beta BETA] [--gamma GAMMA] [--delta DELTA] [--logging]
+              [--show-stats]
+
+Perform ARM, output mined rules as csv, get mined rules' statistics
+
+options:
+  -h, --help            show this help message and exit
+  -i INPUT_FILE, --input-file INPUT_FILE
+                        Input file containing a csv dataset
+  -o OUTPUT_FILE, --output-file OUTPUT_FILE
+                        Output file for mined rules
+  -a ALGORITHM, --algorithm ALGORITHM
+                        Algorithm to use (niapy class name, e. g.
+                        DifferentialEvolution)
+  -s SEED, --seed SEED  Seed for the algorithm's random number generator
+  --max-evals MAX_EVALS
+                        Maximum number of fitness function evaluations
+  --max-iters MAX_ITERS
+                        Maximum number of iterations
+  --alpha ALPHA         Alpha parameter. Default 0
+  --beta BETA           Beta parameter. Default 0
+  --gamma GAMMA         Gamma parameter. Default 0
+  --delta DELTA         Delta parameter. Default 0
+  --logging             Enable logging of fitness improvements
+  --show-stats          Display stats about mined rules
+```
 
 ## Reference Papers:
 
