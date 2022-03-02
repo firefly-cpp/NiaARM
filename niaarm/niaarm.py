@@ -36,12 +36,16 @@ class NiaARM(Problem):
         """
         self.features = features
         self.transactions = transactions
+
+        if alpha + beta + gamma + delta == 0:
+            raise ValueError('At least one of alpha, beta, gamma or delta must be set')
+
         self.alpha = alpha
         self.beta = beta
         self.gamma = gamma
         self.delta = delta
-        self.logging = logging
 
+        self.logging = logging
         self.best_fitness = np.NINF
         self.rules = []
         super().__init__(dimension, 0.0, 1.0)
