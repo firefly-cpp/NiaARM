@@ -79,7 +79,7 @@ For a full list of examples see the [examples folder](examples/).
 niaarm -h
 usage: niaarm [-h] -i INPUT_FILE [-o OUTPUT_FILE] -a ALGORITHM [-s SEED]
               [--max-evals MAX_EVALS] [--max-iters MAX_ITERS] [--alpha ALPHA]
-              [--beta BETA] [--gamma GAMMA] [--delta DELTA] [--logging]
+              [--beta BETA] [--gamma GAMMA] [--delta DELTA] [--log]
               [--show-stats]
 
 Perform ARM, output mined rules as csv, get mined rules' statistics
@@ -102,7 +102,7 @@ options:
   --beta BETA           Beta parameter. Default 0
   --gamma GAMMA         Gamma parameter. Default 0
   --delta DELTA         Delta parameter. Default 0
-  --logging             Enable logging of fitness improvements
+  --log                 Enable logging of fitness improvements
   --show-stats          Display stats about mined rules
 ```
 Note: The CLI script can also run as a python module (`python -m niaarm ...`)

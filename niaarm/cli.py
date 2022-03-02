@@ -1,4 +1,5 @@
 import argparse
+from inspect import getmodule, getmembers, isfunction
 import os
 from pathlib import Path
 import platform
@@ -10,6 +11,9 @@ import numpy as np
 from niaarm import NiaARM, Dataset, Stats
 from niapy.task import OptimizationType, Task
 from niapy.util.factory import get_algorithm
+from niapy.util import distances, repair
+from niapy.algorithms.other import mts
+from niapy.algorithms.basic import de
 
 
 def get_parser():
@@ -26,7 +30,7 @@ def get_parser():
     parser.add_argument('--beta', type=float, default=0.0, help='Beta parameter. Default 0')
     parser.add_argument('--gamma', type=float, default=0.0, help='Gamma parameter. Default 0')
     parser.add_argument('--delta', type=float, default=0.0, help='Delta parameter. Default 0')
-    parser.add_argument('--logging', action='store_true', help='Enable logging of fitness improvements')
+    parser.add_argument('--log', action='store_true', help='Enable logging of fitness improvements')
     parser.add_argument('--show-stats', action='store_true', help='Display stats about mined rules')
 
     return parser
@@ -41,28 +45,67 @@ def parameters_string(parameters):
                  '# Save and exit to continue\n' \
                  '# WARNING: Do not edit parameter names\n'
     for parameter, value in parameters.items():
-        params_txt += f'{parameter} = {value}\n'
+        if isinstance(value, tuple):
+            if callable(value[0]):
+                value = tuple(v.__name__ for v in value)
+            else:
+                value = tuple(str(v) for v in value)
+            value = ', '.join(value)
+        params_txt += f'{parameter} = {value.__name__ if callable(value) else value}\n'
     return params_txt
 
 
-def parse_parameters(text):
+def functions(algorithm):
+    funcs = {}
+    algorithm_funcs = dict(getmembers(getmodule(algorithm.__class__), isfunction))
+    repair_funcs = dict(getmembers(repair, isfunction))
+    distance_funcs = dict(getmembers(distances, isfunction))
+    de_funcs = dict(getmembers(de, isfunction))
+    mts_funcs = dict(getmembers(mts, isfunction))
+    funcs.update(algorithm_funcs)
+    funcs.update(repair_funcs)
+    funcs.update(distance_funcs)
+    funcs.update(de_funcs)
+    funcs.update(mts_funcs)
+    return funcs
+
+
+def find_function(name, algorithm):
+    return functions(algorithm)[name]
+
+
+def convert_string(string):
+    try:
+        value = float(string)
+        if value.is_integer():
+            value = int(value)
+    except ValueError:
+        return string
+    return value
+
+
+def parse_parameters(text, algorithm):
     lines: list[str] = text.strip().split('\n')
     lines = [line.strip() for line in lines if line.strip() and not line.strip().startswith('#')]
     parameters = {}
     for line in lines:
         key, value = line.split('=')
         key = key.strip()
-        try:
-            value = float(value.strip())
-            if value.is_integer():
-                value = int(value)
-        except ValueError:
-            pass
+        value = convert_string(value.strip())
+        if isinstance(value, str):
+            if len(value.split(', ')) > 1:  # tuple
+                value = list(map(str.strip, value.split(', ')))
+                value = tuple(map(convert_string, value))
+                value = tuple(find_function(v, algorithm) for v in value if type(v) == str)
+            elif value.lower() == 'true' or value.lower() == 'false':  # boolean
+                value = value.lower() == 'true'
+            else:  # probably a function
+                value = find_function(value, algorithm)
         parameters[key] = value
     return parameters
 
 
-def edit_parameters(parameters):
+def edit_parameters(parameters, algorithm):
     parameters.pop('individual_type', None)
     parameters.pop('initialization_function', None)
     fd, filename = tempfile.mkstemp()
@@ -75,7 +118,7 @@ def edit_parameters(parameters):
         command = f'{text_editor()} {filename}'
         subprocess.run(command, shell=True, check=True)
         params_txt = path.read_text()
-        new_parameters = parse_parameters(params_txt)
+        new_parameters = parse_parameters(params_txt, algorithm)
     finally:
         try:
             os.unlink(filename)
@@ -103,7 +146,7 @@ def main():
 
         algorithm = get_algorithm(args.algorithm, seed=args.seed)
         params = algorithm.get_parameters()
-        new_params = edit_parameters(params)
+        new_params = edit_parameters(params, algorithm.__class__)
         if new_params is None:
             print('Invalid parameters', file=sys.stderr)
             return 1
