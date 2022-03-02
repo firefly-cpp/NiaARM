@@ -140,7 +140,7 @@ def main():
     try:
         dataset = Dataset(args.input_file)
         problem = NiaARM(dataset.dimension, dataset.features, dataset.transactions, args.alpha, args.beta, args.gamma,
-                         args.delta, args.logging)
+                         args.delta, args.log)
         task = Task(problem, max_iters=args.max_iters, max_evals=args.max_evals,
                     optimization_type=OptimizationType.MAXIMIZATION)
 
