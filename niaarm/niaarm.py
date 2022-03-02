@@ -28,7 +28,7 @@ class NiaARM(Problem):
 
     """
 
-    def __init__(self, dimension, features, transactions, alpha=0.0, beta=0.0, gamma=0.0, delta=0.0):
+    def __init__(self, dimension, features, transactions, alpha=0.0, beta=0.0, gamma=0.0, delta=0.0, logging=False):
         r"""Initialize instance of NiaARM.
 
         Arguments:
@@ -36,11 +36,16 @@ class NiaARM(Problem):
         """
         self.features = features
         self.transactions = transactions
+
+        if alpha + beta + gamma + delta == 0:
+            raise ValueError('At least one of alpha, beta, gamma or delta must be set')
+
         self.alpha = alpha
         self.beta = beta
         self.gamma = gamma
         self.delta = delta
 
+        self.logging = logging
         self.best_fitness = np.NINF
         self.rules = []
         super().__init__(dimension, 0.0, 1.0)
@@ -116,7 +121,7 @@ class NiaARM(Problem):
                     self.rules.append(
                         Rule(antecedent1, consequent1, fitness, support, confidence, coverage, shrinkage))
 
-                if fitness > self.best_fitness:
+                if self.logging and fitness > self.best_fitness:
                     self.best_fitness = fitness
                     print(f'Fitness: {fitness}, Support: {support}, Confidence:{confidence}, Coverage:{coverage}, '
                           f'Shrinkage:{shrinkage}')
