@@ -39,9 +39,16 @@ class Dataset:
                 min_value = col.min()
                 max_value = col.max()
                 unique_categories = None
+            elif col.dtype == 'bool':
+                self.data[head] = self.data[head].astype(int)
+                self.transactions = self.data.values
+                dtype = 'int'
+                min_value = 0
+                max_value = 1
+                unique_categories = None
             else:
                 dtype = "cat"
-                unique_categories = sorted(col.astype(str).unique().tolist(), key=str.lower)
+                unique_categories = sorted(col.unique().tolist(), key=str.lower)
                 min_value = None
                 max_value = None
 
