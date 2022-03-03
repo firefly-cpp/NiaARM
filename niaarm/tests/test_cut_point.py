@@ -3,6 +3,7 @@ from niaarm.association_rule import AssociationRule, _cut_point
 from niaarm.dataset import Dataset
 import os
 
+
 class TestCutPoint(TestCase):
     # let's borrow a test case from Wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)

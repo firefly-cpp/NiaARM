@@ -3,6 +3,7 @@ from niaarm.association_rule import AssociationRule, _rule_feasible, _get_permut
 from niaarm.dataset import Dataset
 import os
 
+
 class TestBuildRuleA(TestCase):
     # let's borrow a test case from Wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)
