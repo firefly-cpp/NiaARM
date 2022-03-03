@@ -28,7 +28,7 @@ class TestReadCSVAbalone(TestCase):
             'float',
             'float',
             'int']
-        
+
         data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'Abalone.csv'))
 
         features = data.features
@@ -60,7 +60,7 @@ class TestReadCSVWiki(TestCase):
         minval = [None, 0]
         maxval = [None, 1]
         dtypes_a = ['cat', 'int']
-        
+
         data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'wiki_test_case.csv'))
 
         features = data.features
