@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "niaarm"
-version = "0.1.0"
+version = "0.1.1"
 description = "Nature-inspired algorithms for Association Rule Mining"
 authors = ["Iztok Fister, Jr. <iztok.fister1@um.si>", "Žiga Stupan <ziga.stupan1@student.um.si>"]
 readme = "README.md"
