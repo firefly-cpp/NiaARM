@@ -1,13 +1,13 @@
 from unittest import TestCase
 from niaarm.association_rule import AssociationRule, _rule_feasible, _get_permutation
 from niaarm.dataset import Dataset
-
+import os
 
 class TestBuildRuleA(TestCase):
     # let's borrow a test case from Wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)
     def setUp(self):
-        data = Dataset("datasets/wiki_test_case.csv")
+        data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'wiki_test_case.csv'))
         self.features = data.features
         self.oper = AssociationRule(self.features)
 
@@ -139,7 +139,7 @@ class TestBuildRuleA(TestCase):
 class TestBuildRuleB(TestCase):
     # Abalone test case
     def setUp(self):
-        data = Dataset("datasets/Abalone.csv")
+        data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'Abalone.csv'))
         self.features = data.features
         self.oper = AssociationRule(self.features)
 

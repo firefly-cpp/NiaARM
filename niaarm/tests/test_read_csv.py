@@ -1,6 +1,6 @@
 from unittest import TestCase
 from niaarm.dataset import Dataset
-
+import os
 
 class TestReadCSVAbalone(TestCase):
     def test_read_features(self):
@@ -27,8 +27,8 @@ class TestReadCSVAbalone(TestCase):
             'float',
             'float',
             'int']
-
-        data = Dataset("datasets/Abalone.csv")
+        
+        data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'Abalone.csv'))
 
         features = data.features
 
@@ -59,8 +59,8 @@ class TestReadCSVWiki(TestCase):
         minval = [None, 0]
         maxval = [None, 1]
         dtypes_a = ['cat', 'int']
-
-        data = Dataset("datasets/wiki_test_case.csv")
+        
+        data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'wiki_test_case.csv'))
 
         features = data.features
 

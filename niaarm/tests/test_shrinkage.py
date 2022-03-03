@@ -1,11 +1,11 @@
 from unittest import TestCase
 from niaarm.association_rule import AssociationRule, _normalize, _cut_point
 from niaarm.dataset import Dataset
-
+import os
 
 class TestShrinkageA(TestCase):
     def setUp(self):
-        data = Dataset("datasets/wiki_test_case.csv")
+        data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'wiki_test_case.csv'))
         self.features = data.features
         self.oper = AssociationRule(self.features)
 
@@ -77,7 +77,7 @@ class TestShrinkageB(TestCase):
     # val = n1f + n2f + n3f = 0.38110243 + 0.41193212 + 0.32021534 =  1.11324989
 
     def setUp(self):
-        data = Dataset("datasets/Abalone.csv")
+        data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'Abalone.csv'))
         self.features = data.features
         self.oper = AssociationRule(self.features)
 

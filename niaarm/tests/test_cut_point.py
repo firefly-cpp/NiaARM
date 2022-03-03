@@ -1,13 +1,13 @@
 from unittest import TestCase
 from niaarm.association_rule import AssociationRule, _cut_point
 from niaarm.dataset import Dataset
-
+import os
 
 class TestCutPoint(TestCase):
     # let's borrow a test case from Wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)
     def setUp(self):
-        data = Dataset("datasets/wiki_test_case.csv")
+        data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'wiki_test_case.csv'))
         self.features = data.features
         self.oper = AssociationRule(self.features)
 
@@ -37,7 +37,7 @@ class TestCutPoint(TestCase):
 
 class TestCutPointB(TestCase):
     def setUp(self):
-        data = Dataset("datasets/Abalone.csv")
+        data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'Abalone.csv'))
         self.features = data.features
         self.oper = AssociationRule(self.features)
 
