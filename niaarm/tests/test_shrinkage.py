@@ -3,6 +3,7 @@ from niaarm.association_rule import AssociationRule, _normalize, _cut_point
 from niaarm.dataset import Dataset
 import os
 
+
 class TestShrinkageA(TestCase):
     def setUp(self):
         data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'wiki_test_case.csv'))

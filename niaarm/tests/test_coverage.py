@@ -3,6 +3,7 @@ from niaarm.association_rule import AssociationRule
 from niaarm.dataset import Dataset
 import os
 
+
 class TestCoverage(TestCase):
     # let's borrow a test case from wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)

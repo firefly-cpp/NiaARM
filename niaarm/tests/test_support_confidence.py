@@ -3,6 +3,7 @@ from niaarm.association_rule import AssociationRule, _cut_point
 from niaarm.dataset import Dataset
 import os
 
+
 class TestSupportConfidence(TestCase):
     # let's borrow test case from wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)
