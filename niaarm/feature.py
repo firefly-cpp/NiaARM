@@ -6,7 +6,7 @@ from typing import Optional
 class Feature:
     r"""Class representing a feature.
 
-    Attributes:
+    Args:
        name (str): Name of the feature.
        dtype (str): Datatype of the feature.
        min_val (Optional[float]): Minimum value of the feature in the transaction database.

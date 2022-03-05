@@ -5,6 +5,14 @@ from niaarm.feature import Feature
 class Dataset:
     r"""Class for working with a dataset.
 
+    Args:
+        path (str): Path to the dataset (csv) file.
+        delimiter (str): The delimiter in the csv file.
+        header (Optional[int]): Row to use as header (zero-based). Default: 0.
+         Pass ``header=None`` if the file doesn't contain a header.
+        names (Optional[list[str]]): List of feature names to use.
+         If the file already contains a header row, pass ``header=0`` to override the feature names.
+
     Attributes:
         data (pd.DataFrame): Data as a pandas Dataframe.
         transactions (np.ndarray): Transactional data.
