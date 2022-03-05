@@ -7,7 +7,7 @@ NiaARM is a minimalistic framework for numerical association rule mining.
 
 * **Free software:** MIT license
 * **Github repository:** https://github.com/firefly-cpp/NiaARM
-* **Python versions:** 3.6.x, 3.7.x, 3.8.x
+* **Python versions:** 3.7.x, 3.8.x, 3.9.x, 3.10.x
 
 General outline of the framework
 ---------------------------------
@@ -33,6 +33,7 @@ The main documentation is organized into a couple of sections:
 
 * :ref:`user-docs`
 * :ref:`dev-docs`
+* :ref:`api-reference`
 * :ref:`about-docs`
 
 .. _user-docs:
@@ -42,6 +43,7 @@ The main documentation is organized into a couple of sections:
    :caption: User Documentation
 
    getting_started
+   cli
 
 .. _dev-docs:
 
@@ -52,6 +54,13 @@ The main documentation is organized into a couple of sections:
    installation
    testing
    documentation
+
+.. _api-reference:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference
+
    api/index
 
 .. _about-docs:
@@ -63,6 +72,8 @@ The main documentation is organized into a couple of sections:
    contributing
    code_of_conduct
    license
+
+.. rubric:: References
 
 .. bibliography::
    :all:
