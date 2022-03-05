@@ -5,7 +5,6 @@ from pathlib import Path
 import platform
 import subprocess
 import sys
-import tempfile
 
 import numpy as np
 from niaarm import NiaARM, Dataset, Stats
@@ -85,7 +84,7 @@ def convert_string(string):
 
 
 def parse_parameters(text, algorithm):
-    lines: list[str] = text.strip().split('\n')
+    lines = text.strip().split('\n')
     lines = [line.strip() for line in lines if line.strip() and not line.strip().startswith('#')]
     parameters = {}
     for line in lines:
@@ -108,8 +107,7 @@ def parse_parameters(text, algorithm):
 def edit_parameters(parameters, algorithm):
     parameters.pop('individual_type', None)
     parameters.pop('initialization_function', None)
-    fd, filename = tempfile.mkstemp()
-    os.close(fd)
+    filename = f'{algorithm.Name[1]}_parameters'
 
     new_parameters = None
     try:
