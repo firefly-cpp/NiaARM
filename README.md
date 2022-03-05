@@ -4,7 +4,7 @@
 
 ---
 
-# NiaARM - A minimalistic framework for numerical association rule mining.
+# NiaARM - A minimalistic framework for numerical association rule mining
 
 ---
 [![PyPI Version](https://img.shields.io/pypi/v/niaarm.svg)](https://pypi.python.org/pypi/niaarm)
