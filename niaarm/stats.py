@@ -53,3 +53,15 @@ class Stats:
     @property
     def mean_con_len(self):
         return np.mean([len(rule.consequent) for rule in self.rules])
+
+    def __str__(self):
+        string = f'STATS:\n' \
+                 f'Total rules: {self.total_rules}\n' \
+                 f'Average fitness: {self.mean_fitness}\n' \
+                 f'Average support: {self.mean_support}\n' \
+                 f'Average confidence: {self.mean_confidence}\n' \
+                 f'Average coverage: {self.mean_coverage}\n' \
+                 f'Average shrinkage: {self.mean_shrinkage}\n' \
+                 f'Average length of antecedent: {self.mean_ant_len}\n' \
+                 f'Average length of consequent: {self.mean_con_len}'
+        return string

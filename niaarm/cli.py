@@ -25,10 +25,11 @@ def get_parser():
     parser.add_argument('-s', '--seed', type=int, help='Seed for the algorithm\'s random number generator')
     parser.add_argument('--max-evals', type=int, default=np.inf, help='Maximum number of fitness function evaluations')
     parser.add_argument('--max-iters', type=int, default=np.inf, help='Maximum number of iterations')
-    parser.add_argument('--alpha', type=float, default=0.0, help='Alpha parameter. Default 0')
-    parser.add_argument('--beta', type=float, default=0.0, help='Beta parameter. Default 0')
-    parser.add_argument('--gamma', type=float, default=0.0, help='Gamma parameter. Default 0')
-    parser.add_argument('--delta', type=float, default=0.0, help='Delta parameter. Default 0')
+    parser.add_argument('--alpha', type=float, default=0.0,
+                        help='Support weight. Default: 0. Note: at least one of alpha, beta, gamma, delta must be set')
+    parser.add_argument('--beta', type=float, default=0.0, help='Confidence weight. Default: 0')
+    parser.add_argument('--gamma', type=float, default=0.0, help='Shrinkage weight. Default: 0')
+    parser.add_argument('--delta', type=float, default=0.0, help='Coverage weight. Default: 0')
     parser.add_argument('--log', action='store_true', help='Enable logging of fitness improvements')
     parser.add_argument('--show-stats', action='store_true', help='Display stats about mined rules')
 
@@ -164,15 +165,7 @@ def main():
 
         if args.show_stats:
             stats = Stats(problem.rules)
-            print('\nSTATS:')
-            print(f'Total rules: {stats.total_rules}')
-            print(f'Average fitness: {stats.mean_fitness}')
-            print(f'Average support: {stats.mean_support}')
-            print(f'Average confidence: {stats.mean_confidence}')
-            print(f'Average coverage: {stats.mean_coverage}')
-            print(f'Average shrinkage: {stats.mean_shrinkage}')
-            print(f'Average length of antecedent: {stats.mean_ant_len}')
-            print(f'Average length of consequent: {stats.mean_con_len}')
+            print(stats)
 
     except Exception as e:
         print('Error:', e, file=sys.stderr)

@@ -21,13 +21,4 @@ if __name__ == '__main__':
 
     # Instantiate Stats object and print basic statistics of mined rules.
     stats = Stats(problem.rules)
-
-    print('\nSTATS:')
-    print(f'Total rules: {stats.total_rules}')
-    print(f'Average fitness: {stats.mean_fitness}')
-    print(f'Average support: {stats.mean_support}')
-    print(f'Average confidence: {stats.mean_confidence}')
-    print(f'Average coverage: {stats.mean_coverage}')
-    print(f'Average shrinkage: {stats.mean_shrinkage}')
-    print(f'Average length of antecedent: {stats.mean_ant_len}')
-    print(f'Average length of consequent: {stats.mean_con_len}')
+    print(stats)
