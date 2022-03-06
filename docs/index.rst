@@ -17,7 +17,7 @@ NiaARM is a framework for Association Rule Mining based on nature-inspired algor
 Detailed insights
 -----------------------
 
-The current version witholds (but is not limited to) the following functions:
+The current version includes (but is not limited to) the following functions:
 
 - loading datasets in CSV format,
 - preprocessing of data,
