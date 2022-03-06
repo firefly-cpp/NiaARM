@@ -28,12 +28,12 @@ The current version includes (but is not limited to) the following functions:
 
 ## Installation
 
-### pip3
+### pip
 
-Install NiaARM with pip3:
+Install NiaARM with pip:
 
 ```sh
-pip3 install niaarm
+pip install niaarm
 ```
 
 ## Usage
@@ -74,6 +74,10 @@ problem.export_rules('output.csv')
 For a full list of examples see the [examples folder](examples/).
 
 ### Command line interface
+
+We provide a simple command line interface, which allows you to easily
+mine association rules on any input dataset, output them to a csv file and/or perform
+a simple statistical analysis on them.
 
 ```
 niaarm -h
