@@ -70,7 +70,7 @@ class NiaARM(Problem):
             writer = csv.writer(f)
 
             # write header
-            writer.writerow(["Antecedent", "consequent", "Fitness", "Support", "Confidence", "Coverage", "Shrinkage"])
+            writer.writerow(["antecedent", "consequent", "fitness", "support", "confidence", "coverage", "shrinkage"])
 
             for rule in self.rules:
                 writer.writerow(
