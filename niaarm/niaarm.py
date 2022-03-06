@@ -6,34 +6,36 @@ import csv
 
 
 class NiaARM(Problem):
-    r"""Implementation of NiaARM.
+    r"""Association Rule Mining as an optimization problem.
 
-    Reference:
-        The implementation is composed of ideas found in the following papers:
+    The implementation is composed of ideas found in the following papers:
 
-        I. Fister Jr., A. Iglesias, A. Gálvez, J. Del Ser, E. Osaba, I Fister.
-        [Differential evolution for association rule mining using categorical and numerical attributes]
-        (http://www.iztok-jr-fister.eu/static/publications/231.pdf)
-        In: Intelligent data engineering and automated learning - IDEAL 2018, pp. 79-88, 2018.
+    * I. Fister Jr., A. Iglesias, A. Gálvez, J. Del Ser, E. Osaba, I Fister.
+      [Differential evolution for association rule mining using categorical and numerical attributes]
+      (http://www.iztok-jr-fister.eu/static/publications/231.pdf)
+      In: Intelligent data engineering and automated learning - IDEAL 2018, pp. 79-88, 2018.
 
-        I. Fister Jr., V. Podgorelec, I. Fister.
-        Improved Nature-Inspired Algorithms for Numeric Association Rule Mining.
-        In: Vasant P., Zelinka I., Weber GW. (eds) Intelligent Computing and Optimization. ICO 2020.
-        Advances in Intelligent Systems and Computing, vol 1324. Springer, Cham.
+    * I. Fister Jr., V. Podgorelec, I. Fister.
+      Improved Nature-Inspired Algorithms for Numeric Association Rule Mining.
+      In: Vasant P., Zelinka I., Weber GW. (eds) Intelligent Computing and Optimization. ICO 2020.
+      Advances in Intelligent Systems and Computing, vol 1324. Springer, Cham.
+
+    Args:
+        dimension (int): Dimension of the optimization problem for the dataset.
+        features (list[Feature]): List of the dataset's features.
+        transactions (np.ndarray): The dataset's transactional data.
+        alpha (float): Support weight.
+        beta (float): Confidence weight.
+        gamma (float): Shrinkage weight.
+        delta (float): Coverage weight.
+        logging (bool): If ``logging=True``, fitness improvements are printed. Default: ``False``.
 
     Attributes:
-        features (list[Feature]): List of features.
-        transactions (np.ndarray): Data from the transaction database.
-        rules (list[Rule]): Mined association rules.
+        rules (list[Rule]): List of mined association rules.
 
     """
 
     def __init__(self, dimension, features, transactions, alpha=0.0, beta=0.0, gamma=0.0, delta=0.0, logging=False):
-        r"""Initialize instance of NiaARM.
-
-        Arguments:
-
-        """
         self.features = features
         self.transactions = transactions
 
@@ -50,7 +52,7 @@ class NiaARM(Problem):
         self.rules = []
         super().__init__(dimension, 0.0, 1.0)
 
-    def rule_exists(self, antecedent, consequent):
+    def __rule_exists(self, antecedent, consequent):
         r"""Check if the association rule already exists."""
         for rule in self.rules:
             if rule.antecedent == antecedent and rule.consequent == consequent:
@@ -58,7 +60,12 @@ class NiaARM(Problem):
         return False
 
     def export_rules(self, path):
-        r"""Save all association rules found to a csv file."""
+        r"""Export mined association rules to a csv file.
+
+        Args:
+            path (str): Path.
+
+        """
         with open(path, 'w', newline='') as f:
             writer = csv.writer(f)
 
@@ -72,6 +79,7 @@ class NiaARM(Problem):
         print(f"Rules exported to {path}")
 
     def sort_rules(self):
+        """Sort mined association rules by fitness."""
         self.rules.sort(key=lambda x: x.fitness, reverse=True)
 
     def _evaluate(self, sol):
@@ -117,7 +125,7 @@ class NiaARM(Problem):
                 antecedent1, consequent1 = arm.format_rules(antecedent, consequent)
 
                 # save feasible rule
-                if not self.rule_exists(antecedent1, consequent1):
+                if not self.__rule_exists(antecedent1, consequent1):
                     self.rules.append(
                         Rule(antecedent1, consequent1, fitness, support, confidence, coverage, shrinkage))
 
@@ -134,13 +142,6 @@ def _fix_border(antecedent, consequent):
     r"""In case the lower and the upper bounds of interval are the same.
         We need this in order to provide a clean output.
 
-        Arguments:
-            antecedent (np.ndarray): .
-            consequent (np.ndarray): .
-
-        Returns:
-            antecedent (array):
-            consequent (array):
     """
     for i in range(len(antecedent)):
         if len(antecedent[i]) > 1:

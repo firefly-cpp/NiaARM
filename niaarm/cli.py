@@ -5,7 +5,6 @@ from pathlib import Path
 import platform
 import subprocess
 import sys
-import tempfile
 
 import numpy as np
 from niaarm import NiaARM, Dataset, Stats
@@ -85,7 +84,7 @@ def convert_string(string):
 
 
 def parse_parameters(text, algorithm):
-    lines: list[str] = text.strip().split('\n')
+    lines = text.strip().split('\n')
     lines = [line.strip() for line in lines if line.strip() and not line.strip().startswith('#')]
     parameters = {}
     for line in lines:
@@ -108,8 +107,7 @@ def parse_parameters(text, algorithm):
 def edit_parameters(parameters, algorithm):
     parameters.pop('individual_type', None)
     parameters.pop('initialization_function', None)
-    fd, filename = tempfile.mkstemp()
-    os.close(fd)
+    filename = f'{algorithm.Name[1]}_parameters'
 
     new_parameters = None
     try:
@@ -168,13 +166,13 @@ def main():
             stats = Stats(problem.rules)
             print('\nSTATS:')
             print(f'Total rules: {stats.total_rules}')
-            print(f'Average fitness: {stats.avg_fitness}')
-            print(f'Average support: {stats.avg_support}')
-            print(f'Average confidence: {stats.avg_confidence}')
-            print(f'Average coverage: {stats.avg_coverage}')
-            print(f'Average shrinkage: {stats.avg_shrinkage}')
-            print(f'Average length of antecedent: {stats.avg_ant_len}')
-            print(f'Average length of consequent: {stats.avg_con_len}')
+            print(f'Average fitness: {stats.mean_fitness}')
+            print(f'Average support: {stats.mean_support}')
+            print(f'Average confidence: {stats.mean_confidence}')
+            print(f'Average coverage: {stats.mean_coverage}')
+            print(f'Average shrinkage: {stats.mean_shrinkage}')
+            print(f'Average length of antecedent: {stats.mean_ant_len}')
+            print(f'Average length of consequent: {stats.mean_con_len}')
 
     except Exception as e:
         print('Error:', e, file=sys.stderr)

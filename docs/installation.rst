@@ -20,24 +20,37 @@ All of the project's dependencies should be installed and the project
 ready for further development. **Note that Poetry creates a separate
 virtual environment for your project.**
 
-Development dependencies
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-List of sport-activities-features dependencies:
+Dependencies
+~~~~~~~~~~~~
 
 +----------------+--------------+------------+
 | Package        | Version      | Platform   |
 +================+==============+============+
-| niapy          | ^2.0.0       | All        |
+| niapy          | ^2.0.1       | All        |
++----------------+--------------+------------+
+| pandas         | ^1.3.5       | All        |
++----------------+--------------+------------+
+| numpy          | ^1.21.5      | All        |
 +----------------+--------------+------------+
 
-
-List of development dependencies:
+Development Dependencies
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 +--------------------+-----------+------------+
 | Package            | Version   | Platform   |
 +====================+===========+============+
-| Sphinx             | ^3.5.1    | Any        |
+| Pytest             | ^7.0.1    | Any        |
 +--------------------+-----------+------------+
-| sphinx-rtd-theme   | ^0.5.1    | Any        |
-+--------------------+-----------+------------+
+
+Extras
+~~~~~~
+
++------------------------------+--------------+------------+
+| Package                      | Version      | Platform   |
++==============================+==============+============+
+| Sphinx                       | ^4.4.0       | Any        |
++------------------------------+--------------+------------+
+| sphinx-rtd-theme             | ^1.0.0       | Any        |
++------------------------------+--------------+------------+
+| sphinxcontrib-bibtex         | ^2.4.1       | Any        |
++------------------------------+--------------+------------+

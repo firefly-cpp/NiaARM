@@ -18,4 +18,4 @@ After the successful installation you are ready to run your first example.
 Examples
 --------
 
-You can find usage examples `here <https://github.com/firefly-cpp/NiaARM`_.
+You can find usage examples `here <https://github.com/firefly-cpp/NiaARM/tree/main/examples>`_.

@@ -6,7 +6,7 @@ from typing import Optional
 class Rule:
     r"""Class representing an association rule.
 
-    Attributes:
+    Args:
         antecedent (list[str]): A list of antecedents of the association rule.
         consequent (list[str]): A list of consequents of the association rule.
         fitness (float): Value of the fitness function.
