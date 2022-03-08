@@ -9,7 +9,7 @@ tags:
   - visualizations
 authors:
   - name: Žiga Stupan^[Corresponding author]
-    orcid: 0000-0000-0000-0000
+    orcid:  0000-0001-9847-7306
     affiliation: "1"
   - name: Iztok Fister Jr.
     orcid: 0000-0002-6418-1272
