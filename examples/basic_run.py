@@ -26,7 +26,7 @@ if __name__ == '__main__':
     best = algo.run(task=task)
 
     # sort rules
-    problem.sort_rules()
+    problem.rules.sort()
 
     # export all rules to csv
-    problem.export_rules('output.csv')
+    problem.rules.to_csv('output.csv')

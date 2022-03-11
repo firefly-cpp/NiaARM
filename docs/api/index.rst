@@ -4,7 +4,8 @@ API Reference
 .. toctree::
 
     dataset
-    niaarm
-    stats
-    rule
     feature
+    niaarm
+    mine
+    rule
+    rule_list
