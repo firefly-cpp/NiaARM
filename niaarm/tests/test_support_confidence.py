@@ -41,6 +41,8 @@ class TestSupportConfidence(TestCase):
 
         antecedent = rule[:cut]
         consequent = rule[cut:]
+        antecedent = [attribute for attribute in antecedent if attribute]
+        consequent = [attribute for attribute in consequent if attribute]
 
         rule = Rule(antecedent, consequent, transactions=self.transactions)
 
@@ -74,6 +76,8 @@ class TestSupportConfidence(TestCase):
 
         antecedent = rule[:cut]
         consequent = rule[cut:]
+        antecedent = [attribute for attribute in antecedent if attribute]
+        consequent = [attribute for attribute in consequent if attribute]
 
         rule = Rule(antecedent, consequent, transactions=self.transactions)
 

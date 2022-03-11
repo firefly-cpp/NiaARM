@@ -131,7 +131,8 @@ class NiaARM(Problem):
                     categories = feature.categories
                     selected = round(vector[vector_position] * (len(categories) - 1))
                     rule.append(Feature(feature.name, feature.dtype, categories=[feature.categories[selected]]))
-
+            else:
+                rule.append(None)
         return rule
 
     def threshold_move(self, current_feature):
@@ -162,6 +163,9 @@ class NiaARM(Problem):
         # get antecedent and consequent of rule
         antecedent = rule[:cut]
         consequent = rule[cut:]
+
+        antecedent = [attribute for attribute in antecedent if attribute]
+        consequent = [attribute for attribute in consequent if attribute]
 
         # check if the rule is feasible
         if antecedent and consequent:
