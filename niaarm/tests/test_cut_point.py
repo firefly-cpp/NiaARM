@@ -224,11 +224,6 @@ class TestCutPointB(TestCase):
 
         rule = self.oper.build_rule(new_sol)
 
-        permutation = new_sol[-len(self.features):]
-        permutation = sorted(range(len(permutation)), key=lambda k: permutation[k])
-        features = [self.features[i].name for i in permutation]
-        print(features)
-
         # get antecedent and consequent of rule
         antecedent = rule[:cut]
         consequent = rule[cut:]
