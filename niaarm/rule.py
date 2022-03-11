@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field, InitVar
 import math
+from typing import ClassVar
 import pandas as pd
 from niaarm.feature import Feature
 
@@ -13,8 +14,32 @@ class Rule:
         consequent (list[Feature]): A list of consequents of the association rule.
         fitness (Optional[float]): Value of the fitness function.
 
+    Attributes:
+        cls.metrics (tuple[str]): List of all available metrics.
+        support (float): Support of the rule i.e. proportion of transactions containing
+         both the antecedent and the consequent.
+        confidence (float): Confidence of the rule, defined as the proportion of transactions that contain
+         the consequent in the set of transactions that contain the antecedent.
+        lift (float): Lift of the rule. Lift measures how many times more often the antecedent and the consequent Y
+         occur together than expected if they were statistically independent.
+        coverage (float): Coverage of the rule, also known as antecedent support. It measures the probability that
+         the rule applies to a randomly selected transaction.
+        rhs_support (float): Support of the consequent.
+        inclusion (float): The proportion of selected attributes.
+        amplitude (float): Amplitude of the rule.
+        interestingness (float): Interestingness of the rule.
+        comprehensibility (float): Comprehensibility of the rule.
+        netconf (float): The netconf metric evaluates the interestingness of
+         association rules depending on the support of the rule and the
+         support of the antecedent and consequent of the rule.
+        yulesq (float): Yule's Q metric.
+
     """
 
+    metrics: ClassVar[tuple[str]] = (
+        'support', 'confidence', 'lift', 'coverage', 'rhs_support', 'inclusion', 'amplitude', 'interestingness',
+        'comprehensibility', 'netconf', 'yulesq'
+    )
     antecedent: list[Feature]
     consequent: list[Feature]
     fitness: float = field(default=0.0, compare=False)
@@ -22,7 +47,7 @@ class Rule:
 
     def __post_init__(self, transactions):
         self.num_transactions = len(transactions)
-        self.inclusion_ = (len(self.antecedent) + len(self.consequent)) / len(transactions.columns)
+        self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(transactions.columns)
         min_max = transactions.agg(['min', 'max'])
         acc = 0
 
@@ -49,7 +74,7 @@ class Rule:
                 contains_consequent &= transactions[attribute.name] == attribute.categories[0]
 
         self.consequent_count = len(transactions[contains_consequent])
-        self.amplitude_ = 1 - (1 / (len(self.antecedent) + len(self.consequent))) * acc
+        self.__amplitude = 1 - (1 / (len(self.antecedent) + len(self.consequent))) * acc
 
         self.full_count = len(transactions[contains_antecedent & contains_consequent])
 
@@ -74,9 +99,9 @@ class Rule:
         return self.antecedent_count / self.num_transactions
 
     @property
-    def interest(self):
+    def interestingness(self):
         return (self.support / self.rhs_support) * (self.support / self.coverage) * (
-                    1 - (self.support / self.num_transactions))
+                1 - (self.support / self.num_transactions))
 
     @property
     def yulesq(self):
@@ -91,11 +116,11 @@ class Rule:
 
     @property
     def inclusion(self):
-        return self.inclusion_
+        return self.__inclusion
 
     @property
     def amplitude(self):
-        return self.amplitude_
+        return self.__amplitude
 
     @property
     def comprehensibility(self):
