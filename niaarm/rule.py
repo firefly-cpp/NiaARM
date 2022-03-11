@@ -102,7 +102,7 @@ class Rule:
 
     @property
     def conviction(self):
-        return (1 - self.rhs_support) / (1 - self.confidence)
+        return (1 - self.rhs_support) / (1 - self.confidence + 2.220446049250313e-16)
 
     @property
     def interestingness(self):
@@ -113,12 +113,12 @@ class Rule:
     def yulesq(self):
         num = self.full_count * (self.num_transactions - self.full_count)
         den = (self.full_count - self.consequent_count) * (self.full_count - self.antecedent_count)
-        odds_ratio = num / den
+        odds_ratio = num / (den + 2.220446049250313e-16)
         return (odds_ratio - 1) / (odds_ratio + 1)
 
     @property
     def netconf(self):
-        return (self.support - self.coverage * self.rhs_support) / (self.coverage * (1 - self.coverage))
+        return (self.support - self.coverage * self.rhs_support) / (self.coverage * (1 - self.coverage + 2.220446049250313e-16))
 
     @property
     def inclusion(self):
