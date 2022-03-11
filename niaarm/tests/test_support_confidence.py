@@ -1,5 +1,7 @@
 from unittest import TestCase
-from niaarm.association_rule import AssociationRule, _cut_point
+from niaarm.niaarm import _cut_point, NiaARM
+from niaarm.feature import Feature
+from niaarm.rule import Rule
 from niaarm.dataset import Dataset
 import os
 
@@ -12,12 +14,13 @@ class TestSupportConfidence(TestCase):
         data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'wiki_test_case.csv'))
         self.features = data.features
         self.transactions = data.transactions
+        self.oper = NiaARM(data.dimension, data.features, data.transactions, metrics=('support',))
 
     def test_a(self):
         # Rule: A => 0
-        antecedent_a = [['A']]
+        antecedent_a = [Feature(name='Feat1', dtype='cat', categories=['A'])]
 
-        consequent_a = [[0, 0]]
+        consequent_a = [Feature(name='Feat2', dtype='int', min_val=0, max_val=0)]
 
         support_a = 0.42857142857142855
 
@@ -32,28 +35,27 @@ class TestSupportConfidence(TestCase):
             0.0,
             0.0]
 
-        oper = AssociationRule(self.features)
-
         cut = _cut_point(0, len(self.features))
 
-        rule = oper.build_rule(vector)
+        rule = self.oper.build_rule(vector)
 
         antecedent = rule[:cut]
         consequent = rule[cut:]
+        antecedent = [attribute for attribute in antecedent if attribute]
+        consequent = [attribute for attribute in consequent if attribute]
 
-        support, confidence = oper.support_confidence(
-            antecedent, consequent, self.transactions)
+        rule = Rule(antecedent, consequent, transactions=self.transactions)
 
         self.assertEqual(antecedent, antecedent_a)
         self.assertEqual(consequent, consequent_a)
-        self.assertEqual(support_a, support)
-        self.assertEqual(confidence_a, confidence)
+        self.assertEqual(support_a, rule.support)
+        self.assertEqual(confidence_a, rule.confidence)
 
     def test_B(self):
         # Rule: B => 1
-        antecedent_b = [['B']]
+        antecedent_b = [Feature(name='Feat1', dtype='cat', categories=['B'])]
 
-        consequent_b = [[1, 1]]
+        consequent_b = [Feature(name='Feat2', dtype='int', min_val=1, max_val=1)]
 
         support_b = 0.2857142857142857
 
@@ -68,19 +70,18 @@ class TestSupportConfidence(TestCase):
             0.22928163,
             0.68833485]
 
-        oper = AssociationRule(self.features)
-
         cut = _cut_point(0, len(self.features))
 
-        rule = oper.build_rule(vector)
+        rule = self.oper.build_rule(vector)
 
         antecedent = rule[:cut]
         consequent = rule[cut:]
+        antecedent = [attribute for attribute in antecedent if attribute]
+        consequent = [attribute for attribute in consequent if attribute]
 
-        support, confidence = oper.support_confidence(
-            antecedent, consequent, self.transactions)
+        rule = Rule(antecedent, consequent, transactions=self.transactions)
 
         self.assertEqual(antecedent, antecedent_b)
         self.assertEqual(consequent, consequent_b)
-        self.assertEqual(support_b, support)
-        self.assertAlmostEqual(confidence_b, confidence)
+        self.assertEqual(support_b, rule.support)
+        self.assertAlmostEqual(confidence_b, rule.confidence)

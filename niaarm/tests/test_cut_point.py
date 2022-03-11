@@ -1,5 +1,6 @@
 from unittest import TestCase
-from niaarm.association_rule import AssociationRule, _cut_point
+from niaarm.niaarm import NiaARM, _cut_point
+from niaarm.feature import Feature
 from niaarm.dataset import Dataset
 import os
 
@@ -10,11 +11,9 @@ class TestCutPoint(TestCase):
     def setUp(self):
         data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'wiki_test_case.csv'))
         self.features = data.features
-        self.oper = AssociationRule(self.features)
+        self.oper = NiaARM(data.dimension, data.features, data.transactions, ('support',))
 
     def test_cut_pointA(self):
-        arm = AssociationRule(self.features)
-
         sol = [0.98328107, 0.93655004, 0.6860223, 0.78527931, 0.96291945, 0.18117294, 0.50567635, 0.33333333]
 
         cut_value = sol[len(sol) - 1]
@@ -22,7 +21,7 @@ class TestCutPoint(TestCase):
 
         cut = _cut_point(cut_value, len(self.features))
 
-        rule = arm.build_rule(new_sol)
+        rule = self.oper.build_rule(new_sol)
 
         # get antecedent and consequent of rule
         antecedent = rule[:cut]
@@ -32,19 +31,17 @@ class TestCutPoint(TestCase):
         self.assertEqual(new_sol, [0.98328107, 0.93655004, 0.6860223, 0.78527931, 0.96291945, 0.18117294, 0.50567635])
         self.assertEqual(cut, 1)
 
-        self.assertEqual(antecedent, [['B']])
-        self.assertEqual(consequent, ['NO'])
+        self.assertEqual(antecedent, [Feature('Feat1', 'cat', categories=['B'])])
+        self.assertEqual(consequent, [None])
 
 
 class TestCutPointB(TestCase):
     def setUp(self):
         data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'Abalone.csv'))
         self.features = data.features
-        self.oper = AssociationRule(self.features)
+        self.oper = NiaARM(data.dimension, data.features, data.transactions, ('support',))
 
     def test_cut_pointB(self):
-        arm = AssociationRule(self.features)
-
         sol = [
             0.35841534,
             0.15056955,
@@ -126,7 +123,7 @@ class TestCutPointB(TestCase):
 
         cut = _cut_point(cut_value, len(self.features))
 
-        rule = arm.build_rule(new_sol)
+        rule = self.oper.build_rule(new_sol)
 
         # get antecedent and consequent of rule
         antecedent = rule[:cut]
@@ -136,13 +133,14 @@ class TestCutPointB(TestCase):
         self.assertEqual(new_sol, new_sol_a)
         self.assertEqual(cut, 2)
 
-        self.assertEqual(antecedent, [[0.2620357326, 0.4989950842], [0.5636729279999999, 1.13]])
-        self.assertEqual(consequent, ['NO', 'NO', 'NO', 'NO', [0.34108412769999996, 0.56784007355], ['I'],
-                                      [0.13678483190000001, 0.44964727704]])
+        self.assertEqual(antecedent, [Feature('Length', 'float', min_val=0.2620357326, max_val=0.4989950842),
+                                      Feature('Height', 'float', min_val=0.5636729279999999, max_val=1.13)])
+        self.assertEqual(consequent, [None, None, None, None,
+                                      Feature('Diameter', 'float', 0.34108412769999996, 0.56784007355),
+                                      Feature('Sex', 'cat', categories=['I']),
+                                      Feature('Viscera weight', 'float', 0.13678483190000001, 0.44964727704)])
 
     def test_cut_pointC(self):
-        arm = AssociationRule(self.features)
-
         sol = [
             0.35841534,
             0.15056955,
@@ -224,7 +222,7 @@ class TestCutPointB(TestCase):
 
         cut = _cut_point(cut_value, len(self.features))
 
-        rule = arm.build_rule(new_sol)
+        rule = self.oper.build_rule(new_sol)
 
         # get antecedent and consequent of rule
         antecedent = rule[:cut]
@@ -234,6 +232,10 @@ class TestCutPointB(TestCase):
         self.assertEqual(new_sol, new_sol_a)
         self.assertEqual(cut, 4)
 
-        self.assertEqual(antecedent, [[0.2620357326, 0.4989950842], [0.5636729279999999, 1.13], 'NO', 'NO'])
-        self.assertEqual(consequent, ['NO', 'NO', [0.34108412769999996, 0.56784007355], ['I'],
-                                      [0.13678483190000001, 0.44964727704]])
+        self.assertEqual(antecedent, [Feature('Length', 'float', 0.2620357326, 0.4989950842),
+                                      Feature('Height', 'float', 0.5636729279999999, 1.13),
+                                      None, None])
+        self.assertEqual(consequent, [None, None,
+                                      Feature('Diameter', 'float', 0.34108412769999996, 0.56784007355),
+                                      Feature('Sex', 'cat', categories=['I']),
+                                      Feature('Viscera weight', 'float', 0.13678483190000001, 0.44964727704)])
