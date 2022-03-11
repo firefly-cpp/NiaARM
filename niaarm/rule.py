@@ -25,7 +25,9 @@ class Rule:
         coverage (float): Coverage of the rule, also known as antecedent support. It measures the probability that
          the rule applies to a randomly selected transaction.
         rhs_support (float): Support of the consequent.
-        inclusion (float): The proportion of selected attributes.
+        conviction (float): Conviction of the rule.
+        inclusion (float): Inclusion of the rule is defined as the ratio between the number of attributes of the rule
+         and all attributes in the dataset.
         amplitude (float): Amplitude of the rule.
         interestingness (float): Interestingness of the rule.
         comprehensibility (float): Comprehensibility of the rule.
@@ -37,7 +39,7 @@ class Rule:
     """
 
     metrics: ClassVar[tuple[str]] = (
-        'support', 'confidence', 'lift', 'coverage', 'rhs_support', 'inclusion', 'amplitude', 'interestingness',
+        'support', 'confidence', 'lift', 'coverage', 'rhs_support', 'conviction', 'amplitude', 'inclusion', 'interestingness',
         'comprehensibility', 'netconf', 'yulesq'
     )
     antecedent: list[Feature]
@@ -97,6 +99,10 @@ class Rule:
     @property
     def coverage(self):
         return self.antecedent_count / self.num_transactions
+
+    @property
+    def conviction(self):
+        return (1 - self.rhs_support) / (1 - self.confidence)
 
     @property
     def interestingness(self):

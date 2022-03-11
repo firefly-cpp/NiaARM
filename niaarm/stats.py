@@ -15,6 +15,7 @@ class Stats:
         mean_lift (float): Mean lift.
         mean_coverage (float): Mean coverage.
         mean_rhs_support (float): Mean consequent support.
+        mean_conviction (float): Mean conviction.
         mean_inclusion (float): Mean inclusion.
         mean_amplitude (float): Mean amplitude.
         mean_interestingness (float): Mean interestingness.
@@ -58,6 +59,10 @@ class Stats:
         return np.mean([rule.rhs_support for rule in self.rules])
 
     @property
+    def mean_conviction(self):
+        return np.mean([rule.conviction for rule in self.rules])
+
+    @property
     def mean_inclusion(self):
         return np.mean([rule.inclusion for rule in self.rules])
 
@@ -98,6 +103,7 @@ class Stats:
                  f'Average lift: {self.mean_lift}\n' \
                  f'Average coverage: {self.mean_coverage}\n' \
                  f'Average consequent support: {self.mean_rhs_support}\n' \
+                 f'Average conviction: {self.mean_conviction}\n' \
                  f'Average amplitude: {self.mean_amplitude}\n' \
                  f'Average inclusion: {self.mean_inclusion}\n' \
                  f'Average interestingness: {self.mean_interestingness}\n' \
