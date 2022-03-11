@@ -1,5 +1,6 @@
 from unittest import TestCase
-from niaarm.association_rule import AssociationRule, _normalize, _cut_point
+from niaarm.niaarm import _cut_point, NiaARM
+from niaarm.rule import Rule
 from niaarm.dataset import Dataset
 import os
 
@@ -8,7 +9,8 @@ class TestShrinkageA(TestCase):
     def setUp(self):
         data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'wiki_test_case.csv'))
         self.features = data.features
-        self.oper = AssociationRule(self.features)
+        self.transactions = data.transactions
+        self.oper = NiaARM(data.dimension, data.features, data.transactions, metrics=('amplitude',))
 
     def test_A(self):
         # Rule: A => 0
@@ -21,18 +23,16 @@ class TestShrinkageA(TestCase):
             0.0,
             0.0]
 
-        oper = AssociationRule(self.features)
-
         cut = _cut_point(0, len(self.features))
 
-        rule = oper.build_rule(vector)
+        rule = self.oper.build_rule(vector)
 
         antecedent = rule[:cut]
         consequent = rule[cut:]
 
-        shrinkage = oper.shrinkage(antecedent, consequent)
+        rule = Rule(antecedent, consequent, transactions=self.transactions)
 
-        self.assertEqual(shrinkage, 1)
+        self.assertEqual(rule.amplitude, 1)
 
     def test_B(self):
         vector = [
@@ -44,18 +44,16 @@ class TestShrinkageA(TestCase):
             0.22928163,
             0.68833485]
 
-        oper = AssociationRule(self.features)
-
         cut = _cut_point(0, len(self.features))
 
-        rule = oper.build_rule(vector)
+        rule = self.oper.build_rule(vector)
 
         antecedent = rule[:cut]
         consequent = rule[cut:]
 
-        shrinkage = oper.shrinkage(antecedent, consequent)
+        rule = Rule(antecedent, consequent, transactions=self.transactions)
 
-        self.assertEqual(shrinkage, 1)
+        self.assertEqual(rule.amplitude, 1)
 
 
 class TestShrinkageB(TestCase):
@@ -80,7 +78,8 @@ class TestShrinkageB(TestCase):
     def setUp(self):
         data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'Abalone.csv'))
         self.features = data.features
-        self.oper = AssociationRule(self.features)
+        self.transactions = data.transactions
+        self.oper = NiaARM(data.dimension, data.features, data.transactions, metrics=('amplitude',))
 
     def test_get_permutation(self):
         vector1 = [
@@ -120,24 +119,17 @@ class TestShrinkageB(TestCase):
             0.56159659,
             0.49068101]
 
-        # permutation = self.oper.map_permutation(vector1)
-
-        oper = AssociationRule(self.features)
-
         cut_value = vector1[len(vector1) - 1]
         new_sol = vector1[:-1]
 
         cut = _cut_point(cut_value, len(self.features))
 
-        rule = oper.build_rule(new_sol)
+        rule = self.oper.build_rule(new_sol)
 
         # get antecedent and consequent of rule
         antecedent = rule[:cut]
         consequent = rule[cut:]
 
-        shrinkage = oper.shrinkage(antecedent, consequent)
+        rule = Rule(antecedent, consequent, transactions=self.transactions)
 
-        norm = _normalize(1.11324989, [0, 3], [0, 1])
-
-        self.assertEqual(norm, 0.3710832966666667)
-        self.assertEqual(shrinkage, 0.6289167033333334)
+        self.assertEqual(rule.amplitude, 0.6289167033333334)

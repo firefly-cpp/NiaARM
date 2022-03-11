@@ -14,8 +14,7 @@ class Dataset:
          If the file already contains a header row, pass ``header=0`` to override the feature names.
 
     Attributes:
-        data (pd.DataFrame): Data as a pandas Dataframe.
-        transactions (np.ndarray): Transactional data.
+        transactions (pandas.DataFrame): Transactional data.
         header (list[str]): Feature names.
         features (list[Feature]): List of features.
         dimension (int): Dimension of the optimization problem for the dataset.
@@ -23,11 +22,10 @@ class Dataset:
     """
 
     def __init__(self, path, delimiter=',', header=0, names=None):
-        self.data = pd.read_csv(path, delimiter=delimiter, header=header, names=names)
+        self.transactions = pd.read_csv(path, delimiter=delimiter, header=header, names=names)
         if names is None and header is None:
-            self.data.columns = pd.Index([f'Feature{i}' for i in range(len(self.data.columns))])
-        self.header = self.data.columns.tolist()
-        self.transactions = self.data.values
+            self.transactions.columns = pd.Index([f'Feature{i}' for i in range(len(self.transactions.columns))])
+        self.header = self.transactions.columns.tolist()
         self.features = []
         self.__analyse_types()
         self.dimension = self.__problem_dimension()
@@ -35,7 +33,7 @@ class Dataset:
     def __analyse_types(self):
         r"""Extract data types for the data in a dataset."""
         for head in self.header:
-            col = self.data[head]
+            col = self.transactions[head]
 
             if col.dtype == "float":
                 dtype = "float"
@@ -48,8 +46,7 @@ class Dataset:
                 max_value = col.max()
                 unique_categories = None
             elif col.dtype == 'bool':
-                self.data[head] = self.data[head].astype(int)
-                self.transactions = self.data.values
+                self.transactions[head] = self.transactions[head].astype(int)
                 dtype = 'int'
                 min_value = 0
                 max_value = 1
