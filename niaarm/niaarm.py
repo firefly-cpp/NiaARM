@@ -1,5 +1,5 @@
 from niaarm.rule import Rule
-from niaarm.association_rule import AssociationRule, _rule_feasible, _cut_point
+from niaarm.feature import Feature
 from niapy.problems import Problem
 import numpy as np
 import csv
@@ -23,11 +23,11 @@ class NiaARM(Problem):
     Args:
         dimension (int): Dimension of the optimization problem for the dataset.
         features (list[Feature]): List of the dataset's features.
-        transactions (np.ndarray): The dataset's transactional data.
-        alpha (float): Support weight.
-        beta (float): Confidence weight.
-        gamma (float): Shrinkage weight.
-        delta (float): Coverage weight.
+        transactions (pandas.Dataframe): The dataset's transactions.
+        metrics (Union[Dict[str, float], Sequence[str]]): Metrics to take into account when computing the fitness.
+         Metrics can either be passed as a Dict of {'metric_name': <weight of metric (in range [0, 1])>} or
+         a Sequence (list or tuple) of metrics as strings. In the latter case, the weights of the metrics will be
+         set to 1.
         logging (bool): If ``logging=True``, fitness improvements are printed. Default: ``False``.
 
     Attributes:
@@ -35,29 +35,36 @@ class NiaARM(Problem):
 
     """
 
-    def __init__(self, dimension, features, transactions, alpha=0.0, beta=0.0, gamma=0.0, delta=0.0, logging=False):
+    available_metrics = (
+        'support', 'confidence', 'coverage', 'interest', 'comprehensibility', 'amplitude', 'inclusion', 'rhs_support'
+    )
+
+    def __init__(self, dimension, features, transactions, metrics, logging=False):
         self.features = features
         self.transactions = transactions
 
-        if alpha + beta + gamma + delta == 0:
-            raise ValueError('At least one of alpha, beta, gamma or delta must be set')
+        if not metrics:
+            raise ValueError('No metrics provided')
 
-        self.alpha = alpha
-        self.beta = beta
-        self.gamma = gamma
-        self.delta = delta
+        if isinstance(metrics, dict):
+            self.metrics = tuple(metrics.keys())
+            self.weights = np.array(tuple(metrics.values()))
+        elif isinstance(metrics, (list, tuple)):
+            self.metrics = tuple(metrics)
+            self.weights = np.ones(len(self.metrics))
+        else:
+            raise ValueError('Invalid type for metrics')
+
+        if not set(self.metrics).issubset(self.available_metrics):
+            invalid = ', '.join(set(self.metrics).difference(self.available_metrics))
+            raise ValueError(f'Invalid metric(s): {invalid}')
+
+        self.sum_weights = np.sum(self.weights)
 
         self.logging = logging
         self.best_fitness = np.NINF
         self.rules = []
         super().__init__(dimension, 0.0, 1.0)
-
-    def __rule_exists(self, antecedent, consequent):
-        r"""Check if the association rule already exists."""
-        for rule in self.rules:
-            if rule.antecedent == antecedent and rule.consequent == consequent:
-                return True
-        return False
 
     def export_rules(self, path):
         r"""Export mined association rules to a csv file.
@@ -70,87 +77,116 @@ class NiaARM(Problem):
             writer = csv.writer(f)
 
             # write header
-            writer.writerow(["antecedent", "consequent", "fitness", "support", "confidence", "coverage", "shrinkage"])
+            writer.writerow(("antecedent", "consequent", "fitness") + self.available_metrics)
 
             for rule in self.rules:
                 writer.writerow(
-                    [rule.antecedent, rule.consequent, rule.fitness, rule.support, rule.confidence, rule.coverage,
-                     rule.shrink])
+                    [rule.antecedent, rule.consequent, rule.fitness] + [getattr(rule, metric) for metric in self.available_metrics])
         print(f"Rules exported to {path}")
 
-    def sort_rules(self):
-        """Sort mined association rules by fitness."""
-        self.rules.sort(key=lambda x: x.fitness, reverse=True)
+    def sort_rules(self, by='fitness', reverse=True):
+        """Sort mined association rules by fitness.
+
+        Args:
+            by (Optional[str]): Attribute to sort rules by. Default: ``'fitness'``.
+            reverse (Optional[bool]): Sort in reverse order. Default: ``True``.
+
+        """
+        self.rules.sort(key=lambda x: getattr(x, by), reverse=reverse)
+
+    def build_rule(self, vector):
+        rule = []
+
+        permutation = vector[-len(self.features):]
+        permutation = sorted(range(len(permutation)), key=lambda k: permutation[k])
+
+        for i in range(len(self.features)):
+            current_feature = permutation[i]
+            feature = self.features[current_feature]
+
+            # set current position in the vector
+            vector_position = self.feature_position(current_feature)
+
+            # get a threshold for each feature
+            threshold_position = vector_position + self.threshold_move(current_feature)
+            if vector[vector_position] > vector[threshold_position]:
+                if feature.dtype == 'float':
+                    border1 = vector[vector_position] * (feature.max_val - feature.min_val) + feature.min_val
+                    vector_position = vector_position + 1
+                    border2 = vector[vector_position] * (feature.max_val - feature.min_val) + feature.min_val
+
+                    if border1 > border2:
+                        border1, border2 = border2, border1
+                    rule.append(Feature(feature.name, feature.dtype, border1, border2))
+
+                elif feature.dtype == 'int':
+                    border1 = round(vector[vector_position] * (feature.max_val - feature.min_val) + feature.min_val)
+                    vector_position = vector_position + 1
+                    border2 = round(vector[vector_position] * (feature.max_val - feature.min_val) + feature.min_val)
+
+                    if border1 > border2:
+                        border1, border2 = border2, border1
+                    rule.append(Feature(feature.name, feature.dtype, border1, border2))
+                else:
+                    categories = feature.categories
+                    selected = round(vector[vector_position] * (len(categories) - 1))
+                    rule.append(Feature(feature.name, feature.dtype, categories=[feature.categories[selected]]))
+
+        return rule
+
+    def threshold_move(self, current_feature):
+        if self.features[current_feature].dtype == "float" or self.features[current_feature].dtype == "int":
+            move = 2
+        else:
+            move = 1
+        return move
+
+    def feature_position(self, feature):
+        position = 0
+        for i in range(feature):
+            if self.features[i].dtype == "float" or self.features[i].dtype == "int":
+                position = position + 3
+            else:
+                position = position + 2
+        return position
 
     def _evaluate(self, sol):
         r"""Evaluate association rule."""
-        arm = AssociationRule(self.features)
-
         cut_value = sol[self.dimension - 1]  # get cut point value
         solution = sol[:-1]  # remove cut point
 
         cut = _cut_point(cut_value, len(self.features))
 
-        rule = arm.build_rule(solution)
+        rule = self.build_rule(solution)
 
         # get antecedent and consequent of rule
         antecedent = rule[:cut]
         consequent = rule[cut:]
 
         # check if the rule is feasible
-        if _rule_feasible(antecedent, consequent):
-            # get support and confidence of rule
-            support, confidence = arm.support_confidence(antecedent, consequent, self.transactions)
+        if antecedent and consequent:
+            rule = Rule(antecedent, consequent, transactions=self.transactions)
+            metrics = [getattr(rule, metric) for metric in self.metrics]
+            fitness = np.dot(self.weights, metrics) / self.sum_weights
+            rule.fitness = fitness
 
-            if self.gamma == 0.0:
-                shrinkage = 0
-            else:
-                shrinkage = arm.shrinkage(antecedent, consequent)
-
-            if self.delta == 0.0:
-                coverage = 0
-            else:
-                coverage = arm.coverage(antecedent, consequent)
-
-            fitness = ((self.alpha * support) + (self.beta * confidence) + (self.gamma * shrinkage) +
-                       (self.delta * coverage)) / (self.alpha + self.beta + self.gamma + self.delta)
-
-            # in case no attributes were selected for antecedent or consequent
-            if antecedent.count("NO") == len(antecedent) or consequent.count("NO") == len(consequent):
-                fitness = 0.0
-
-            if support > 0.0 and confidence > 0.0:
-                antecedent, consequent = _fix_border(antecedent, consequent)
-                # format rule; remove NO; add name of features
-                antecedent1, consequent1 = arm.format_rules(antecedent, consequent)
-
+            if rule.support > 0.0 and rule.confidence > 0.0:
                 # save feasible rule
-                if not self.__rule_exists(antecedent1, consequent1):
-                    self.rules.append(
-                        Rule(antecedent1, consequent1, fitness, support, confidence, coverage, shrinkage))
+                if rule not in self.rules:
+                    self.rules.append(rule)
 
                 if self.logging and fitness > self.best_fitness:
                     self.best_fitness = fitness
-                    print(f'Fitness: {fitness}, Support: {support}, Confidence:{confidence}, Coverage:{coverage}, '
-                          f'Shrinkage:{shrinkage}')
+                    print(f'Fitness: {rule.fitness}, ' + ', '.join([f'{metric.capitalize()}: {getattr(rule, metric)}' for metric in self.metrics]))
             return fitness
         else:
             return -1.0
 
 
-def _fix_border(antecedent, consequent):
-    r"""In case the lower and the upper bounds of interval are the same.
-        We need this in order to provide a clean output.
-
-    """
-    for i in range(len(antecedent)):
-        if len(antecedent[i]) > 1:
-            if antecedent[i][0] == antecedent[i][1]:
-                antecedent[i] = antecedent[i][0]
-
-    for i in range(len(consequent)):
-        if len(consequent[i]) > 1:
-            if consequent[i][0] == consequent[i][1]:
-                consequent[i] = consequent[i][0]
-
-    return antecedent, consequent
+def _cut_point(sol, num_attr):
+    cut = int(sol * num_attr)
+    if cut == 0:
+        cut = 1
+    if cut > num_attr - 1:
+        cut = num_attr - 2
+    return cut
