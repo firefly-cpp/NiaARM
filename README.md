@@ -45,6 +45,9 @@ $ apk add py3-niaarm
 ## Usage
 
 ### Basic example
+
+In this example we'll use Differential Evolution to mine association rules on the Abalone Dataset.
+
 ```python
 from niaarm import NiaARM, Dataset
 from niapy.algorithms.basic import DifferentialEvolution
@@ -73,11 +76,34 @@ algo = DifferentialEvolution(population_size=50, differential_weight=0.5, crosso
 best = algo.run(task=task)
 
 # sort rules
-problem.sort_rules()
+problem.rules.sort()
 
 # export all rules to csv
-problem.export_rules('output.csv')
+problem.rules.to_csv('output.csv')
 ```
+
+#### Simplified
+
+The above example can be further simplified with the use of ``niaarm.mine.get_rules()``:
+
+```python
+
+from niaarm import Dataset, get_rules
+from niapy.algorithms.basic import DifferentialEvolution
+
+
+data = Dataset("datasets/Abalone.csv")
+algo = DifferentialEvolution(population_size=50, differential_weight=0.5, crossover_probability=0.9)
+metrics = ('support', 'confidence')
+
+rules, run_time = get_rules(data, algo, metrics, max_iters=30, logging=True)
+
+print(rules)
+print(f'Run Time: {run_time}')
+rules.to_csv('output.csv')
+
+```
+
 For a full list of examples see the [examples folder](examples/).
 
 ### Command line interface

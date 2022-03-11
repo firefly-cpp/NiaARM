@@ -4,9 +4,7 @@ out a statistical analysis of the mined association rules
 """
 
 
-from niaarm import NiaARM
-from niaarm.dataset import Dataset
-from niaarm.stats import Stats
+from niaarm import NiaARM, Dataset
 from niapy.algorithms.basic import DifferentialEvolution
 from niapy.task import Task, OptimizationType
 
@@ -19,6 +17,5 @@ if __name__ == '__main__':
     algo = DifferentialEvolution(population_size=50, differential_weight=0.5, crossover_probability=0.9)
     algo.run(task=task)
 
-    # Instantiate Stats object and print basic statistics of mined rules.
-    stats = Stats(problem.rules)
-    print(stats)
+    # print the RuleList.
+    print(problem.rules)
