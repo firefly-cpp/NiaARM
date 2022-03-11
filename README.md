@@ -36,6 +36,12 @@ Install NiaARM with pip:
 pip install niaarm
 ```
 
+To install NiaARM on Alpine Linux, please enable Testing repository and use:
+
+```sh
+$ apk add py3-niaarm
+```
+
 ## Usage
 
 ### Basic example
