@@ -7,6 +7,7 @@ import subprocess
 import sys
 
 import numpy as np
+import niaarm
 from niaarm import NiaARM, Dataset, Stats
 from niapy.task import OptimizationType, Task
 from niapy.util.factory import get_algorithm
@@ -18,6 +19,7 @@ from niapy.algorithms.basic import de
 def get_parser():
     parser = argparse.ArgumentParser(prog='niaarm',
                                      description='Perform ARM, output mined rules as csv, get mined rules\' statistics')
+    parser.add_argument('-v', '--version', action='version', version=f'%(prog)s version {niaarm.__version__}')
     parser.add_argument('-i', '--input-file', type=str, required=True, help='Input file containing a csv dataset')
     parser.add_argument('-o', '--output-file', type=str, help='Output file for mined rules')
     parser.add_argument('-a', '--algorithm', type=str, required=True,
@@ -25,11 +27,10 @@ def get_parser():
     parser.add_argument('-s', '--seed', type=int, help='Seed for the algorithm\'s random number generator')
     parser.add_argument('--max-evals', type=int, default=np.inf, help='Maximum number of fitness function evaluations')
     parser.add_argument('--max-iters', type=int, default=np.inf, help='Maximum number of iterations')
-    parser.add_argument('--alpha', type=float, default=0.0,
-                        help='Support weight. Default: 0. Note: at least one of alpha, beta, gamma, delta must be set')
-    parser.add_argument('--beta', type=float, default=0.0, help='Confidence weight. Default: 0')
-    parser.add_argument('--gamma', type=float, default=0.0, help='Shrinkage weight. Default: 0')
-    parser.add_argument('--delta', type=float, default=0.0, help='Coverage weight. Default: 0')
+    parser.add_argument('--metrics', type=str, nargs='+', action='extend', choices=NiaARM.available_metrics,
+                        required=True, metavar='METRICS', help='Metrics to use in the fitness function.')
+    parser.add_argument('--weights', type=float, nargs='+', action='extend',
+                        help='Weights in range [0, 1] corresponding to --metrics')
     parser.add_argument('--log', action='store_true', help='Enable logging of fitness improvements')
     parser.add_argument('--show-stats', action='store_true', help='Display stats about mined rules')
 
@@ -133,13 +134,19 @@ def main():
     if len(sys.argv) == 1:
         parser.print_help()
     if args.max_evals == np.inf and args.max_iters == np.inf:
-        print('--max-evals and/or --max-iters missing', file=sys.stderr)
+        print('Error: --max-evals and/or --max-iters missing', file=sys.stderr)
         return 1
+    metrics = list(set(args.metrics))
+
+    if args.weights and len(args.weights) != len(metrics):
+        print('Error: There must be the same amount of weights and metrics', file=sys.stderr)
+        return 1
+    else:
+        metrics = dict(zip(metrics, args.weights))
 
     try:
         dataset = Dataset(args.input_file)
-        problem = NiaARM(dataset.dimension, dataset.features, dataset.transactions, args.alpha, args.beta, args.gamma,
-                         args.delta, args.log)
+        problem = NiaARM(dataset.dimension, dataset.features, dataset.transactions, metrics, args.log)
         task = Task(problem, max_iters=args.max_iters, max_evals=args.max_evals,
                     optimization_type=OptimizationType.MAXIMIZATION)
 

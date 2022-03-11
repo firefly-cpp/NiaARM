@@ -14,15 +14,16 @@ Usage
 
 .. code-block:: text
 
-    usage: niaarm [-h] -i INPUT_FILE [-o OUTPUT_FILE] -a ALGORITHM [-s SEED]
-                  [--max-evals MAX_EVALS] [--max-iters MAX_ITERS] [--alpha ALPHA]
-                  [--beta BETA] [--gamma GAMMA] [--delta DELTA] [--log]
+    usage: niaarm [-h] [-v] -i INPUT_FILE [-o OUTPUT_FILE] -a ALGORITHM [-s SEED]
+                  [--max-evals MAX_EVALS] [--max-iters MAX_ITERS] --metrics
+                  METRICS [METRICS ...] [--weights WEIGHTS [WEIGHTS ...]] [--log]
                   [--show-stats]
 
     Perform ARM, output mined rules as csv, get mined rules' statistics
 
     options:
       -h, --help            show this help message and exit
+      -v, --version         show program's version number and exit
       -i INPUT_FILE, --input-file INPUT_FILE
                             Input file containing a csv dataset
       -o OUTPUT_FILE, --output-file OUTPUT_FILE
@@ -35,11 +36,10 @@ Usage
                             Maximum number of fitness function evaluations
       --max-iters MAX_ITERS
                             Maximum number of iterations
-      --alpha ALPHA         Support weight. Default: 0. Note: at least one of
-                            alpha, beta, gamma, delta must be set
-      --beta BETA           Confidence weight. Default: 0
-      --gamma GAMMA         Shrinkage weight. Default: 0
-      --delta DELTA         Coverage weight. Default: 0
+      --metrics METRICS [METRICS ...]
+                            Metrics to use in the fitness function.
+      --weights WEIGHTS [WEIGHTS ...]
+                            Weights in range [0, 1] corresponding to --metrics
       --log                 Enable logging of fitness improvements
       --show-stats          Display stats about mined rules
 
@@ -48,11 +48,11 @@ Output rules to csv
 
 Mine Association rules on the Abalone dataset (`available here <https://archive.ics.uci.edu/ml/datasets/Abalone>`_)
 and output them to a csv file. We'll run Differential evolution for 30 iterations, logging fitness improvements.
-We set the support and confidence weights (alpha and beta) to 1.
+We selected the support and confidence metrics, their weights will defaulting to 1.
 
 .. code-block:: shell
 
-    niaarm -i Abalone.csv -a DifferentialEvolution --max-iters 30 --alpha 1 --beta 1 -o output.csv
+    niaarm -i Abalone.csv -a DifferentialEvolution --max-iters 30 --metrics support confidence -o output.csv
 
 After running the above command we are prompted to edit the algorithms parameters in a text editor
 (vi or nano on unix, notepad on windows):
