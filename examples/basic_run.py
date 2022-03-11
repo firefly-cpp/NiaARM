@@ -1,4 +1,3 @@
-import time
 from niaarm import NiaARM
 from niaarm.dataset import Dataset
 from niapy.algorithms.basic import DifferentialEvolution
