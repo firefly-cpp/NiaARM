@@ -39,8 +39,8 @@ class Rule:
     """
 
     metrics: ClassVar[tuple[str]] = (
-        'support', 'confidence', 'lift', 'coverage', 'rhs_support', 'conviction', 'amplitude', 'inclusion', 'interestingness',
-        'comprehensibility', 'netconf', 'yulesq'
+        'support', 'confidence', 'lift', 'coverage', 'rhs_support', 'conviction', 'amplitude', 'inclusion',
+        'interestingness', 'comprehensibility', 'netconf', 'yulesq'
     )
     antecedent: list[Feature]
     consequent: list[Feature]
@@ -118,7 +118,8 @@ class Rule:
 
     @property
     def netconf(self):
-        return (self.support - self.coverage * self.rhs_support) / (self.coverage * (1 - self.coverage + 2.220446049250313e-16))
+        return (self.support - self.coverage * self.rhs_support) / (
+                    self.coverage * (1 - self.coverage + 2.220446049250313e-16))
 
     @property
     def inclusion(self):
