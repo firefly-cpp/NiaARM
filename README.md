@@ -51,9 +51,10 @@ data = Dataset("datasets/Abalone.csv")
 # Create a problem:::
 # dimension represents the dimension of the problem;
 # features represent the list of features, while transactions depicts the list of transactions
-# the following 4 elements represent weights (support, confidence, coverage, shrinkage)
-# None defines that criteria are omitted and are, therefore, excluded from the fitness function
-problem = NiaARM(data.dimension, data.features, data.transactions, alpha=1.0, beta=1.0)
+# metrics is a sequence of metrics to be taken into account when computing the fitness;
+# you can also pass in a dict of the shape {'metric_name': <weight of metric in range [0, 1]>};
+# when passing a sequence, the weights default to 1.
+problem = NiaARM(data.dimension, data.features, data.transactions, metrics=('support', 'confidence'), logging=True)
 
 # build niapy task
 task = Task(problem=problem, max_iters=30, optimization_type=OptimizationType.MAXIMIZATION)
