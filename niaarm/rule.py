@@ -75,7 +75,8 @@ class Rule:
 
     @property
     def interest(self):
-        return (self.support / self.rhs_support) * (self.support / self.coverage) * (1 - (self.support / self.num_transactions))
+        return (self.support / self.rhs_support) * (self.support / self.coverage) * (
+                    1 - (self.support / self.num_transactions))
 
     @property
     def yulesq(self):

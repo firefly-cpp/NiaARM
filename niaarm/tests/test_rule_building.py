@@ -88,10 +88,14 @@ class TestBuildRuleA(TestCase):
         self.assertEqual(rule1, [Feature('Feat1', dtype='cat', categories=["A"]), None])
         self.assertEqual(rule2, [Feature('Feat1', dtype='cat', categories=["B"]), None])
         self.assertEqual(rule3, [None, None])
-        self.assertEqual(rule4, [Feature('Feat1', dtype='cat', categories=["A"]), Feature('Feat2', dtype='int', min_val=1, max_val=1)])
-        self.assertEqual(rule5, [Feature('Feat1', dtype='cat', categories=["A"]), Feature('Feat2', dtype='int', min_val=0, max_val=1)])
-        self.assertEqual(rule6, [Feature('Feat1', dtype='cat', categories=["A"]), Feature('Feat2', dtype='int', min_val=0, max_val=0)])
-        self.assertEqual(rule7, [Feature('Feat1', dtype='cat', categories=["B"]), Feature('Feat2', dtype='int', min_val=0, max_val=0)])
+        self.assertEqual(rule4, [Feature('Feat1', dtype='cat', categories=["A"]),
+                                 Feature('Feat2', dtype='int', min_val=1, max_val=1)])
+        self.assertEqual(rule5, [Feature('Feat1', dtype='cat', categories=["A"]),
+                                 Feature('Feat2', dtype='int', min_val=0, max_val=1)])
+        self.assertEqual(rule6, [Feature('Feat1', dtype='cat', categories=["A"]),
+                                 Feature('Feat2', dtype='int', min_val=0, max_val=0)])
+        self.assertEqual(rule7, [Feature('Feat1', dtype='cat', categories=["B"]),
+                                 Feature('Feat2', dtype='int', min_val=0, max_val=0)])
 
 
 # class TestBuildRuleB(TestCase):

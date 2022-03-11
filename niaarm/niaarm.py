@@ -81,7 +81,8 @@ class NiaARM(Problem):
 
             for rule in self.rules:
                 writer.writerow(
-                    [rule.antecedent, rule.consequent, rule.fitness] + [getattr(rule, metric) for metric in self.available_metrics])
+                    [rule.antecedent, rule.consequent, rule.fitness] + [getattr(rule, metric) for metric in
+                                                                        self.available_metrics])
         print(f"Rules exported to {path}")
 
     def sort_rules(self, by='fitness', reverse=True):
@@ -181,7 +182,8 @@ class NiaARM(Problem):
 
                 if self.logging and fitness > self.best_fitness:
                     self.best_fitness = fitness
-                    print(f'Fitness: {rule.fitness}, ' + ', '.join([f'{metric.capitalize()}: {getattr(rule, metric)}' for metric in self.metrics]))
+                    print(f'Fitness: {rule.fitness}, ' + ', '.join(
+                        [f'{metric.capitalize()}: {getattr(rule, metric)}' for metric in self.metrics]))
             return fitness
         else:
             return -1.0
