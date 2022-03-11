@@ -1,3 +1,4 @@
+import time
 from niaarm import NiaARM
 from niaarm.dataset import Dataset
 from niapy.algorithms.basic import DifferentialEvolution
@@ -13,7 +14,7 @@ if __name__ == '__main__':
     # features represent the list of features, while transactions depicts the list of transactions
     # the following 4 elements represent weights (support, confidence, coverage, shrinkage)
     # A weight of 0.0 means that criteria are omitted and are, therefore, excluded from the fitness function
-    problem = NiaARM(data.dimension, data.features, data.transactions, alpha=1.0, beta=1.0, logging=True)
+    problem = NiaARM(data.dimension, data.features, data.transactions, metrics=('support', 'confidence'), logging=True)
 
     # build niapy task
     task = Task(problem=problem, max_iters=30, optimization_type=OptimizationType.MAXIMIZATION)

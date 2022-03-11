@@ -14,7 +14,7 @@ from niapy.task import Task, OptimizationType
 if __name__ == '__main__':
     # Load the dataset and run the algorithm
     data = Dataset("datasets/Abalone.csv")
-    problem = NiaARM(data.dimension, data.features, data.transactions, alpha=1.0, beta=1.0)
+    problem = NiaARM(data.dimension, data.features, data.transactions, metrics=('support', 'confidence'))
     task = Task(problem=problem, max_iters=30, optimization_type=OptimizationType.MAXIMIZATION)
     algo = DifferentialEvolution(population_size=50, differential_weight=0.5, crossover_probability=0.9)
     algo.run(task=task)
