@@ -13,7 +13,7 @@ class Stats:
         mean_support (float): Mean support.
         mean_confidence (float): Mean confidence.
         mean_coverage (float): Mean coverage.
-        mean_shrinkage (float): Mean shrinkage.
+        mean_amplitude (float): Mean amplitude.
         mean_ant_len (float): Mean antecedent length.
         mean_con_len (float): Mean consequent length.
 
@@ -43,8 +43,8 @@ class Stats:
         return np.mean([rule.coverage for rule in self.rules])
 
     @property
-    def mean_shrinkage(self):
-        return np.mean([rule.shrink for rule in self.rules])
+    def mean_amplitude(self):
+        return np.mean([rule.amplitude for rule in self.rules])
 
     @property
     def mean_ant_len(self):
@@ -61,7 +61,7 @@ class Stats:
                  f'Average support: {self.mean_support}\n' \
                  f'Average confidence: {self.mean_confidence}\n' \
                  f'Average coverage: {self.mean_coverage}\n' \
-                 f'Average shrinkage: {self.mean_shrinkage}\n' \
+                 f'Average amplitude: {self.mean_amplitude}\n' \
                  f'Average length of antecedent: {self.mean_ant_len}\n' \
                  f'Average length of consequent: {self.mean_con_len}'
         return string
