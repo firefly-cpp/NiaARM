@@ -1,8 +1,8 @@
 from niaarm.rule import Rule
 from niaarm.feature import Feature
+from niaarm.rule_list import RuleList
 from niapy.problems import Problem
 import numpy as np
-import csv
 
 
 class NiaARM(Problem):
@@ -25,13 +25,12 @@ class NiaARM(Problem):
         features (list[Feature]): List of the dataset's features.
         transactions (pandas.Dataframe): The dataset's transactions.
         metrics (Union[Dict[str, float], Sequence[str]]): Metrics to take into account when computing the fitness.
-         Metrics can either be passed as a Dict of {'metric_name': <weight of metric (in range [0, 1])>} or
-         a Sequence (list or tuple) of metrics as strings. In the latter case, the weights of the metrics will be
-         set to 1.
-        logging (bool): If ``logging=True``, fitness improvements are printed. Default: ``False``.
+         Metrics can either be passed as a Dict of pairs {'metric_name': <weight of metric>} or
+         a sequence of metrics as strings, in which case, the weights of the metrics will be set to 1.
+        logging (bool): Enable logging of fitness improvements. Default: ``False``.
 
     Attributes:
-        rules (list[Rule]): List of mined association rules.
+        rules (RuleList): A list of mined association rules.
 
     """
 
@@ -63,36 +62,8 @@ class NiaARM(Problem):
 
         self.logging = logging
         self.best_fitness = np.NINF
-        self.rules = []
+        self.rules = RuleList()
         super().__init__(dimension, 0.0, 1.0)
-
-    def export_rules(self, path):
-        r"""Export mined association rules to a csv file.
-
-        Args:
-            path (str): Path.
-
-        """
-        with open(path, 'w', newline='') as f:
-            writer = csv.writer(f)
-
-            # write header
-            writer.writerow(("antecedent", "consequent", "fitness") + Rule.metrics)
-
-            for rule in self.rules:
-                writer.writerow(
-                    [rule.antecedent, rule.consequent, rule.fitness] + [getattr(rule, metric) for metric in Rule.metrics])
-        print(f"Rules exported to {path}")
-
-    def sort_rules(self, by='fitness', reverse=True):
-        """Sort mined association rules by fitness.
-
-        Args:
-            by (Optional[str]): Attribute to sort rules by. Default: ``'fitness'``.
-            reverse (Optional[bool]): Sort in reverse order. Default: ``True``.
-
-        """
-        self.rules.sort(key=lambda x: getattr(x, by), reverse=reverse)
 
     def build_rule(self, vector):
         rule = []
