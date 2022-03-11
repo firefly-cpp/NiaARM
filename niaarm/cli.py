@@ -151,10 +151,9 @@ def main():
         if new_params is None:
             print('Invalid parameters', file=sys.stderr)
             return 1
-        for param in new_params:
-            if param not in params:
-                print(f'Invalid parameter: {param}', file=sys.stderr)
-                return 1
+        if not set(new_params).issubset(params):
+            print(f'Invalid parameters: {set(new_params).difference(params)}', file=sys.stderr)
+            return 1
 
         algorithm.set_parameters(**new_params)
         rules, run_time = get_rules(dataset, algorithm, metrics, args.max_evals, args.max_iters, args.logging)
