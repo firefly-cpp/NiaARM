@@ -1,6 +1,6 @@
-Stats
-=====
+RuleList
+========
 
-.. automodule:: niaarm.stats
+.. automodule:: niaarm.rule_list
     :members:
     :show-inheritance:
