@@ -36,7 +36,7 @@ class NiaARM(Problem):
     """
 
     available_metrics = (
-        'support', 'confidence', 'coverage', 'interest', 'comprehensibility', 'amplitude', 'inclusion', 'rhs_support'
+        'support', 'confidence', 'coverage', 'interestingness', 'comprehensibility', 'amplitude', 'inclusion', 'rhs_support'
     )
 
     def __init__(self, dimension, features, transactions, metrics, logging=False):
@@ -53,7 +53,7 @@ class NiaARM(Problem):
             self.metrics = tuple(metrics)
             self.weights = np.ones(len(self.metrics))
         else:
-            raise ValueError('Invalid type for metrics')
+            raise ValueError(f'Invalid type for metrics: {type(metrics)}')
 
         if not set(self.metrics).issubset(self.available_metrics):
             invalid = ', '.join(set(self.metrics).difference(self.available_metrics))
@@ -77,12 +77,11 @@ class NiaARM(Problem):
             writer = csv.writer(f)
 
             # write header
-            writer.writerow(("antecedent", "consequent", "fitness") + self.available_metrics)
+            writer.writerow(("antecedent", "consequent", "fitness") + Rule.metrics)
 
             for rule in self.rules:
                 writer.writerow(
-                    [rule.antecedent, rule.consequent, rule.fitness] + [getattr(rule, metric) for metric in
-                                                                        self.available_metrics])
+                    [rule.antecedent, rule.consequent, rule.fitness] + [getattr(rule, metric) for metric in Rule.metrics])
         print(f"Rules exported to {path}")
 
     def sort_rules(self, by='fitness', reverse=True):
@@ -101,32 +100,24 @@ class NiaARM(Problem):
         permutation = vector[-len(self.features):]
         permutation = sorted(range(len(permutation)), key=lambda k: permutation[k])
 
-        for i in range(len(self.features)):
-            current_feature = permutation[i]
-            feature = self.features[current_feature]
+        for i in permutation:
+            feature = self.features[i]
 
             # set current position in the vector
-            vector_position = self.feature_position(current_feature)
+            vector_position = self.feature_position(i)
 
             # get a threshold for each feature
-            threshold_position = vector_position + self.threshold_move(current_feature)
+            threshold_position = vector_position + self.threshold_move(i)
             if vector[vector_position] > vector[threshold_position]:
-                if feature.dtype == 'float':
+                if feature.dtype != 'cat':
                     border1 = vector[vector_position] * (feature.max_val - feature.min_val) + feature.min_val
                     vector_position = vector_position + 1
                     border2 = vector[vector_position] * (feature.max_val - feature.min_val) + feature.min_val
-
                     if border1 > border2:
                         border1, border2 = border2, border1
-                    rule.append(Feature(feature.name, feature.dtype, border1, border2))
-
-                elif feature.dtype == 'int':
-                    border1 = round(vector[vector_position] * (feature.max_val - feature.min_val) + feature.min_val)
-                    vector_position = vector_position + 1
-                    border2 = round(vector[vector_position] * (feature.max_val - feature.min_val) + feature.min_val)
-
-                    if border1 > border2:
-                        border1, border2 = border2, border1
+                    if feature.dtype == 'int':
+                        border1 = round(border1)
+                        border2 = round(border2)
                     rule.append(Feature(feature.name, feature.dtype, border1, border2))
                 else:
                     categories = feature.categories
@@ -137,16 +128,12 @@ class NiaARM(Problem):
         return rule
 
     def threshold_move(self, current_feature):
-        if self.features[current_feature].dtype == "float" or self.features[current_feature].dtype == "int":
-            move = 2
-        else:
-            move = 1
-        return move
+        return 1 + int(self.features[current_feature].dtype != 'cat')
 
     def feature_position(self, feature):
         position = 0
         for i in range(feature):
-            if self.features[i].dtype == "float" or self.features[i].dtype == "int":
+            if self.features[i].dtype != 'cat':
                 position = position + 3
             else:
                 position = position + 2
