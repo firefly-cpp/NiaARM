@@ -8,8 +8,7 @@ import sys
 
 import numpy as np
 import niaarm
-from niaarm import NiaARM, Dataset, Stats
-from niapy.task import OptimizationType, Task
+from niaarm import NiaARM, Dataset, get_rules
 from niapy.util.factory import get_algorithm
 from niapy.util import distances, repair
 from niapy.algorithms.other import mts
@@ -146,33 +145,24 @@ def main():
 
     try:
         dataset = Dataset(args.input_file)
-        problem = NiaARM(dataset.dimension, dataset.features, dataset.transactions, metrics, args.log)
-        task = Task(problem, max_iters=args.max_iters, max_evals=args.max_evals,
-                    optimization_type=OptimizationType.MAXIMIZATION)
-
         algorithm = get_algorithm(args.algorithm, seed=args.seed)
         params = algorithm.get_parameters()
         new_params = edit_parameters(params, algorithm.__class__)
         if new_params is None:
             print('Invalid parameters', file=sys.stderr)
             return 1
-
         for param in new_params:
             if param not in params:
                 print(f'Invalid parameter: {param}', file=sys.stderr)
                 return 1
 
         algorithm.set_parameters(**new_params)
-
-        algorithm.run(task)
-
+        rules, run_time = get_rules(dataset, algorithm, metrics, args.max_evals, args.max_iters, args.logging)
         if args.output_file:
-            problem.sort_rules()
-            problem.export_rules(args.output_file)
-
+            rules.to_csv(args.output_file)
         if args.show_stats:
-            stats = Stats(problem.rules)
-            print(stats)
+            print(rules)
+        print(f'Run Time: {run_time}')
 
     except Exception as e:
         print('Error:', e, file=sys.stderr)
