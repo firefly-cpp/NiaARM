@@ -1,5 +1,5 @@
 from unittest import TestCase
-from niaarm.association_rule import AssociationRule, _rule_feasible, _get_permutation
+from niaarm.association_rule import AssociationRule, _get_permutation
 from niaarm.dataset import Dataset
 import os
 
@@ -21,41 +21,6 @@ class TestBuildRuleA(TestCase):
             [0.98328107, 0.93655004, 0.6860223, 0.78527931, 0.96291945, 0.18117294, 0.50567635])
 
         self.assertEqual(permutation, [0.18117294, 0.50567635])
-
-    def test_if_feasible_rule(self):
-        """Test if rule is feasible"""
-        antecedent_a = ["NO"]
-        antecedent_b = ["A"]
-        antecedent_c = ["1"]
-        consequent_a = ["A"]
-        consequent_b = ["0"]
-        consequent_c = ["NO"]
-
-        self.assertEqual(
-            _rule_feasible(
-                antecedent_a,
-                consequent_a),
-            False)
-        self.assertEqual(
-            _rule_feasible(
-                antecedent_b,
-                consequent_b),
-            True)
-        self.assertEqual(
-            _rule_feasible(
-                antecedent_c,
-                consequent_a),
-            True)
-        self.assertEqual(
-            _rule_feasible(
-                antecedent_c,
-                consequent_b),
-            True)
-        self.assertEqual(
-            _rule_feasible(
-                antecedent_a,
-                consequent_c),
-            False)
 
     def test_threshold_move(self):
         move = self.oper.threshold_move(0)
