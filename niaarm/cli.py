@@ -31,7 +31,7 @@ def get_parser():
     parser.add_argument('--weights', type=float, nargs='+', action='extend',
                         help='Weights in range [0, 1] corresponding to --metrics')
     parser.add_argument('--log', action='store_true', help='Enable logging of fitness improvements')
-    parser.add_argument('--show-stats', action='store_true', help='Display stats about mined rules')
+    parser.add_argument('--stats', action='store_true', help='Display stats about mined rules')
 
     return parser
 
@@ -140,8 +140,8 @@ def main():
     if args.weights and len(args.weights) != len(metrics):
         print('Error: There must be the same amount of weights and metrics', file=sys.stderr)
         return 1
-    else:
-        metrics = dict(zip(metrics, args.weights))
+    weights = args.weights if args.weights else [1] * len(metrics)
+    metrics = dict(zip(metrics, weights))
 
     try:
         dataset = Dataset(args.input_file)
@@ -156,12 +156,12 @@ def main():
             return 1
 
         algorithm.set_parameters(**new_params)
-        rules, run_time = get_rules(dataset, algorithm, metrics, args.max_evals, args.max_iters, args.logging)
+        rules, run_time = get_rules(dataset, algorithm, metrics, args.max_evals, args.max_iters, args.log)
         if args.output_file:
             rules.to_csv(args.output_file)
-        if args.show_stats:
+        if args.stats:
             print(rules)
-        print(f'Run Time: {run_time}')
+        print(f'Run Time: {run_time:.4f}s')
 
     except Exception as e:
         print('Error:', e, file=sys.stderr)
