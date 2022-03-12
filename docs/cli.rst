@@ -41,7 +41,7 @@ Usage
       --weights WEIGHTS [WEIGHTS ...]
                             Weights in range [0, 1] corresponding to --metrics
       --log                 Enable logging of fitness improvements
-      --stats          Display stats about mined rules
+      --stats               Display stats about mined rules
 
 Output rules to csv
 ~~~~~~~~~~~~~~~~~~~
