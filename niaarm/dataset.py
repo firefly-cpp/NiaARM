@@ -6,7 +6,7 @@ class Dataset:
     r"""Class for working with a dataset.
 
     Args:
-        path (str): Path to the dataset (csv) file.
+        path_or_df (Union[str, os.PathLike, pandas.DataFrame]): Path to the dataset (csv) file or a pandas DataFrame.
         delimiter (str): The delimiter in the csv file.
         header (Optional[int]): Row to use as header (zero-based). Default: 0.
          Pass ``header=None`` if the file doesn't contain a header.
@@ -21,10 +21,13 @@ class Dataset:
 
     """
 
-    def __init__(self, path, delimiter=',', header=0, names=None):
-        self.transactions = pd.read_csv(path, delimiter=delimiter, header=header, names=names)
-        if names is None and header is None:
-            self.transactions.columns = pd.Index([f'Feature{i}' for i in range(len(self.transactions.columns))])
+    def __init__(self, path_or_df, delimiter=',', header=0, names=None):
+        if isinstance(path_or_df, pd.DataFrame):
+            self.transactions = path_or_df
+        else:
+            self.transactions = pd.read_csv(path_or_df, delimiter=delimiter, header=header, names=names)
+            if names is None and header is None:
+                self.transactions.columns = pd.Index([f'Feature{i}' for i in range(len(self.transactions.columns))])
         self.header = self.transactions.columns.tolist()
         self.features = []
         self.__analyse_types()
