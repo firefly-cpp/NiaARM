@@ -5,7 +5,7 @@ API Reference
 
     dataset
     feature
-    niaarm
     mine
+    niaarm
     rule
     rule_list
