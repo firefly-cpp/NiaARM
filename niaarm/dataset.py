@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from niaarm.feature import Feature
 
@@ -56,7 +57,8 @@ class Dataset:
                 unique_categories = None
             else:
                 dtype = "cat"
-                unique_categories = sorted(col.unique().tolist(), key=str.lower)
+                self.transactions[head] = self.transactions[head].astype(str)
+                unique_categories = self.transactions[head].unique().tolist()
                 min_value = None
                 max_value = None
 
@@ -72,7 +74,22 @@ class Dataset:
                 dimension += 2
         return dimension
 
-    def feature_report(self):
-        r"""Print feature details."""
-        for feature in self.features:
-            print(feature)
+    def __repr__(self):
+        def dtype(x):
+            return str(x.dtype)[:-2] if x.dtype in ('int', 'float') else 'categorical'
+
+        def min_val(x):
+            return x.min() if x.dtype != 'object' else np.nan
+
+        def max_val(x):
+            return x.max() if x.dtype != 'object' else np.nan
+
+        def categories(x):
+            return x.unique().tolist() if x.dtype == 'object' else np.nan
+
+        feature_report = self.transactions.agg([dtype, min_val, max_val, categories])
+        return f"DATASET INFO:\n" \
+               f"Number of transactions: {len(self.transactions)}\n" \
+               f"Number of features: {len(self.features)}\n\n" \
+               f"FEATURE INFO:\n\n" \
+               f"{feature_report.to_string(na_rep='N/A')}"

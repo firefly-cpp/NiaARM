@@ -43,8 +43,8 @@ Usage
       --log                 Enable logging of fitness improvements
       --stats               Display stats about mined rules
 
-Output rules to csv
-~~~~~~~~~~~~~~~~~~~
+Exporting Rules to CSV
+~~~~~~~~~~~~~~~~~~~~~~
 
 Mine Association rules on the Abalone dataset (`available here <https://archive.ics.uci.edu/ml/datasets/Abalone>`_)
 and output them to a csv file. We'll run Differential evolution for 30 iterations, logging fitness improvements.
@@ -78,22 +78,13 @@ The output should look like this:
 
     Rules exported to output.csv
 
-Let's make sure it generated a csv file with the rules:
+The first 10 rules of the generated output.csv file:
 
-.. code-block:: shell
+.. csv-table::
+    :file: _static/output_sample.csv
+    :header-rows: 1
 
-    head -n 5 output.csv
-
-.. code-block:: text
-
-    antecedent,consequent,fitness,support,confidence,lift,coverage,rhs_support,conviction,amplitude,inclusion,interestingness,comprehensibility,netconf,yulesq
-    "[Diameter([0.055, 0.65])]","[Rings([1, 29])]",1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.2222222222222222,0.9997605937275557,0.6309297535714574,0.0,-1.0
-    "[Length([0.075, 0.815])]","[Whole weight([0.002, 2.8255])]",1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.2222222222222222,0.9997605937275557,0.6309297535714574,0.0,-1.0
-    "[Shell weight([0.0015, 1.005])]","[Whole weight([0.002, 2.8255])]",1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.2222222222222222,0.9997605937275557,0.6309297535714574,0.0,-1.0
-    "[Length([0.075, 0.815])]","[Shucked weight([0.001, 1.488])]",1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.2222222222222222,0.9997605937275557,0.6309297535714574,0.0,-1.0
-
-
-Displaying statistics
+Displaying Statistics
 ~~~~~~~~~~~~~~~~~~~~~
 
 With the ``--stats`` flag we can print basic statistics about the mined association rules.

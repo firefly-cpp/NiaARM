@@ -1,8 +1,3 @@
-from dataclasses import dataclass
-from typing import Optional
-
-
-@dataclass(repr=False)
 class Feature:
     r"""Class representing a feature.
 
@@ -15,11 +10,18 @@ class Feature:
 
     """
 
-    name: str
-    dtype: str
-    min_val: Optional[float] = None
-    max_val: Optional[float] = None
-    categories: Optional[list[str]] = None
+    __slots__ = ('name', 'dtype', 'min_val', 'max_val', 'categories')
+
+    def __init__(self, name, dtype, min_val=None, max_val=None, categories=None):
+        self.name = name
+        self.dtype = dtype
+        self.min_val = min_val
+        self.max_val = max_val
+        self.categories = categories
+
+    def __eq__(self, other):
+        return self.name == other.name and self.dtype == other.dtype and self.min_val == other.min_val \
+               and self.max_val == other.max_val
 
     def __repr__(self):
         string = f'{self.name}('

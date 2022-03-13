@@ -1,11 +1,7 @@
-from dataclasses import dataclass, field, InitVar
 import math
-from typing import ClassVar
-import pandas as pd
-from niaarm.feature import Feature
+import numpy as np
 
 
-@dataclass(repr=False)
 class Rule:
     r"""Class representing an association rule.
 
@@ -13,6 +9,7 @@ class Rule:
         antecedent (list[Feature]): A list of antecedents of the association rule.
         consequent (list[Feature]): A list of consequents of the association rule.
         fitness (Optional[float]): Value of the fitness function.
+        transactions (Optional[pandas.DataFrame]): Transactional database.
 
     Attributes:
         cls.metrics (tuple[str]): List of all available metrics.
@@ -38,47 +35,58 @@ class Rule:
 
     """
 
-    metrics: ClassVar[tuple[str]] = (
+    __slots__ = (
+        'antecedent', 'consequent', 'fitness', 'num_transactions', 'full_count', 'antecedent_count', 'consequent_count',
+        'ant_not_con', 'con_not_ant', 'not_ant_not_con', '__inclusion', '__amplitude'
+    )
+
+    metrics = (
         'support', 'confidence', 'lift', 'coverage', 'rhs_support', 'conviction', 'amplitude', 'inclusion',
         'interestingness', 'comprehensibility', 'netconf', 'yulesq'
     )
-    antecedent: list[Feature]
-    consequent: list[Feature]
-    fitness: float = field(default=0.0, compare=False)
-    transactions: InitVar[pd.DataFrame] = None
 
-    def __post_init__(self, transactions):
+    def __init__(self, antecedent, consequent, fitness=0.0, transactions=None):
+        self.antecedent = antecedent
+        self.consequent = consequent
+        self.fitness = fitness
         self.num_transactions = len(transactions)
         self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(transactions.columns)
-        min_max = transactions.agg(['min', 'max'])
-        acc = 0
 
-        contains_antecedent = pd.Series([True] * self.num_transactions)
+        self.__post_init__(transactions)
+
+    def __post_init__(self, transactions):
+        min_ = transactions.min()
+        max_ = transactions.max()
+        acc = 0
+        contains_antecedent = np.ones(self.num_transactions, dtype=bool)
         for attribute in self.antecedent:
             if attribute.dtype != 'cat':
-                feature_min, feature_max = min_max[attribute.name].tolist()
+                feature_min = min_[attribute.name]
+                feature_max = max_[attribute.name]
                 acc += (attribute.max_val - attribute.min_val) / (feature_max - feature_min)
                 contains_antecedent &= transactions[attribute.name] <= attribute.max_val
                 contains_antecedent &= transactions[attribute.name] >= attribute.min_val
             else:
                 contains_antecedent &= transactions[attribute.name] == attribute.categories[0]
 
-        self.antecedent_count = len(transactions[contains_antecedent])
+        self.antecedent_count = contains_antecedent.sum()
 
-        contains_consequent = pd.Series([True] * self.num_transactions)
+        contains_consequent = np.ones(self.num_transactions, dtype=bool)
         for attribute in self.consequent:
             if attribute.dtype != 'cat':
-                feature_min, feature_max = min_max[attribute.name].tolist()
+                feature_min = min_[attribute.name]
+                feature_max = max_[attribute.name]
                 acc += (attribute.max_val - attribute.min_val) / (feature_max - feature_min)
                 contains_consequent &= transactions[attribute.name] <= attribute.max_val
                 contains_consequent &= transactions[attribute.name] >= attribute.min_val
             else:
                 contains_consequent &= transactions[attribute.name] == attribute.categories[0]
-
-        self.consequent_count = len(transactions[contains_consequent])
         self.__amplitude = 1 - (1 / (len(self.antecedent) + len(self.consequent))) * acc
-
-        self.full_count = len(transactions[contains_antecedent & contains_consequent])
+        self.consequent_count = contains_consequent.sum()
+        self.full_count = (contains_antecedent & contains_consequent).sum()
+        self.ant_not_con = (~contains_consequent & contains_antecedent).sum()
+        self.con_not_ant = (contains_consequent & ~contains_antecedent).sum()
+        self.not_ant_not_con = (~contains_antecedent & ~contains_consequent).sum()
 
     @property
     def support(self):
@@ -111,10 +119,10 @@ class Rule:
 
     @property
     def yulesq(self):
-        num = self.full_count * (self.num_transactions - self.full_count)
-        den = (self.full_count - self.consequent_count) * (self.full_count - self.antecedent_count)
-        odds_ratio = num / (den + 2.220446049250313e-16)
-        return (odds_ratio - 1) / (odds_ratio + 1)
+        ad = self.full_count * self.not_ant_not_con
+        bc = self.con_not_ant * self.ant_not_con
+        q = (ad - bc) / (ad + bc + 2.220446049250313e-16)
+        return q
 
     @property
     def netconf(self):
@@ -132,6 +140,9 @@ class Rule:
     @property
     def comprehensibility(self):
         return math.log(1 + len(self.consequent)) / math.log(1 + len(self.antecedent) + len(self.consequent))
+
+    def __eq__(self, other):
+        return self.antecedent == other.antecedent and self.consequent == other.consequent
 
     def __repr__(self):
         return f'{self.antecedent} => {self.consequent}'

@@ -3,6 +3,7 @@ import time
 import numpy as np
 from niaarm.niaarm import NiaARM
 from niapy.task import OptimizationType, Task
+from niapy.util.factory import get_algorithm
 
 
 class Result(namedtuple('Result', ('rules', 'run_time'))):
@@ -22,25 +23,26 @@ def get_rules(dataset, algorithm, metrics, max_evals=np.inf, max_iters=np.inf, l
 
     Args:
         dataset (Dataset): Dataset to mine rules on.
-        algorithm (niapy.algorithms.Algorithm): Algorithm to use. Algorithm parameters can be passed in as keyword
-         arguments.
+        algorithm (Union[niapy.algorithms.Algorithm, str]): Algorithm to use.
+         Can be either an Algorithm object or the class name as a string.
+         In that case, algorithm parameters can be passed in as keyword arguments.
         metrics (Union[Dict[str, float], Sequence[str]]): Metrics to take into account when computing the fitness.
          Metrics can either be passed as a Dict of pairs {'metric_name': <weight of metric>} or
          a sequence of metrics as strings, in which case, the weights of the metrics will be set to 1.
-        max_evals (Optional[int]): Maximum number of iterations. Default: ``inf``
-        max_iters (Optional[int]): Maximum number of fitness evaluations. Default: ``inf``
+        max_evals (Optional[int]): Maximum number of iterations. Default: ``inf``. At least one of ``max_evals`` or
+         ``max_iters`` must be provided.
+        max_iters (Optional[int]): Maximum number of fitness evaluations. Default: ``inf``.
         logging (bool): Enable logging of fitness improvements. Default: ``False``.
 
     Returns:
-        Result: a named tuple with fields (rules, run_time), where ``rules`` is a RuleList of mined rules and run_tine
-        is the execution time of the algorithm in seconds.
+        Result: A named tuple containing the list of mined rules and the algorithm's run time in seconds.
 
     """
     problem = NiaARM(dataset.dimension, dataset.features, dataset.transactions, metrics, logging)
     task = Task(problem, max_evals=max_evals, max_iters=max_iters, optimization_type=OptimizationType.MAXIMIZATION)
-    params = algorithm.get_parameters()
-    params.update(kwargs)
-    algorithm.set_parameters(**params)
+
+    if isinstance(algorithm, str):
+        algorithm = get_algorithm(algorithm, **kwargs)
 
     start_time = time.perf_counter()
     algorithm.run(task)
