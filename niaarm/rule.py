@@ -119,10 +119,10 @@ class Rule:
 
     @property
     def yulesq(self):
-        t1 = self.support * (self.not_ant_not_con / self.num_transactions)
-        t2 = (self.ant_not_con / self.num_transactions) * (self.con_not_ant / self.num_transactions)
-
-        return (t1 - t2) / (t1 + t2 + 2.220446049250313e-16)
+        ad = self.full_count * self.not_ant_not_con
+        bc = self.con_not_ant * self.ant_not_con
+        q = (ad - bc) / (ad + bc + 2.220446049250313e-16)
+        return q
 
     @property
     def netconf(self):
