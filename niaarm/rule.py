@@ -119,10 +119,10 @@ class Rule:
 
     @property
     def yulesq(self):
-        num = self.full_count * self.not_ant_not_con
-        den = self.ant_not_con * self.con_not_ant + 2.220446049250313e-16
-        odds_ratio = num / den
-        return (odds_ratio - 1) / (odds_ratio + 1)
+        t1 = self.support * (self.not_ant_not_con / self.num_transactions)
+        t2 = (self.ant_not_con / self.num_transactions) * (self.con_not_ant / self.num_transactions)
+
+        return (t1 - t2) / (t1 + t2 + 2.220446049250313e-16)
 
     @property
     def netconf(self):
