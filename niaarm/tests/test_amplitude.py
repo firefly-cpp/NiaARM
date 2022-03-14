@@ -5,7 +5,7 @@ from niaarm.dataset import Dataset
 import os
 
 
-class TestShrinkageA(TestCase):
+class TestAmplitudeA(TestCase):
     def setUp(self):
         data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'wiki_test_case.csv'))
         self.features = data.features
@@ -58,7 +58,7 @@ class TestShrinkageA(TestCase):
         self.assertEqual(rule.amplitude, 1)
 
 
-class TestShrinkageB(TestCase):
+class TestAmplitudeB(TestCase):
     # Rule ==
     # Ant:  ['Diameter([0.34108412769999996, 0.56784007355])', 'Viscera weight([0.13678483190000001, 0.44964727704])']
     # Con:  ['Length([0.2620357326, 0.4989950842])']
