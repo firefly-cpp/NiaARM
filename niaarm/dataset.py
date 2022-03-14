@@ -57,8 +57,8 @@ class Dataset:
                 unique_categories = None
             else:
                 dtype = "cat"
-                self.transactions[head] = self.transactions[head].astype(str)
-                unique_categories = self.transactions[head].unique().tolist()
+                self.transactions[head] = self.transactions[head].astype('category')
+                unique_categories = self.transactions[head].cat.categories.tolist()
                 min_value = None
                 max_value = None
 
@@ -76,16 +76,16 @@ class Dataset:
 
     def __repr__(self):
         def dtype(x):
-            return str(x.dtype)[:-2] if x.dtype in ('int', 'float') else 'categorical'
+            return str(x.dtype)[:-2] if x.dtype in ('int', 'float') else 'category'
 
         def min_val(x):
-            return x.min() if x.dtype != 'object' else np.nan
+            return x.min() if x.dtype != 'category' else np.nan
 
         def max_val(x):
-            return x.max() if x.dtype != 'object' else np.nan
+            return x.max() if x.dtype != 'category' else np.nan
 
         def categories(x):
-            return x.unique().tolist() if x.dtype == 'object' else np.nan
+            return x.cat.categories.tolist() if x.dtype == 'category' else np.nan
 
         feature_report = self.transactions.agg([dtype, min_val, max_val, categories])
         return f"DATASET INFO:\n" \

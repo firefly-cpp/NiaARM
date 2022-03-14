@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import pandas as pd
 
 
 class Rule:
@@ -55,10 +56,10 @@ class Rule:
         self.__post_init__(transactions)
 
     def __post_init__(self, transactions):
-        min_ = transactions.min()
-        max_ = transactions.max()
+        min_ = transactions.min(numeric_only=True)
+        max_ = transactions.max(numeric_only=True)
         acc = 0
-        contains_antecedent = np.ones(self.num_transactions, dtype=bool)
+        contains_antecedent = pd.Series(np.ones(self.num_transactions, dtype=bool), dtype=bool)
         for attribute in self.antecedent:
             if attribute.dtype != 'cat':
                 feature_min = min_[attribute.name]
@@ -71,7 +72,7 @@ class Rule:
 
         self.antecedent_count = contains_antecedent.sum()
 
-        contains_consequent = np.ones(self.num_transactions, dtype=bool)
+        contains_consequent = pd.Series(np.ones(self.num_transactions, dtype=bool), dtype=bool)
         for attribute in self.consequent:
             if attribute.dtype != 'cat':
                 feature_min = min_[attribute.name]
