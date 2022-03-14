@@ -36,6 +36,54 @@ class RuleList(UserList):
         """
         self.data.sort(key=lambda rule: getattr(rule, by), reverse=reverse)
 
+    def mean(self, metric):
+        """Get mean value of metric.
+
+        Args:
+            metric (str): Metric.
+
+        Returns:
+            float: Mean value of metric in rule list.
+
+        """
+        return np.mean([getattr(rule, metric) for rule in self.data])
+
+    def min(self, metric):
+        """Get min value of metric.
+
+        Args:
+            metric (str): Metric.
+
+        Returns:
+            float: Min value of metric in rule list.
+
+        """
+        return min(self.data, key=lambda x: getattr(x, metric))
+
+    def max(self, metric):
+        """Get max value of metric.
+
+        Args:
+            metric (str): Metric.
+
+        Returns:
+            float: Max value of metric in rule list.
+
+        """
+        return max(self.data, key=lambda x: getattr(x, metric))
+
+    def std(self, metric):
+        """Get standard deviation of metric.
+
+        Args:
+            metric (str): Metric.
+
+        Returns:
+            float: Standard deviation of metric in rule list.
+
+        """
+        return np.std([getattr(rule, metric) for rule in self.data])
+
     def to_csv(self, filename):
         """Export rules to csv.
 
