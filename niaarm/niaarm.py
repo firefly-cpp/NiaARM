@@ -40,6 +40,7 @@ class NiaARM(Problem):
 
     def __init__(self, dimension, features, transactions, metrics, logging=False):
         self.features = features
+        self.num_features = len(features)
         self.transactions = transactions
 
         if not metrics:
@@ -68,8 +69,8 @@ class NiaARM(Problem):
     def build_rule(self, vector):
         rule = []
 
-        permutation = vector[-len(self.features):]
-        permutation = sorted(range(len(permutation)), key=lambda k: permutation[k])
+        permutation = vector[-self.num_features:]
+        permutation = sorted(range(self.num_features), key=lambda k: permutation[k])
 
         for i in permutation:
             feature = self.features[i]
@@ -78,7 +79,7 @@ class NiaARM(Problem):
             vector_position = self.feature_position(i)
 
             # get a threshold for each feature
-            threshold_position = vector_position + self.threshold_move(i)
+            threshold_position = vector_position + 1 + int(feature.dtype != 'cat')
             if vector[vector_position] > vector[threshold_position]:
                 if feature.dtype != 'cat':
                     border1 = vector[vector_position] * (feature.max_val - feature.min_val) + feature.min_val
@@ -93,7 +94,7 @@ class NiaARM(Problem):
                 else:
                     categories = feature.categories
                     selected = round(vector[vector_position] * (len(categories) - 1))
-                    rule.append(Feature(feature.name, feature.dtype, categories=[feature.categories[selected]]))
+                    rule.append(Feature(feature.name, feature.dtype, categories=[categories[selected]]))
             else:
                 rule.append(None)
         return rule
@@ -103,11 +104,8 @@ class NiaARM(Problem):
 
     def feature_position(self, feature):
         position = 0
-        for i in range(feature):
-            if self.features[i].dtype != 'cat':
-                position = position + 3
-            else:
-                position = position + 2
+        for f in self.features[:feature]:
+            position = position + 2 + int(f.dtype != 'cat')
         return position
 
     def _evaluate(self, sol):
@@ -115,7 +113,7 @@ class NiaARM(Problem):
         cut_value = sol[self.dimension - 1]  # get cut point value
         solution = sol[:-1]  # remove cut point
 
-        cut = _cut_point(cut_value, len(self.features))
+        cut = _cut_point(cut_value, self.num_features)
 
         rule = self.build_rule(solution)
 
@@ -133,15 +131,14 @@ class NiaARM(Problem):
             fitness = np.dot(self.weights, metrics) / self.sum_weights
             rule.fitness = fitness
 
-            if rule.support > 0.0 and rule.confidence > 0.0:
+            if rule.support > 0.0 and rule.confidence > 0.0 and rule not in self.rules:
                 # save feasible rule
-                if rule not in self.rules:
-                    self.rules.append(rule)
+                self.rules.append(rule)
 
                 if self.logging and fitness > self.best_fitness:
                     self.best_fitness = fitness
                     print(f'Fitness: {rule.fitness}, ' + ', '.join(
-                        [f'{metric.capitalize()}: {getattr(rule, metric)}' for metric in self.metrics]))
+                        [f'{metric.capitalize()}: {metrics[i]}' for i, metric in enumerate(self.metrics)]))
             return fitness
         else:
             return -1.0
