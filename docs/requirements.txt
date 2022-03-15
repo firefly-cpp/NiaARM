@@ -1,3 +1,6 @@
 Sphinx==4.4.0
 sphinx-rtd-theme==1.0.0
 sphinxcontrib-bibtex==2.4.1
+niapy>=2.0.1
+numpy>=1.22.3
+pandas>=1.4.0
