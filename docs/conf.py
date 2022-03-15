@@ -14,6 +14,9 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../../'))
 
+# make imports
+from niaarm import NiaARM
+from niaarm.dataset import Dataset
 
 # -- Project information -----------------------------------------------------
 
