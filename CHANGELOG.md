@@ -1,15 +1,25 @@
 # Changelog
 
-## [Unreleased](https://github.com/firefly-cpp/NiaARM/tree/HEAD)
+## [0.1.4](https://github.com/firefly-cpp/NiaARM/tree/0.1.4) (2022-03-17)
 
-[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.1.3...HEAD)
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.1.3...0.1.4)
 
 **Closed issues:**
 
+- Enable Read the Docs [\#30](https://github.com/firefly-cpp/NiaARM/issues/30)
+- Measure running time of an algorithm [\#26](https://github.com/firefly-cpp/NiaARM/issues/26)
 - Some tests are failing on ARM architectures | AssertionErrors [\#21](https://github.com/firefly-cpp/NiaARM/issues/21)
 
 **Merged pull requests:**
 
+- Add read the docs configuration [\#37](https://github.com/firefly-cpp/NiaARM/pull/37) ([zStupan](https://github.com/zStupan))
+- More optimization [\#36](https://github.com/firefly-cpp/NiaARM/pull/36) ([zStupan](https://github.com/zStupan))
+- Update docs, Update dependencies, add methods to RuleList [\#35](https://github.com/firefly-cpp/NiaARM/pull/35) ([zStupan](https://github.com/zStupan))
+- Code optimization [\#33](https://github.com/firefly-cpp/NiaARM/pull/33) ([zStupan](https://github.com/zStupan))
+- Ability to construct dataset from DataFrame [\#32](https://github.com/firefly-cpp/NiaARM/pull/32) ([zStupan](https://github.com/zStupan))
+- Fixed CLI [\#31](https://github.com/firefly-cpp/NiaARM/pull/31) ([zStupan](https://github.com/zStupan))
+- Update CLI + Added a simpler interface for mining association rules [\#29](https://github.com/firefly-cpp/NiaARM/pull/29) ([zStupan](https://github.com/zStupan))
+- Major Refactor + Added metrics [\#28](https://github.com/firefly-cpp/NiaARM/pull/28) ([zStupan](https://github.com/zStupan))
 - More docs updates [\#24](https://github.com/firefly-cpp/NiaARM/pull/24) ([zStupan](https://github.com/zStupan))
 - Docs Update [\#23](https://github.com/firefly-cpp/NiaARM/pull/23) ([zStupan](https://github.com/zStupan))
 
