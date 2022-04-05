@@ -9,30 +9,142 @@ class Rule:
     Args:
         antecedent (list[Feature]): A list of antecedents of the association rule.
         consequent (list[Feature]): A list of consequents of the association rule.
-        fitness (Optional[float]): Value of the fitness function.
+        fitness (Optional[float]): Fitness value of the association rule.
         transactions (Optional[pandas.DataFrame]): Transactional database.
 
     Attributes:
-        cls.metrics (tuple[str]): List of all available metrics.
-        support (float): Support of the rule i.e. proportion of transactions containing
-         both the antecedent and the consequent.
-        confidence (float): Confidence of the rule, defined as the proportion of transactions that contain
-         the consequent in the set of transactions that contain the antecedent.
-        lift (float): Lift of the rule. Lift measures how many times more often the antecedent and the consequent Y
+        cls.metrics (tuple[str]): List of all available interest measures.
+        support: Support is defined on an itemset as the proportion of transactions that contain the attribute :math:`X`.
+
+         :math:`supp(X) = \frac{n_{X}}{|D|},`
+
+         where :math:`|D|` is the number of records in the transactional database.
+
+         For an association rule, support is defined as the support of all the attributes in the rule.
+
+         :math:`supp(X \implies Y) = \frac{n_{XY}}{|D|}`
+
+         **Range:** :math:`[0, 1]`
+
+         **Reference:** Michael Hahsler, A Probabilistic Comparison of Commonly Used Interest Measures for Association Rules,
+         2015, URL: https://mhahsler.github.io/arules/docs/measures
+        confidence: Confidence of the rule, defined as the proportion of transactions that contain
+         the consequent in the set of transactions that contain the antecedent. This proportion is an estimate
+         of the probability of seeing the consequent, if the antecedent is present in the transaction.
+
+         :math:`conf(X \implies Y) = \frac{supp(X \implies Y)}{supp(X)}`
+
+         **Range:** :math:`[0, 1]`
+
+         **Reference:** Michael Hahsler, A Probabilistic Comparison of Commonly Used Interest Measures for Association Rules,
+         2015, URL: https://mhahsler.github.io/arules/docs/measures
+        lift: Lift measures how many times more often the antecedent and the consequent Y
          occur together than expected if they were statistically independent.
-        coverage (float): Coverage of the rule, also known as antecedent support. It measures the probability that
-         the rule applies to a randomly selected transaction.
-        rhs_support (float): Support of the consequent.
-        conviction (float): Conviction of the rule.
-        inclusion (float): Inclusion of the rule is defined as the ratio between the number of attributes of the rule
-         and all attributes in the dataset.
-        amplitude (float): Amplitude of the rule.
-        interestingness (float): Interestingness of the rule.
-        comprehensibility (float): Comprehensibility of the rule.
-        netconf (float): The netconf metric evaluates the interestingness of
+
+         :math:`lift(X \implies Y) = \frac{conf(X \implies Y)}{supp(Y)}`
+
+         **Range:** :math:`[0, \infty]` (1 means independence)
+
+         **Reference:** Michael Hahsler, A Probabilistic Comparison of Commonly Used Interest Measures for Association Rules,
+         2015, URL: https://mhahsler.github.io/arules/docs/measures
+        coverage: Coverage, also known as antecedent support, is an estimate of the probability that
+         the rule applies to a randomly selected transaction. It is the proportion of transactions
+         that contain the antecedent.
+
+         :math:`cover(X \implies Y) = supp(X)`
+
+         **Range:** :math:`[0, 1]`
+
+         **Reference:** Michael Hahsler, A Probabilistic Comparison of Commonly Used Interest Measures for Association Rules,
+         2015, URL: https://mhahsler.github.io/arules/docs/measures
+        rhs_support: Support of the consequent.
+
+         :math:`RHSsupp(X \implies Y) = supp(Y)`
+
+         **Range:** :math:`[0, 1]`
+
+         **Reference:** Michael Hahsler, A Probabilistic Comparison of Commonly Used Interest Measures for Association Rules,
+         2015, URL: https://mhahsler.github.io/arules/docs/measures
+        conviction: Conviction can be interpreted as the ratio of the expected frequency that the antecedent occurs without
+         the consequent.
+
+         :math:`conv(X \implies Y) = \frac{1 - supp(Y)}{1 - conf(X \implies Y)}`
+
+         **Range:** :math:`[0, \infty]` (1 means independence, :math:`\infty` means the rule always holds)
+
+         **Reference:** Michael Hahsler, A Probabilistic Comparison of Commonly Used Interest Measures for Association Rules,
+         2015, URL: https://mhahsler.github.io/arules/docs/measures
+        inclusion: Inclusion is defined as the ratio between the number of attributes of the rule
+         and all attributes in the database.
+
+         :math:`inclusion(X \implies Y) = \frac{|X \cup Y|}{m},`
+
+         where :math:`m` is the total number of attributes in the transactional database.
+
+
+         **Range:** :math:`[0, 1]`
+
+         **Reference:** I. Fister Jr., V. Podgorelec, I. Fister. Improved Nature-Inspired Algorithms for Numeric Association
+         Rule Mining. In: Vasant P., Zelinka I., Weber GW. (eds) Intelligent Computing and Optimization. ICO 2020. Advances in
+         Intelligent Systems and Computing, vol 1324. Springer, Cham.
+        amplitude: Amplitude measures the quality of a rule, preferring attributes with smaller intervals.
+
+         :math:`ampl(X \implies Y) = 1 - \frac{1}{n}\sum_{k = 1}^{n}{\frac{Ub_k - Lb_k}{max(o_k) - min(o_k)}},`
+
+         where :math:`n` is the total number of attributes in the rule, :math:`Ub_k` and :math:`Lb_k` are upper and lower
+         bounds of the selected attribute, and :math:`max(o_k)` and :math:`min(o_k)` are the maximum and minimum
+         feasible values of the attribute :math:`o_k` in the transactional database.
+
+         **Range:** :math:`[0, 1]`
+
+         **Reference:** I. Fister Jr., I. Fister A brief overview of swarm intelligence-based algorithms for numerical
+         association rule mining. arXiv preprint arXiv:2010.15524 (2020).
+        interestingness: Interestingness of the rule, defined as:
+
+         :math:`interest(X \implies Y) = \frac{supp(X \implies Y)}{supp(X)} \cdot \frac{supp(X \implies Y)}{supp(Y)}
+         \cdot (1 - \frac{supp(X \implies Y)}{|D|})`
+
+         Here, the first part gives us the probability of generating the rule based on the antecedent, the second part
+         gives us the probability of generating the rule based on the consequent and the third part is the probability
+         that the rule won't be generated. Thus, rules with very high support will be deemed uninteresting.
+
+         **Range:** :math:`[0, 1]`
+
+         **Reference:** I. Fister Jr., I. Fister A brief overview of swarm intelligence-based algorithms for numerical
+         association rule mining. arXiv preprint arXiv:2010.15524 (2020).
+        comprehensibility: Comprehensibility of the rule. Rules with fewer attributes in the consequent are more
+         comprehensible.
+
+         :math:`comp(X \implies Y) = \frac{log(1 + |Y|)}{log(1 + |X \cup Y|)}`
+
+         **Range:** :math:`[0, 1]`
+
+         **Reference:** I. Fister Jr., I. Fister A brief overview of swarm intelligence-based algorithms for numerical
+         association rule mining. arXiv preprint arXiv:2010.15524 (2020).
+        netconf: The netconf metric evaluates the interestingness of
          association rules depending on the support of the rule and the
          support of the antecedent and consequent of the rule.
-        yulesq (float): Yule's Q metric.
+
+         :math:`netconf(X \implies Y) = \frac{supp(X \implies Y) - supp(X)supp(Y)}{supp(X)(1 - supp(X))}`
+
+         **Range:** :math:`[-1, 1]` (Negative values represent negative dependence, positive values represent positive
+         dependence and 0 represents independence)
+
+         **Reference:** E. V. Altay and B. Alatas, "Sensitivity Analysis of MODENAR Method for Mining of Numeric Association
+         Rules," 2019 1st International Informatics and Software Engineering Conference (UBMYK), 2019, pp. 1-6,
+         doi: 10.1109/UBMYK48245.2019.8965539.
+        yulesq: The Yule's Q metric represents the correlation between two possibly related dichotomous events.
+
+         :math:`yulesq(X \implies Y) =
+         \frac{supp(X \implies Y)supp(\neg X \implies \neg Y) - supp(X \implies \neg Y)supp(\neg X \implies Y)}
+         {supp(X \implies Y)supp(\neg X \implies \neg Y) + supp(X \implies \neg Y)supp(\neg X \implies Y)}`
+
+         **Range:** :math:`[-1, 1]` (-1 reflects total negative association, 1 reflects perfect positive association
+         and 0 reflects independence)
+
+         **Reference:** E. V. Altay and B. Alatas, "Sensitivity Analysis of MODENAR Method for Mining of Numeric Association
+         Rules," 2019 1st International Informatics and Software Engineering Conference (UBMYK), 2019, pp. 1-6,
+         doi: 10.1109/UBMYK48245.2019.8965539.
 
     """
 
