@@ -39,17 +39,17 @@ class Dataset:
         for head in self.header:
             col = self.transactions[head]
 
-            if col.dtype == "float":
+            if np.issubdtype(col.dtype, np.floating):
                 dtype = "float"
                 min_value = col.min()
                 max_value = col.max()
                 unique_categories = None
-            elif col.dtype == "int":
+            elif np.issubdtype(col.dtype, np.integer):
                 dtype = "int"
                 min_value = col.min()
                 max_value = col.max()
                 unique_categories = None
-            elif col.dtype == 'bool':
+            elif col.dtype == np.bool_:
                 self.transactions[head] = self.transactions[head].astype(int)
                 dtype = 'int'
                 min_value = 0
@@ -76,7 +76,7 @@ class Dataset:
 
     def __repr__(self):
         def dtype(x):
-            return str(x.dtype)[:-2] if x.dtype in ('int', 'float') else 'category'
+            return str(x.dtype)[:-2] if np.issubdtype(x.dtype, np.number) else 'category'
 
         def min_val(x):
             return x.min() if x.dtype != 'category' else np.nan
