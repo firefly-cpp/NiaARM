@@ -39,18 +39,18 @@ class Dataset:
         for head in self.header:
             col = self.transactions[head]
 
-            if col.dtype == "float":
+            if col.dtype == np.float:
                 dtype = "float"
                 min_value = col.min()
                 max_value = col.max()
                 unique_categories = None
-            elif col.dtype == "int":
+            elif col.dtype == np.int:
                 dtype = "int"
                 min_value = col.min()
                 max_value = col.max()
                 unique_categories = None
-            elif col.dtype == 'bool':
-                self.transactions[head] = self.transactions[head].astype(int)
+            elif col.dtype == np.bool:
+                self.transactions[head] = self.transactions[head].astype(np.int)
                 dtype = 'int'
                 min_value = 0
                 max_value = 1
