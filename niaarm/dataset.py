@@ -50,7 +50,7 @@ class Dataset:
                 max_value = col.max()
                 unique_categories = None
             elif col.dtype == np.bool_:
-                self.transactions[head] = self.transactions[head].astype(np.int)
+                self.transactions[head] = self.transactions[head].astype(int)
                 dtype = 'int'
                 min_value = 0
                 max_value = 1
