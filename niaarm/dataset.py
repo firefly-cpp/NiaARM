@@ -76,7 +76,7 @@ class Dataset:
 
     def __repr__(self):
         def dtype(x):
-            return str(x.dtype)[:-2] if x.dtype in ('int', 'float') else 'category'
+            return str(x.dtype)[:-2] if np.issubdtype(x.dtype, np.number) else 'category'
 
         def min_val(x):
             return x.min() if x.dtype != 'category' else np.nan
