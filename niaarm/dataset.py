@@ -1,3 +1,4 @@
+
 import numpy as np
 import pandas as pd
 from niaarm.feature import Feature
@@ -39,12 +40,12 @@ class Dataset:
         for head in self.header:
             col = self.transactions[head]
 
-            if col.dtype == np.float:
+            if col.dtype == np.float32 or col.dtype == np.float64:
                 dtype = "float"
                 min_value = col.min()
                 max_value = col.max()
                 unique_categories = None
-            elif col.dtype == np.int:
+            elif col.dtype == np.int32 or col.dtype == np.int64:
                 dtype = "int"
                 min_value = col.min()
                 max_value = col.max()
