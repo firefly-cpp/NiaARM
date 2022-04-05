@@ -193,6 +193,31 @@ The same example as above, using :class:`~niaarm.mine.get_rules`:
     Run Time: 6.9498 seconds
     Rules exported to output.csv
 
+Interest Measures
+-----------------
+
+The framework currently implements the following interest measures (metrics):
+
+- Support
+- Confidence
+- Lift [#fn]_
+- Coverage
+- RHS Support
+- Conviction [#fn]_
+- Inclusion
+- Amplitude
+- Interestingness
+- Comprehensibility
+- Netconf [#fn]_
+- Yule's Q [#fn]_
+
+More information about these interest measures can be found in the API reference
+of the :class:`~niaarm.rule.Rule` class.
+
+.. rubric:: Footnotes
+
+.. [#fn] Not available as fitness metrics.
+
 
 Examples
 --------
