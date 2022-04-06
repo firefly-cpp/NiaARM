@@ -15,7 +15,7 @@
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/firefly-cpp/niaarm.svg)](http://isitmaintained.com/project/firefly-cpp/niaarm "Average time to resolve an issue")
 
 ## General outline of the framework
-NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. The framework is written fully in Python and runs on all platforms. NiaARM allows users to preprocess the data in a transaction database automatically, to search for association rules and provide a pretty output of the rules found. This framework also supports numerical and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization problem, and solved using the nature-inspired algorithms that come from the related framework called [NiaPy](https://github.com/NiaOrg/NiaPy).
+NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. The framework is written fully in Python and runs on all platforms. NiaARM allows users to preprocess the data in a transaction database automatically, to search for association rules and provide a pretty output of the rules found. This framework also supports integral and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization problem, and solved using the nature-inspired algorithms that come from the related framework called [NiaPy](https://github.com/NiaOrg/NiaPy).
 
 ## Detailed insights
 The current version includes (but is not limited to) the following functions:
@@ -44,18 +44,62 @@ $ apk add py3-niaarm
 
 ## Usage
 
-### Basic example
+### Loading data
 
-In this example we'll use Differential Evolution to mine association rules on the Abalone Dataset.
+In NiaARM, data loading is done via the `Dataset` class. There are two options for loading data:
+
+#### Option 1: From a pandas DataFrame (recommended)
+
+```python
+import pandas as pd
+from niaarm import Dataset
+
+
+df = pd.read_csv('datasets/Abalone.csv')
+# preprocess data...
+data = Dataset(df)
+print(data) # printing the dataset will generate a feature report
+```
+
+#### Option 2: From CSV file directly
+
+```python
+from niaarm import Dataset
+
+
+data = Dataset('datasets/Abalone.csv')
+print(data)
+```
+
+### Mining association rules the easy way (recommended)
+
+Association rule mining can be easily performed using the `get_rules` function:
+
+```python
+
+from niaarm import get_rules
+from niapy.algorithms.basic import DifferentialEvolution
+
+algo = DifferentialEvolution(population_size=50, differential_weight=0.5, crossover_probability=0.9)
+metrics = ('support', 'confidence')
+
+rules, run_time = get_rules(data, algo, metrics, max_iters=30, logging=True)
+
+print(rules) # Prints basic stats about the mined rules
+print(f'Run Time: {run_time}')
+rules.to_csv('output.csv')
+```
+
+### Mining association rules the hard way
+
+The above example can be also be implemented using a more low level interface,
+with the `NiaARM` class directly:
 
 ```python
 from niaarm import NiaARM, Dataset
 from niapy.algorithms.basic import DifferentialEvolution
 from niapy.task import Task, OptimizationType
 
-
-# load and preprocess the dataset from csv
-data = Dataset("datasets/Abalone.csv")
 
 # Create a problem:::
 # dimension represents the dimension of the problem;
@@ -82,29 +126,8 @@ problem.rules.sort()
 problem.rules.to_csv('output.csv')
 ```
 
-#### Simplified
-
-The above example can be further simplified with the use of ``niaarm.mine.get_rules()``:
-
-```python
-
-from niaarm import Dataset, get_rules
-from niapy.algorithms.basic import DifferentialEvolution
-
-
-data = Dataset("datasets/Abalone.csv")
-algo = DifferentialEvolution(population_size=50, differential_weight=0.5, crossover_probability=0.9)
-metrics = ('support', 'confidence')
-
-rules, run_time = get_rules(data, algo, metrics, max_iters=30, logging=True)
-
-print(rules)
-print(f'Run Time: {run_time}')
-rules.to_csv('output.csv')
-
-```
-
-For a full list of examples see the [examples folder](examples/).
+For a full list of examples see the [examples folder](https://github.com/firefly-cpp/NiaARM/tree/main/examples)
+in the GitHub repository.
 
 ### Command line interface
 
