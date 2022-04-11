@@ -42,6 +42,12 @@ To install NiaARM on Alpine Linux, please enable Testing repository and use:
 $ apk add py3-niaarm
 ```
 
+To install NiaARM on Arch Linux, please use an [AUR helper](https://wiki.archlinux.org/title/AUR_helpers):
+
+```sh
+$ yay -Syyu python-niaarm
+```
+
 ## Usage
 
 ### Loading data
