@@ -5,7 +5,7 @@ from niaarm.rule import Rule
 from niaarm.dataset import Dataset
 import os
 
-
+#Basic tests for checking the correctness of support and confidence metrics calculation.
 class TestSupportConfidence(TestCase):
     # let's borrow test case from wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)

@@ -4,7 +4,7 @@ from niaarm.feature import Feature
 from niaarm.rule import Rule
 import os
 
-
+# Test intended for checking the correctness of inclusion metric
 class TestInclusion(TestCase):
     # let's borrow a test case from wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)

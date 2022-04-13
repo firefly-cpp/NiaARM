@@ -2,7 +2,11 @@ from unittest import TestCase
 from niaarm.dataset import Dataset
 import os
 
-
+"""
+Various tests intended for testing the reading data from sources,
+identification of data types of features as well as a corresponding
+borders for numerical attributes.
+"""
 class TestReadCSVAbalone(TestCase):
     def test_read_features(self):
 

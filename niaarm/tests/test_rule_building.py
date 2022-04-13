@@ -4,7 +4,10 @@ from niaarm.dataset import Dataset
 from niaarm.feature import Feature
 import os
 
-
+"""
+Test intended for testing the main procedure for building
+an association rule from candidate solutions.
+"""
 class TestBuildRuleA(TestCase):
     # let's borrow a test case from Wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)
