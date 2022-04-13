@@ -4,7 +4,7 @@ from niaarm.rule import Rule
 from niaarm.dataset import Dataset
 import os
 
-
+# Test intended for checking the correctness of amplitude metric
 class TestAmplitudeA(TestCase):
     def setUp(self):
         data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'wiki_test_case.csv'))

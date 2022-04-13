@@ -6,7 +6,7 @@ import numpy as np
 
 
 class NiaARM(Problem):
-    r"""Association Rule Mining as an optimization problem.
+    r"""Representation of Association Rule Mining as an optimization problem.
 
     The implementation is composed of ideas found in the following papers:
 
@@ -16,8 +16,9 @@ class NiaARM(Problem):
       In: Intelligent data engineering and automated learning - IDEAL 2018, pp. 79-88, 2018.
 
     * I. Fister Jr., V. Podgorelec, I. Fister.
-      Improved Nature-Inspired Algorithms for Numeric Association Rule Mining.
-      In: Vasant P., Zelinka I., Weber GW. (eds) Intelligent Computing and Optimization. ICO 2020.
+      [Improved Nature-Inspired Algorithms for Numeric Association Rule Mining]
+      (https://link.springer.com/chapter/10.1007/978-3-030-68154-8_19)
+      In: Vasant P., Zelinka I., Weber GW. (eds.) Intelligent Computing and Optimization. ICO 2020.
       Advances in Intelligent Systems and Computing, vol 1324. Springer, Cham.
 
     Args:
@@ -67,6 +68,7 @@ class NiaARM(Problem):
         super().__init__(dimension, 0.0, 1.0)
 
     def build_rule(self, vector):
+        r"""Build association rule from the candidate solution."""
         rule = []
 
         permutation = vector[-self.num_features:]
@@ -145,6 +147,11 @@ class NiaARM(Problem):
 
 
 def _cut_point(sol, num_attr):
+    r"""Calculate cut point.
+
+    Note: The cut point denotes which part of the vector belongs to the
+    antecedent and which to the consequence of the mined association rule.
+    """
     cut = int(sol * num_attr)
     if cut == 0:
         cut = 1
