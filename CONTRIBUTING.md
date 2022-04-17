@@ -37,7 +37,7 @@ List of NiaARM's dependencies:
 
 | Package      | Version    | Platform |
 | ------------ |:----------:|:--------:|
-| niapy        | ^2.0.0rc18 | All      |
+| niapy        | ^2.0.1 | All      |
 
 List of development dependencies:
 
