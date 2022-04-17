@@ -4,6 +4,7 @@ from niaarm.feature import Feature
 from niaarm.dataset import Dataset
 import os
 
+
 # The basic test for checking the identification of the appropriate cut point of association rule.
 class TestCutPoint(TestCase):
     # let's borrow a test case from Wikipedia:
