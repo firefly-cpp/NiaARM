@@ -16,11 +16,9 @@
 
 
 NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. The framework is written fully in Python and runs on all platforms. NiaARM allows users to preprocess the data in a transaction database automatically, to search for association rules and provide a pretty output of the rules found. This framework also supports integral and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization problem, and solved using the nature-inspired algorithms that come from the related framework called [NiaPy](https://github.com/NiaOrg/NiaPy).
-* **Free software:** MIT license
+
 * **Documentation:** https://niaarm.readthedocs.io/en/latest/
-* **Python versions:** 3.6.x, 3.7.x, 3.8.x, 3.9.x
-* **Dependencies:** [link](CONTRIBUTING.md#Dependencies)
-* **Tested OS:** Windows, Ubuntu, Fedora, Alpine, macOS. **However, that does not mean it does not work on others**
+* **Tested OS:** Windows, Ubuntu, Fedora, Alpine, Arch, macOS. **However, that does not mean it does not work on others**
 
 ## Detailed insights
 The current version includes (but is not limited to) the following functions:
