@@ -1,4 +1,4 @@
-<p style="text-align: center">
+<p align="center">
   <img alt="logo" width="300" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/logo/logo.png">
 </p>
 
