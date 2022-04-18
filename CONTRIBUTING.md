@@ -29,23 +29,29 @@ After installing Poetry and cloning the project from GitHub, you should run the 
 poetry install
 ```
 
-All of the project's dependencies should be installed and the project ready for further development. **Note that Poetry creates a separate virtual environment for your project.**
+All the project's dependencies should be installed and the project ready for further development. **Note that Poetry creates a separate virtual environment for your project.**
 
-### Development dependencies
+### Dependencies
 
-List of NiaARM's dependencies:
+| Package | Version | Platform |
+|---------|:-------:|:--------:|
+| niapy   | ^2.0.1  |   All    |
+| pandas  | ^1.3.5  |   All    |
+| numpy   | ^1.21.5 |   All    |
 
-| Package      | Version    | Platform |
-| ------------ |:----------:|:--------:|
-| niapy        | ^2.0.1 | All      |
+#### Development dependencies
 
-List of development dependencies:
+| Package | Version | Platform |
+|---------|:-------:|:--------:|
+| pytest  | ^7.0.1  |   Any    |
 
-| Package                       | Version | Platform |
-| ----------------------------- |:-------:|:--------:|
-|sphinx                         | ^3.3.1  | Any      |
-|sphinx-rtd-theme               | ^0.5.0  | Any      |
-|coveralls                      | ^2.2.0  | Any      |
+#### Extras
+
+| Package              | Version | Platform |
+|----------------------|:-------:|:--------:|
+| sphinx               | ^4.4.0  |   Any    |
+| sphinx-rtd-theme     | ^1.0.0  |   Any    |
+| sphinxcontrib-bibtex | ^2.4.1  |   Any    |
 
 ## Development Tasks
 
@@ -54,7 +60,7 @@ List of development dependencies:
 Manually run the tests:
 
 ```sh
-$ poetry run coverage run --source=niaarm -m unittest discover -b
+$ poetry run pytest
 ```
 
 ### Documentation

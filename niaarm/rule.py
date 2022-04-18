@@ -227,8 +227,7 @@ class Rule:
 
     @property
     def interestingness(self):
-        return (self.support / self.rhs_support) * (self.support / self.coverage) * (
-                1 - (self.support / self.num_transactions))
+        return self.confidence * (self.support / self.rhs_support) * (1 - (self.support / self.num_transactions))
 
     @property
     def yulesq(self):

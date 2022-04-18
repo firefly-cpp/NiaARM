@@ -110,5 +110,7 @@ class RuleList(UserList):
                  f'Average interestingness: {self.mean("interestingness")}\n' \
                  f'Average comprehensibility: {self.mean("comprehensibility")}\n' \
                  f'Average netconf: {self.mean("netconf")}\n' \
-                 f'Average Yule\'s Q: {self.mean("yulesq")}\n'
+                 f'Average Yule\'s Q: {self.mean("yulesq")}\n' \
+                 f'Average antecedent length: {sum(len(rule.antecedent) for rule in self) / len(self)}\n' \
+                 f'Average consequent length: {sum(len(rule.consequent) for rule in self) / len(self)}\n'
         return string
