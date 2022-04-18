@@ -49,8 +49,8 @@ All the project's dependencies should be installed and the project ready for fur
 
 | Package              | Version | Platform |
 |----------------------|:-------:|:--------:|
-| sphinx               | ^3.3.1  |   Any    |
-| sphinx-rtd-theme     | ^0.5.0  |   Any    |
+| sphinx               | ^4.4.0  |   Any    |
+| sphinx-rtd-theme     | ^1.0.0  |   Any    |
 | sphinxcontrib-bibtex | ^2.4.1  |   Any    |
 
 ## Development Tasks
