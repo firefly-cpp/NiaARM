@@ -79,7 +79,13 @@ def tdf(rule, transactions):
         height = np.reshape(height, (3, num_features)).T.reshape(len(vec))
         height = np.concatenate((np.zeros(1), height))[:len(vec)]
 
-        return ribbon(vec, height)
+        fig, ax = ribbon(vec, height)
+        ax.set_ylabel('Location')
+        ax.set_yticks(range(num_features + 1))
+        ax.set_yticklabels(range(num_features + 1))
+        ax.set_zlabel('Height')
+        ax.view_init(30, 240)
+        return fig, ax
 
 
 def ribbon(x, z, width=0.5):
@@ -97,11 +103,5 @@ def ribbon(x, z, width=0.5):
     ax.plot_surface(xx, yy, zz, rstride=1, cstride=1, facecolors=colors)
 
     fig.colorbar(scalar_map, shrink=0.5, aspect=10)
-
-    ax.set_ylabel('Location')
-    ax.set_yticks(range(1 + len(x) // 3))
-    ax.set_yticklabels(range(1 + len(x) // 3))
-    ax.set_zlabel('Height')
-    ax.view_init(30, 240)
 
     return fig, ax
