@@ -4,31 +4,6 @@ from matplotlib.colors import Normalize
 import numpy as np
 
 
-def ribbon(x, z, width=0.5):
-    fig, ax = plt.subplots(subplot_kw={'projection': '3d'})
-
-    xi = np.linspace(x[:-1], x[1:], num=100, axis=1).flatten()
-    zi = np.interp(xi, x, z)
-
-    xx = np.column_stack((-np.ones(len(zi)), np.ones(len(zi)))) * width + 1
-    yy = np.column_stack((xi, xi))
-    zz = np.column_stack((zi, zi))
-
-    scalar_map = ScalarMappable(Normalize(vmin=0, vmax=zi.max()))
-    colors = scalar_map.to_rgba(zz)
-    ax.plot_surface(xx, yy, zz, rstride=1, cstride=1, facecolors=colors)
-
-    fig.colorbar(scalar_map, shrink=0.5, aspect=10)
-
-    ax.set_ylabel('Location')
-    ax.set_yticks(range(1 + len(x) // 3))
-    ax.set_yticklabels(range(1 + len(x) // 3))
-    ax.set_zlabel('Height')
-    ax.view_init(30, 240)
-
-    return fig, ax
-
-
 def tdf(rule, transactions):
     """Visualize rule as hill slopes.
 
@@ -105,3 +80,28 @@ def tdf(rule, transactions):
         height = np.concatenate((np.zeros(1), height))[:len(vec)]
 
         return ribbon(vec, height)
+
+
+def ribbon(x, z, width=0.5):
+    fig, ax = plt.subplots(subplot_kw={'projection': '3d'})
+
+    xi = np.linspace(x[:-1], x[1:], num=100, axis=1).flatten()
+    zi = np.interp(xi, x, z)
+
+    xx = np.column_stack((-np.ones(len(zi)), np.ones(len(zi)))) * width + 1
+    yy = np.column_stack((xi, xi))
+    zz = np.column_stack((zi, zi))
+
+    scalar_map = ScalarMappable(Normalize(vmin=0, vmax=zi.max()))
+    colors = scalar_map.to_rgba(zz)
+    ax.plot_surface(xx, yy, zz, rstride=1, cstride=1, facecolors=colors)
+
+    fig.colorbar(scalar_map, shrink=0.5, aspect=10)
+
+    ax.set_ylabel('Location')
+    ax.set_yticks(range(1 + len(x) // 3))
+    ax.set_yticklabels(range(1 + len(x) // 3))
+    ax.set_zlabel('Height')
+    ax.view_init(30, 240)
+
+    return fig, ax
