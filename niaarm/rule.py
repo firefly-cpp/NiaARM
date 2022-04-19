@@ -172,7 +172,7 @@ class Rule:
         self.con_not_ant = 0
         self.not_ant_not_con = 0
 
-        if transactions:
+        if transactions is not None:
             self.num_transactions = len(transactions)
             self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(transactions.columns)
             self.__post_init__(transactions)
