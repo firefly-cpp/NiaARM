@@ -162,10 +162,20 @@ class Rule:
         self.antecedent = antecedent
         self.consequent = consequent
         self.fitness = fitness
-        self.num_transactions = len(transactions)
-        self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(transactions.columns)
+        self.num_transactions = 0
+        self.__inclusion = 0
+        self.__amplitude = 0
+        self.antecedent_count = 0
+        self.consequent_count = 0
+        self.full_count = 0
+        self.ant_not_con = 0
+        self.con_not_ant = 0
+        self.not_ant_not_con = 0
 
-        self.__post_init__(transactions)
+        if transactions is not None:
+            self.num_transactions = len(transactions)
+            self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(transactions.columns)
+            self.__post_init__(transactions)
 
     def __post_init__(self, transactions):
         min_ = transactions.min(numeric_only=True)
