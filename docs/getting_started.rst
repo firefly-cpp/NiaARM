@@ -193,6 +193,30 @@ The same example as above, using :class:`~niaarm.mine.get_rules`:
     Run Time: 6.9498 seconds
     Rules exported to output.csv
 
+Visualization
+~~~~~~~~~~~~~
+
+The :mod:`~niaarm.visualize` module provides functions for plotting association rules.
+The only visualization method currently implemented is the :func:`~niaarm.visualize.hill_slopes` method,
+presented in `this paper <https://link.springer.com/chapter/10.1007/978-3-030-62362-3_10>`_.
+
+.. code:: python
+
+    from matplotlib import pyplot as plt
+    from niaarm import Dataset, RuleList, get_rules
+    from niaarm.visualize import hill_slopes
+
+    dataset = Dataset('datasets/Abalone.csv')
+    metrics = ('support', 'confidence')
+    rules, _ = get_rules(dataset, 'DifferentialEvolution', metrics, max_evals=1000, seed=1234)
+    some_rule = rules[150]
+    hill_slopes(some_rule, dataset.transactions)
+    plt.show()
+
+**Output:**
+
+.. image:: _static/hill_slopes.png
+
 Interest Measures
 -----------------
 

@@ -138,18 +138,22 @@ problem.rules.to_csv('output.csv')
 
 ### Visualization
 
-The framework currently supports the hill slopes visualization method presented in [4].
+The framework currently supports the hill slopes visualization method presented in [4]. More visualization methods are planned
+to be implemented in future releases.
 
 ```python
 from matplotlib import pyplot as plt
+from niaarm import Dataset, RuleList, get_rules
 from niaarm.visualize import hill_slopes
 
-# load data...
-# mine rules...
-
-hill_slopes(rule, dataset.transactions)
+dataset = Dataset('datasets/Abalone.csv')
+metrics = ('support', 'confidence')
+rules, _ = get_rules(dataset, 'DifferentialEvolution', metrics, max_evals=1000, seed=1234)
+some_rule = rules[150]
+hill_slopes(some_rule, dataset.transactions)
 plt.show()
 ```
+
 <p>
     <img alt="logo" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/images/hill_slopes.png">
 </p>
