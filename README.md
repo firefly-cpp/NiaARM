@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="logo" width="300" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/logo/logo.png">
+  <img alt="logo" width="300" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/images/logo.png">
 </p>
 
 ---
@@ -28,6 +28,7 @@ The current version includes (but is not limited to) the following functions:
 - searching for association rules,
 - providing output of mined association rules,
 - generating statistics about mined association rules.
+- visualization of association rules
 
 ## Installation
 
@@ -135,6 +136,25 @@ problem.rules.sort()
 problem.rules.to_csv('output.csv')
 ```
 
+### Visualization
+
+The framework currently supports the hill slopes visualization method presented in [4].
+
+```python
+from matplotlib import pyplot as plt
+from niaarm.visualize import hill_slopes
+
+# load data...
+# mine rules...
+
+hill_slopes(rule, dataset.transactions)
+plt.show()
+```
+<p>
+    <img alt="logo" width="300" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/images/hill_slopes.png">
+</p>
+
+
 For a full list of examples see the [examples folder](https://github.com/firefly-cpp/NiaARM/tree/main/examples)
 in the GitHub repository.
 
@@ -189,6 +209,10 @@ Ideas are based on the following research papers:
 [2] I. Fister Jr., V. Podgorelec, I. Fister. [Improved Nature-Inspired Algorithms for Numeric Association Rule Mining](https://link.springer.com/chapter/10.1007/978-3-030-68154-8_19). In: Vasant P., Zelinka I., Weber GW. (eds) Intelligent Computing and Optimization. ICO 2020. Advances in Intelligent Systems and Computing, vol 1324. Springer, Cham.
 
 [3] I. Fister Jr., I. Fister [A brief overview of swarm intelligence-based algorithms for numerical association rule mining](https://arxiv.org/abs/2010.15524). arXiv preprint arXiv:2010.15524 (2020).
+
+[4] Fister, I. et al. (2020). Visualization of Numerical Association Rules by Hill Slopes.
+    In: Analide, C., Novais, P., Camacho, D., Yin, H. (eds) Intelligent Data Engineering and Automated Learning – IDEAL 2020.
+    IDEAL 2020. Lecture Notes in Computer Science(), vol 12489. Springer, Cham. https://doi.org/10.1007/978-3-030-62362-3_10
 
 ## License
 
