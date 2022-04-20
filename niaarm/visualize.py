@@ -79,7 +79,7 @@ def hill_slopes(rule, transactions):
         height = np.reshape(height, (3, num_features)).T.reshape(len(vec))
         height = np.concatenate((np.zeros(1), height))[:len(vec)]
 
-        fig, ax = ribbon(vec, height)
+        fig, ax = _ribbon(vec, height)
         ax.set_ylabel('Location')
         ax.set_yticks(range(num_features + 1))
         ax.set_yticklabels(range(num_features + 1))
@@ -88,7 +88,7 @@ def hill_slopes(rule, transactions):
         return fig, ax
 
 
-def ribbon(x, z, width=0.5):
+def _ribbon(x, z, width=0.5):
     fig, ax = plt.subplots(subplot_kw={'projection': '3d'})
 
     xi = np.linspace(x[:-1], x[1:], num=100, axis=1).flatten()
