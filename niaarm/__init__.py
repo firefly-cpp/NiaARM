@@ -4,7 +4,7 @@ from niaarm.rule import Rule
 from niaarm.feature import Feature
 from niaarm.mine import get_rules
 from niaarm.rule_list import RuleList
-from niaarm.visualize import tdf
+from niaarm.visualize import hill_slopes
 
 
 __all__ = ['NiaARM', 'Dataset', 'Feature', 'Rule', 'RuleList', 'get_rules']
