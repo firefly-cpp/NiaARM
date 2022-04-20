@@ -4,7 +4,7 @@ from matplotlib.colors import Normalize
 import numpy as np
 
 
-def tdf(rule, transactions):
+def hill_slopes(rule, transactions):
     """Visualize rule as hill slopes.
 
     **Reference:** Fister, I. et al. (2020). Visualization of Numerical Association Rules by Hill Slopes.
