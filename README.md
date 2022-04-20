@@ -151,7 +151,7 @@ hill_slopes(rule, dataset.transactions)
 plt.show()
 ```
 <p>
-    <img alt="logo" width="300" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/images/hill_slopes.png">
+    <img alt="logo" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/images/hill_slopes.png">
 </p>
 
 
