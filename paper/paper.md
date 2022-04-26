@@ -34,9 +34,10 @@ approaches, such as the Apriori algorithm [@agrawal_fast_1994] or ECLAT [@zaki_s
 require the attributes in the database to be discretized. This can result in the incorporation of noise into data,
 and potentially obtained associations may not fully reveal the story [@varol2020performance]. On the contrary,
 Numerical association rule mining (NARM) is an extension of ARM that allows handling numerical attributes without
-discretization [@fister_jr_improved_2021]. Thus, an algorithm can operate directly, not only with
+discretization [@fister_jr_improved_2021; @kaushik2020potential]. Thus, an algorithm can operate directly, not only with
 categorical but also with numerical attributes concurrently. Interestingly, most NARM algorithms are based on
-stochastic population-based nature-inspired algorithms, which proved to be very efficient in searching for association rules.
+stochastic population-based nature-inspired algorithms, which proved to be very efficient in searching for association
+rules [@alatas2008modenar; @kaushik2021systematic].
 
 The NiaARM framework is an implementation of the ARM-DE algorithm [@fister_differential_2018; @fister_jr_improved_2021], where
 numeric association rule mining is modeled as a single objective, continuous optimization problem, where the fitness is a
@@ -61,14 +62,14 @@ for association rules, and visualization, are lacking. The NiaARM framework prov
 preprocess their data, implement several interest measures, and powerful visualization techniques. In a nutshell, the benefits
 of the NiaARM framework are:
 
-1. Simple way to mine association rules on numerical and categorical datasets.
+1. Simple way to mine association rules on numerical, categorical, or mixed attribute-type datasets.
 
-2. Combined with the NiaPy library, it allows testing out the ARM-DE approach using arbitrary nature-inspired algorithms.
+2. Combined with the NiaPy library, it allows testing out the proposed approach using arbitrary nature-inspired algorithms.
 
-3. Implementation of several popular interest measures, for measuring the quality of mined rules.
+3. A vast collection of implemented popular interest measures to measure mined rules' quality.
 
 4. Powerful visualization methods.
 
-5. A simple command line interface for mining association rules.
+5. A simple command-line interface for easier handling with the proposed tool.
 
 # References
