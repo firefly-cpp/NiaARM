@@ -34,24 +34,31 @@ approaches, such as the Apriori algorithm [@agrawal_fast_1994] or ECLAT [@zaki_s
 require the attributes in the database to be discretized. This can result in the incorporation of noise into data,
 and potentially obtained associations may not fully reveal the story [@varol2020performance]. On the contrary,
 Numerical association rule mining (NARM) is an extension of ARM that allows handling numerical attributes without
-discretization [@fister_jr_improved_2021]. Interestingly, most of the NARM algorithms are based on
-population-based nature-inspired metaheuristics.
+discretization [@fister_jr_improved_2021]. Thus, an algorithm can operate directly, not only with
+categorical but also with numerical attributes concurrently. Interestingly, most NARM algorithms are based on
+stochastic population-based nature-inspired algorithms, which proved to be very efficient in searching for association rules.
 
 The NiaARM framework is an implementation of the ARM-DE algorithm [@fister_differential_2018; @fister_jr_improved_2021], where
 numeric association rule mining is modeled as a single objective, continuous optimization problem, where the fitness is a
 weighted sum of the support and confidence of the built rule. The approach is extended by allowing the use of any optimization
-algorithm from the related NiaPy framework [@vrbancic_niapy_2018], as well as having the option to select various interest 
+algorithm from the related NiaPy framework [@vrbancic_niapy_2018], as well as having the option to select various interest
 measures and their corresponding weights for the fitness function.
 Additionally, the framework also includes methods for loading and preprocessing data, powerful
 visualization methods, such as the hill slopes method [@fister_visualization_2020] and a simple command line interface for
-mining association rules. 
+mining association rules.
 
 # Statement of need
 
-Numeric association rule mining is an important topic amidst the data revolution 
-era [@fister_jr_improved_2021; @telikani_survey_2020]. The NiaARM framework
-is a collects methods to easily process data, mine association rules and interpret
-the results, implementing many interest measures and powerful visualization techniques. Combined with the NiaPy
-library it also gives the opportunity to test the ARM-DE approach using arbitrary nature-inspired algorithms.
+Numerical association rule mining plays a vital role in the data revolution era [@telikani_survey_2020]. Several research papers that present NARM methods exist, but universal software where all primary tasks of NARM, i.e., preprocessing, searching for association rules, and visualization, are lacking. The NiaARM framework provides users with methods that allow them to preprocess their data, implement several interest measures, and powerful visualization techniques. In a nutshell, the following are the benefits of the NiaARM framework:
+
+Combined with the NiaPy library, it also allows testing the ARM-DE approach using arbitrary nature-inspired algorithms.
+
+2.
+
+3.
+
+4.
+
+5.
 
 # References
