@@ -43,9 +43,15 @@ numeric association rule mining is modeled as a single objective, continuous opt
 weighted sum of the support and confidence of the built rule. The approach is extended by allowing the use of any optimization
 algorithm from the related NiaPy framework [@vrbancic_niapy_2018], as well as having the option to select various interest
 measures and their corresponding weights for the fitness function.
-Additionally, the framework also includes methods for loading and preprocessing data, powerful
-visualization methods, such as the hill slopes method [@fister_visualization_2020] and a simple command line interface for
-mining association rules.
+
+The flow of the NiaARM framework is shown in \autoref{fig:NiaARM}. Users have the option to construct a dataset either from a
+CSV file or a pandas DataFrame. The dataset is then used to build the optimization problem, along with user selected interest
+measures to be used in the computation of the fitness function. Then the optimization problem can be solved using any algorithm
+in the NiaPy library to mine association rules from the dataset. The rules can be exported to a CSV file, statistically
+analysed or visualized using the visualization methods implemented in the framework, such as the hill slopes method
+[@fister_visualization_2020]. A simple command line interface for mining rules is also provided.
+
+![NiaARM flow.\label{fig:NiaARM}](NiaARM1.png)
 
 # Statement of need
 
