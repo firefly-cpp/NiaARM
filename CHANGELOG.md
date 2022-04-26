@@ -1,5 +1,50 @@
 # Changelog
 
+## [Unreleased](https://github.com/firefly-cpp/NiaARM/tree/HEAD)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.1.6...HEAD)
+
+**Merged pull requests:**
+
+- First draft of the paper [\#55](https://github.com/firefly-cpp/NiaARM/pull/55) ([zStupan](https://github.com/zStupan))
+
+## [0.1.6](https://github.com/firefly-cpp/NiaARM/tree/0.1.6) (2022-04-22)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.1.5...0.1.6)
+
+**Closed issues:**
+
+- Simple visualization test [\#51](https://github.com/firefly-cpp/NiaARM/issues/51)
+- Add tests for all implemented metrics [\#46](https://github.com/firefly-cpp/NiaARM/issues/46)
+- Add association rule mining section to the docs [\#34](https://github.com/firefly-cpp/NiaARM/issues/34)
+
+**Merged pull requests:**
+
+- Add visualization example [\#54](https://github.com/firefly-cpp/NiaARM/pull/54) ([zStupan](https://github.com/zStupan))
+- Add visualization test [\#52](https://github.com/firefly-cpp/NiaARM/pull/52) ([zStupan](https://github.com/zStupan))
+- Rename tdf to hill\_slopes [\#50](https://github.com/firefly-cpp/NiaARM/pull/50) ([zStupan](https://github.com/zStupan))
+- Add visualization [\#49](https://github.com/firefly-cpp/NiaARM/pull/49) ([zStupan](https://github.com/zStupan))
+- Updated Dependencies & minor fixes  [\#48](https://github.com/firefly-cpp/NiaARM/pull/48) ([zStupan](https://github.com/zStupan))
+- Update tests [\#47](https://github.com/firefly-cpp/NiaARM/pull/47) ([zStupan](https://github.com/zStupan))
+- WIP: Improve documentation of code [\#45](https://github.com/firefly-cpp/NiaARM/pull/45) ([firefly-cpp](https://github.com/firefly-cpp))
+
+## [0.1.5](https://github.com/firefly-cpp/NiaARM/tree/0.1.5) (2022-04-09)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.1.4...0.1.5)
+
+**Closed issues:**
+
+- References [\#41](https://github.com/firefly-cpp/NiaARM/issues/41)
+- Optional: Add Latex code for available metrics [\#40](https://github.com/firefly-cpp/NiaARM/issues/40)
+- Test NiaARM package on Windows [\#38](https://github.com/firefly-cpp/NiaARM/issues/38)
+- Tests on armhf architecture [\#27](https://github.com/firefly-cpp/NiaARM/issues/27)
+
+**Merged pull requests:**
+
+- Updated RuleList [\#43](https://github.com/firefly-cpp/NiaARM/pull/43) ([zStupan](https://github.com/zStupan))
+- Added more detailed docs about interest measures [\#42](https://github.com/firefly-cpp/NiaARM/pull/42) ([zStupan](https://github.com/zStupan))
+- Updated Workflow [\#39](https://github.com/firefly-cpp/NiaARM/pull/39) ([zStupan](https://github.com/zStupan))
+
 ## [0.1.4](https://github.com/firefly-cpp/NiaARM/tree/0.1.4) (2022-03-17)
 
 [Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.1.3...0.1.4)
