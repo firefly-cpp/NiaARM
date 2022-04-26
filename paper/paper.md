@@ -49,16 +49,20 @@ mining association rules.
 
 # Statement of need
 
-Numerical association rule mining plays a vital role in the data revolution era [@telikani_survey_2020]. Several research papers that present NARM methods exist, but universal software where all primary tasks of NARM, i.e., preprocessing, searching for association rules, and visualization, are lacking. The NiaARM framework provides users with methods that allow them to preprocess their data, implement several interest measures, and powerful visualization techniques. In a nutshell, the following are the benefits of the NiaARM framework:
+Numerical association rule mining plays a vital role in the data revolution era [@telikani_survey_2020]. Several research
+papers that present NARM methods exist, but universal software where all primary tasks of NARM, i.e., preprocessing, searching
+for association rules, and visualization, are lacking. The NiaARM framework provides users with methods that allow them to
+preprocess their data, implement several interest measures, and powerful visualization techniques. In a nutshell, the benefits
+of the NiaARM framework are:
 
-Combined with the NiaPy library, it also allows testing the ARM-DE approach using arbitrary nature-inspired algorithms.
+1. Simple way to mine association rules on numerical and categorical datasets.
 
-2.
+2. Combined with the NiaPy library, it allows testing out the ARM-DE approach using arbitrary nature-inspired algorithms.
 
-3.
+3. Implementation of several popular interest measures, for measuring the quality of mined rules.
 
-4.
+4. Powerful visualization methods.
 
-5.
+5. A simple command line interface for mining association rules.
 
 # References
