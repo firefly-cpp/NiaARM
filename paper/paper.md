@@ -50,7 +50,7 @@ CSV file or a pandas DataFrame. The dataset is then used to build the optimizati
 measures to be used in the computation of the fitness function. Then the optimization problem can be solved using any algorithm
 in the NiaPy library to mine association rules from the dataset. The rules can be exported to a CSV file, statistically
 analysed or visualized using the visualization methods implemented in the framework, such as the hill slopes method
-[@fister_visualization_2020]. A simple command line interface for mining rules is also provided.
+[@fister_visualization_2020]. A simple command-line interface for mining rules is also provided.
 
 ![NiaARM flow.\label{fig:NiaARM}](NiaARM1.png)
 
