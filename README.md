@@ -27,8 +27,8 @@ The current version includes (but is not limited to) the following functions:
 - preprocessing of data,
 - searching for association rules,
 - providing output of mined association rules,
-- generating statistics about mined association rules.
-- visualization of association rules
+- generating statistics about mined association rules,
+- visualization of association rules.
 
 ## Installation
 

@@ -6,7 +6,8 @@ authors = ["Žiga Stupan <ziga.stupan1@student.um.si>", "Iztok Fister Jr. <iztok
 readme = "README.md"
 
 include = [
-    { path="LICENSE", format="sdist" }
+    { path="LICENSE", format="sdist" },
+    { path="CHANGELOG.md", format="sdist" },
 ]
 
 [tool.poetry.dependencies]
