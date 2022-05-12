@@ -10,7 +10,7 @@ include = [
     { path="CHANGELOG.md", format="sdist" },
 ]
 
-exclude = ["niaarm/tests/"]
+exclude = ["tests"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
