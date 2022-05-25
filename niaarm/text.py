@@ -26,7 +26,7 @@ class Document:
         return len(self.frequencies)
 
     def frequency(self, term):
-        return self.frequencies[term] / len(self.terms)
+        return self.frequencies[term] / len(self)
 
     def __getitem__(self, i):
         return self.terms[i]
@@ -88,6 +88,6 @@ def tf_idf(corpus):
     idf = []
     for term in terms:
         idf.append(len(corpus) / sum(term in doc for doc in corpus))
-    idf = np.log(idf)
+    idf = np.abs(np.log(idf))
 
     return tf * idf
