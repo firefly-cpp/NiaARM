@@ -88,6 +88,6 @@ def tf_idf(corpus):
     idf = []
     for term in terms:
         idf.append(len(corpus) / sum(term in doc for doc in corpus))
-    idf = np.abs(np.log(idf))
-    tf = tf * idf
-    return tf
+    idf = np.log(idf)
+
+    return tf * idf
