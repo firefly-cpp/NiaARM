@@ -224,26 +224,25 @@ class TextRule(Rule):
 
 
 class NiaARTM(NiaARM):
-    r"""Representation of Association Rule Mining as an optimization problem.
+    r"""Representation of Association Rule Text Mining as an optimization problem.
 
     The implementation is composed of ideas found in the following paper:
 
-    * I. Fister Jr., A. Iglesias, A. Gálvez, J. Del Ser, E. Osaba, I Fister.
-      [Differential evolution for association rule mining using categorical and numerical attributes]
-      (http://www.iztok-jr-fister.eu/static/publications/231.pdf)
-      In: Intelligent data engineering and automated learning - IDEAL 2018, pp. 79-88, 2018.
+    * I. Fister, S. Deb, I. Fister, „Population-based metaheuristics for Association Rule Text Mining“,
+      in Proceedings of the 2020 4th International Conference on Intelligent Systems, Metaheuristics & Swarm Intelligence,
+      New York, NY, USA, mar. 2020, pp. 19–23. doi: 10.1145/3396474.3396493.
 
     Args:
-        dimension (int): Dimension of the optimization problem for the dataset.
-        features (list[Feature]): List of the dataset's features.
-        transactions (pandas.Dataframe): The dataset's transactions.
+        max_terms (int): Maximum number of terms in association rule..
+        features (list[str]): List of unique terms in the corpus.
+        transactions (pandas.Dataframe): The tf-idf matrix.
         metrics (Union[Dict[str, float], Sequence[str]]): Metrics to take into account when computing the fitness.
          Metrics can either be passed as a Dict of pairs {'metric_name': <weight of metric>} or
          a sequence of metrics as strings, in which case, the weights of the metrics will be set to 1.
         logging (bool): Enable logging of fitness improvements. Default: ``False``.
 
     Attributes:
-        rules (RuleList): A list of mined association rules.
+        rules (RuleList): A list of mined text rules.
 
     """
 
