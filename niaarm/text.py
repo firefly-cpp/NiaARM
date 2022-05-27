@@ -266,6 +266,7 @@ class NiaARTM(NiaARM):
 
     def __init__(self, max_terms, terms, transactions, metrics, logging=False):
         super().__init__(max_terms + 1, terms, transactions, metrics, logging)
+        self.max_terms = max_terms
 
     def build_rule(self, vector):
         y = np.zeros(self.num_features, dtype=bool)
@@ -275,7 +276,7 @@ class NiaARTM(NiaARM):
     def _evaluate(self, sol):
         cut_value = sol[self.dimension - 1]
         solution = sol[:-1]
-        cut = _cut_point(cut_value, self.dimension - 1)
+        cut = _cut_point(cut_value, self.max_terms)
 
         rule = self.build_rule(solution)
 
