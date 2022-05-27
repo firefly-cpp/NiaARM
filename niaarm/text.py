@@ -10,6 +10,12 @@ from niaarm.rule import Rule
 from niaarm.niaarm import NiaARM, _cut_point
 
 
+def normalize(a, order=2, axis=-1):
+    norm = np.atleast_1d(np.linalg.norm(a, order, axis))
+    norm[norm == 0] = 1
+    return a / np.expand_dims(norm, axis)
+
+
 class Document:
     """A text document class.
 
@@ -101,8 +107,8 @@ class Corpus:
             list[str]: List of unique terms in the corpus.
 
         """
-        all_terms = set(self.documents[0].terms)
-        for doc in self.documents[1:]:
+        all_terms = set()
+        for doc in self.documents:
             all_terms.update(doc.terms)
         return sorted(all_terms)
 
@@ -149,8 +155,13 @@ class Corpus:
                 documents.append(Document.from_file(entry.path, encoding, language, remove_stopwords, lowercase))
         return cls(documents)
 
-    def tf_idf_matrix(self):
+    def tf_idf_matrix(self, smooth=True, norm=2):
         """Get the tf-idf weights matrix as a pandas DataFrame.
+
+        Args:
+            smooth (bool): Smooth idf by adding one to the numerator and the denominator to prevent division by 0 errors.
+             Default: ``True``.
+            norm (int): Order of the norm to normalize the matrix with. Default: 2.
 
         Returns:
             pd.DataFrame: The tf-idf matrix.
@@ -159,18 +170,21 @@ class Corpus:
         terms = self.terms()
         num_terms = len(terms)
         num_docs = len(self.documents)
-        tf = np.zeros((num_docs, num_terms))
+        tf = np.empty((num_docs, num_terms))
 
         for i, doc in enumerate(self.documents):
             for j, term in enumerate(terms):
                 tf[i, j] = doc.frequency(term)
 
-        idf = []
-        for term in terms:
-            idf.append(len(corpus) / sum(term in doc for doc in corpus))
-        idf = np.abs(np.log(idf))
+        idf = np.empty(num_terms)
+        for i, term in enumerate(terms):
+            n = len(self.documents) + smooth
+            df = sum(term in doc for doc in self.documents) + smooth
+            idf[i] = n / df
+        idf = np.log(idf) + 1
 
-        return pd.DataFrame(tf * idf, columns=terms)
+        tf_idf = normalize(tf * idf, norm)
+        return pd.DataFrame(tf_idf, columns=terms)
 
 
 class TextRule(Rule):
@@ -204,7 +218,7 @@ class TextRule(Rule):
 
     def __post_init__(self, transactions):
         self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(transactions.columns)
-        self.__aws = np.sum(transactions[self.antecedent + self.consequent].values)
+        self.__aws = transactions[self.antecedent + self.consequent].values.sum()
         contains_antecedent = (transactions[self.antecedent] > 0).all(axis=1)
         contains_consequent = (transactions[self.consequent] > 0).all(axis=1)
         self.antecedent_count = contains_antecedent.sum()
@@ -255,14 +269,13 @@ class NiaARTM(NiaARM):
 
     def build_rule(self, vector):
         y = np.zeros(self.num_features, dtype=bool)
-        y[(vector * self.num_features).astype(int)] = True
+        y[(vector * (self.num_features - 1)).astype(int)] = True
         return np.array(self.features)[y].tolist()
 
     def _evaluate(self, sol):
         cut_value = sol[self.dimension - 1]
         solution = sol[:-1]
-
-        cut = _cut_point(cut_value, self.num_features)
+        cut = _cut_point(cut_value, self.dimension - 1)
 
         rule = self.build_rule(solution)
 

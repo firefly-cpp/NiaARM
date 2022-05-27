@@ -54,7 +54,8 @@ def get_rules(dataset, algorithm, metrics, max_evals=np.inf, max_iters=np.inf, l
     return Result(problem.rules, stop_time - start_time)
 
 
-def get_text_rules(corpus, max_terms, algorithm, metrics, max_evals=np.inf, max_iters=np.inf, logging=False, **kwargs):
+def get_text_rules(corpus, max_terms, algorithm, metrics, smooth=True, norm=2, max_evals=np.inf, max_iters=np.inf,
+                   logging=False, **kwargs):
     """Mine association rules in a text corpus.
 
     Args:
@@ -66,6 +67,8 @@ def get_text_rules(corpus, max_terms, algorithm, metrics, max_evals=np.inf, max_
         metrics (Union[Dict[str, float], Sequence[str]]): Metrics to take into account when computing the fitness.
          Metrics can either be passed as a Dict of pairs {'metric_name': <weight of metric>} or
          a sequence of metrics as strings, in which case, the weights of the metrics will be set to 1.
+        smooth (bool): Smooth idf to prevent division by 0 error. Default: ``True``.
+        norm (int): Order of norm for normalizing the tf-idf matrix. Default: 2.
         max_evals (Optional[int]): Maximum number of iterations. Default: ``inf``. At least one of ``max_evals`` or
          ``max_iters`` must be provided.
         max_iters (Optional[int]): Maximum number of fitness evaluations. Default: ``inf``.
@@ -75,7 +78,7 @@ def get_text_rules(corpus, max_terms, algorithm, metrics, max_evals=np.inf, max_
         Result: A named tuple containing the list of mined rules and the algorithm's run time in seconds.
 
     """
-    problem = NiaARTM(max_terms, corpus.terms(), corpus.tf_idf_matrix(), metrics, logging)
+    problem = NiaARTM(max_terms, corpus.terms(), corpus.tf_idf_matrix(smooth=smooth, norm=norm), metrics, logging)
     task = Task(problem, max_evals=max_evals, max_iters=max_iters, optimization_type=OptimizationType.MAXIMIZATION)
 
     if isinstance(algorithm, str):
