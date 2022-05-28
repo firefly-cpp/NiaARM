@@ -28,7 +28,8 @@ The current version includes (but is not limited to) the following functions:
 - searching for association rules,
 - providing output of mined association rules,
 - generating statistics about mined association rules,
-- visualization of association rules.
+- visualization of association rules,
+- association rule text mining (experimental).
 
 ## Installation
 
@@ -159,6 +160,37 @@ plt.show()
 </p>
 
 
+### Text Mining (Experimental)
+
+An experimental implementation of association rule text mining using nature-inspired algorithms, based on ideas from [5]
+is also provided. The `niaarm.text` module contains the `Corpus` and `Document` classes for loading and preprocessing corpora,
+a `TextRule` class, representing a text rule, and the `NiaARTM` class, implementing association rule text mining
+as a continuous optimization problem. The `get_text_rules` function, equivalent to `get_rules`, but for text mining, was also
+added to the `niaarm.mine` module.
+
+```python
+import pandas as pd
+from niaarm.text import Corpus
+from niaarm.mine import get_text_rules
+from niapy.algorithms.basic import ParticleSwarmOptimization
+
+df = pd.read_json('datasets/text/artm_test_dataset.json', orient='records')
+documents = df['text'].tolist()
+corpus = Corpus.from_list(documents)
+
+algorithm = ParticleSwarmOptimization(population_size=200, seed=123)
+metrics = ('support', 'confidence', 'aws')
+rules, time = get_text_rules(corpus, max_terms=5, algorithm=algorithm, metrics=metrics, max_evals=10000, logging=True)
+
+if len(rules):
+    print(rules)
+    print(f'Run time: {time:.2f}s')
+    rules.to_csv('output.csv')
+else:
+    print('No rules generated')
+    print(f'Run time: {time:.2f}s')
+```
+
 For a full list of examples see the [examples folder](https://github.com/firefly-cpp/NiaARM/tree/main/examples)
 in the GitHub repository.
 
@@ -217,6 +249,10 @@ Ideas are based on the following research papers:
 [4] Fister, I. et al. (2020). [Visualization of Numerical Association Rules by Hill Slopes](http://www.iztok-jr-fister.eu/static/publications/280.pdf).
     In: Analide, C., Novais, P., Camacho, D., Yin, H. (eds) Intelligent Data Engineering and Automated Learning – IDEAL 2020.
     IDEAL 2020. Lecture Notes in Computer Science(), vol 12489. Springer, Cham. https://doi.org/10.1007/978-3-030-62362-3_10
+
+[5] I. Fister, S. Deb, I. Fister, „Population-based metaheuristics for Association Rule Text Mining“,
+    In: Proceedings of the 2020 4th International Conference on Intelligent Systems, Metaheuristics & Swarm Intelligence,
+    New York, NY, USA, mar. 2020, pp. 19–23. doi: 10.1145/3396474.3396493.
 
 ## License
 
