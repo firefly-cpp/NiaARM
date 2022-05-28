@@ -68,7 +68,6 @@ class NiaARM(Problem):
         super().__init__(dimension, 0.0, 1.0)
 
     def build_rule(self, vector):
-        r"""Build association rule from the candidate solution."""
         rule = []
 
         permutation = vector[-self.num_features:]
