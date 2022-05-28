@@ -217,6 +217,68 @@ presented in `this paper <https://link.springer.com/chapter/10.1007/978-3-030-62
 
 .. image:: _static/hill_slopes.png
 
+Text Mining (Experimental)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An experimental implementation of association rule text mining using nature-inspired algorithms
+is also provided. The :mod:`niaarm.text` module contains the :class:`~niaarm.text.Corpus` and :class:`~niaarm.text.Document` classes for loading and preprocessing corpora,
+a :class:`~niaarm.text.TextRule` class, representing a text rule, and the :class:`~niaarm.text.NiaARTM` class, implementing association rule text mining
+as a continuous optimization problem. The :func:`~niaarm.mine.get_text_rules` function, equivalent to :func:`~niaarm.mine.get_rules`, but for text mining, was also
+added to the :mod:`niaarm.mine` module.
+
+.. code:: python
+
+    import pandas as pd
+    from niaarm.text import Corpus
+    from niaarm.mine import get_text_rules
+    from niapy.algorithms.basic import ParticleSwarmOptimization
+
+    df = pd.read_json('datasets/text/artm_test_dataset.json', orient='records')
+    documents = df['text'].tolist()
+    corpus = Corpus.from_list(documents)
+
+    algorithm = ParticleSwarmOptimization(population_size=200, seed=123)
+    metrics = ('support', 'confidence', 'aws')
+    rules, time = get_text_rules(corpus, max_terms=5, algorithm=algorithm, metrics=metrics, max_evals=10000, logging=True)
+
+    if len(rules):
+        print(rules)
+        print(f'Run time: {time:.2f}s')
+        rules.to_csv('output.csv')
+    else:
+        print('No rules generated')
+        print(f'Run time: {time:.2f}s')
+
+**Output:**
+
+.. code:: text
+
+    Fitness: 0.53345778328699, Support: 0.1111111111111111, Confidence: 1.0, Aws: 0.48926223874985886
+    Fitness: 0.7155830770302328, Support: 0.1111111111111111, Confidence: 1.0, Aws: 1.0356381199795872
+    Fitness: 0.7279963436805833, Support: 0.1111111111111111, Confidence: 1.0, Aws: 1.072877919930639
+    Fitness: 0.7875917299029188, Support: 0.1111111111111111, Confidence: 1.0, Aws: 1.251664078597645
+    Fitness: 0.8071206688346807, Support: 0.1111111111111111, Confidence: 1.0, Aws: 1.310250895392931
+    STATS:
+    Total rules: 52
+    Average fitness: 0.5179965084882088
+    Average support: 0.11538461538461527
+    Average confidence: 0.7115384615384616
+    Average lift: 5.524038461538462
+    Average coverage: 0.17948717948717943
+    Average consequent support: 0.1517094017094015
+    Average conviction: 1568561408678185.8
+    Average amplitude: nan
+    Average inclusion: 0.007735042735042727
+    Average interestingness: 0.6170069642291859
+    Average comprehensibility: 0.6763685578758655
+    Average netconf: 0.6675824175824177
+    Average Yule's Q: 0.9670329670329672
+    Average antecedent length: 1.6346153846153846
+    Average consequent length: 1.8461538461538463
+
+    Run time: 13.37s
+    Rules exported to output.csv
+
 Interest Measures
 -----------------
 

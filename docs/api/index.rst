@@ -9,4 +9,5 @@ API Reference
     niaarm
     rule
     rule_list
+    text
     visualize

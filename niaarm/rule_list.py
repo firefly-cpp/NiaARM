@@ -1,7 +1,6 @@
 from collections import UserList
 import csv
 import numpy as np
-from niaarm.rule import Rule
 
 
 class RuleList(UserList):
@@ -87,12 +86,14 @@ class RuleList(UserList):
         with open(filename, 'w', newline='') as f:
             writer = csv.writer(f)
 
+            metrics = self.data[0].metrics
+
             # write header
-            writer.writerow(("antecedent", "consequent", "fitness") + Rule.metrics)
+            writer.writerow(("antecedent", "consequent", "fitness") + metrics)
 
             for rule in self.data:
                 writer.writerow(
-                    [rule.antecedent, rule.consequent, rule.fitness] + [getattr(rule, metric) for metric in Rule.metrics])
+                    [rule.antecedent, rule.consequent, rule.fitness] + [getattr(rule, metric) for metric in metrics])
         print(f"Rules exported to {filename}")
 
     def __str__(self):
