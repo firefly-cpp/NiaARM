@@ -24,7 +24,8 @@ The current version includes (but is not limited to) the following functions:
 - searching for association rules,
 - providing output of mined association rules,
 - generating statistics about mined association rules,
-- visualization of association rules.
+- visualization of association rules,
+- association rule text mining (experimental).
 
 Documentation
 =============
