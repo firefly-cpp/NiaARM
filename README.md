@@ -250,9 +250,9 @@ Ideas are based on the following research papers:
     In: Analide, C., Novais, P., Camacho, D., Yin, H. (eds) Intelligent Data Engineering and Automated Learning – IDEAL 2020.
     IDEAL 2020. Lecture Notes in Computer Science(), vol 12489. Springer, Cham. https://doi.org/10.1007/978-3-030-62362-3_10
 
-[5] I. Fister, S. Deb, I. Fister, „Population-based metaheuristics for Association Rule Text Mining“,
+[5] I. Fister, S. Deb, I. Fister, [Population-based metaheuristics for Association Rule Text Mining](http://www.iztok-jr-fister.eu/static/publications/260.pdf),
     In: Proceedings of the 2020 4th International Conference on Intelligent Systems, Metaheuristics & Swarm Intelligence,
-    New York, NY, USA, mar. 2020, pp. 19–23. doi: 10.1145/3396474.3396493.
+    New York, NY, USA, mar. 2020, pp. 19–23. doi: [10.1145/3396474.3396493](https://dl.acm.org/doi/10.1145/3396474.3396493).
 
 ## License
 
