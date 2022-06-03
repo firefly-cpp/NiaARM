@@ -53,6 +53,12 @@ To install NiaARM on Arch Linux, please use an [AUR helper](https://wiki.archlin
 $ yay -Syyu python-niaarm
 ```
 
+To install NiaARM on Fedora, use:
+
+```sh
+$ dnf install python3-niaarm
+```
+
 ## Usage
 
 ### Loading data
