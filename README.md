@@ -10,6 +10,7 @@
 [![PyPI Version](https://img.shields.io/pypi/v/niaarm.svg)](https://pypi.python.org/pypi/niaarm)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/niaarm.svg)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/niaarm.svg)
+[![Downloads](https://pepy.tech/badge/niaarm)](https://pepy.tech/project/niaarm)
 [![GitHub license](https://img.shields.io/github/license/firefly-cpp/niaarm.svg)](https://github.com/firefly-cpp/NiaARM/blob/main/LICENSE)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/firefly-cpp/niaarm.svg)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/firefly-cpp/niaarm.svg)](http://isitmaintained.com/project/firefly-cpp/niaarm "Average time to resolve an issue")
