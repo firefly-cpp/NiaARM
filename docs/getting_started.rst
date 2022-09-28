@@ -249,6 +249,8 @@ added to the :mod:`niaarm.mine` module.
         print('No rules generated')
         print(f'Run time: {time:.2f}s')
 
+**Note:** You may need to download stopwords and the punkt tokenizer from nltk by running `import nltk; nltk.download('stopwords'); nltk.download('punkt')`.
+
 **Output:**
 
 .. code:: text
