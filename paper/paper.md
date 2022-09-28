@@ -71,6 +71,6 @@ of the NiaARM framework are:
 
 5. A simple command-line interface for easier handling with the proposed tool.
 
-To our knowledge, NiaARM is one of only two publicly available software solutions implementing any form of numerical association rule mining, the other one being uARMSolver [@fister_uarmsolver_2020]. The uARMSolver framework, written in C++, also implements the ARM-DE algorithm. Comparatively, NiaARM offers better ease of use, the ability to use of arbitrary nature-inspired algorithms from the NiaPy framework (uARMSolver only implements DE or PSO) and the ability to optimize more interest measures.
+To the authors' knowledge, NiaARM is one of only two publicly available software solutions that implement any form of numerical association rule mining, the other being uARMSolver [@fister_uarmsolver_2020]. The uARMSolver framework, written in C++, also implements the ARM-DE algorithm. Comparatively, NiaARM offers better ease of use, the ability to use arbitrary nature-inspired algorithms from the NiaPy framework (uARMSolver only implements DE or PSO), and the ability to optimize using more interest measures.
 
 # References
