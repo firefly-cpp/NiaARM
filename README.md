@@ -198,6 +198,8 @@ else:
     print(f'Run time: {time:.2f}s')
 ```
 
+**Note:** You may need to download stopwords and the punkt tokenizer from nltk by running `import nltk; nltk.download('stopwords'); nltk.download('punkt')`.
+
 For a full list of examples see the [examples folder](https://github.com/firefly-cpp/NiaARM/tree/main/examples)
 in the GitHub repository.
 
