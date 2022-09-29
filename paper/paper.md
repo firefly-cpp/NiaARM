@@ -19,11 +19,6 @@ affiliations:
   index: 1
 date: 7 March 2022
 bibliography: paper.bib
-
-# Optional fields if submitting to a AAS journal too, see this blog post:
-# https://blog.joss.theoj.org/2018/12/a-new-collaboration-with-aas-publishing
-aas-doi: 10.3847/xxxxx <- update this with the DOI from AAS once you know it.
-aas-journal: Astrophysical Journal <- The name of the AAS journal.
 ---
 
 # Summary
@@ -45,7 +40,7 @@ algorithm from the related NiaPy framework [@vrbancic_niapy_2018] and having the
 measures and their corresponding weights for the fitness function.
 
 The flow of the NiaARM framework is shown in \autoref{fig:NiaARM}. Users have the option to construct a dataset either from a
-CSV file or a pandas Dataframe. The dataset is then used to build the optimization problem, along with user selected interest
+CSV file or a Pandas Dataframe. The dataset is then used to build the optimization problem, along with user selected interest
 measures to be used in the computation of the fitness function. Then the optimization problem can be solved using any algorithm
 in the NiaPy library to mine association rules from the dataset. The rules can be exported to a CSV file,
 analyzed statistically, or visualized using the visualization methods implemented in the framework, such as the hill slopes method
