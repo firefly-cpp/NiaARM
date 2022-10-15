@@ -9,4 +9,4 @@ from niaarm.visualize import hill_slopes
 
 __all__ = ['NiaARM', 'Dataset', 'Feature', 'Rule', 'RuleList', 'get_rules']
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
