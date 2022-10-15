@@ -8,6 +8,7 @@ readme = "README.md"
 include = [
     { path="LICENSE", format="sdist" },
     { path="CHANGELOG.md", format="sdist" },
+    { path="niaarm.1", format="sdist" },
 ]
 
 [tool.poetry.dependencies]

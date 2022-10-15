@@ -1,0 +1,58 @@
+.TH NIAARM "1" "October 2022" "" "User Commands"
+.SH NAME
+.B niaarm
+\(en perform ARM, output mined rules as csv, get mined rules\(cq statistics
+.SH SYNOPSIS
+.B niaarm
+.RB [ \-h ]
+.RB [ \-v ]
+.B \-i\ \fIINPUT_FILE
+.RB [ \-o\ \fIOUTPUT_FILE ]
+.B \-a\ \fIALGORITHM
+.RB [ \-s\ \fISEED ]
+.RB [ \-\-max\-evals\ \fIMAX_EVALS ]
+.RB [ \-\-max\-iters\ \fIMAX_ITERS ]
+.B \-\-metrics\ \fIMETRICS\fR\ [\fIMETRICS\fR\ ...]
+.RB [ \-\-weights\ \fIWEIGHTS\fR\ [\fIWEIGHTS \ ...]]
+.RB [ \-\-log ]
+.RB [ \-\-stats ]
+.SH OPTIONS
+.TP
+.B \-h\fR, \fB\-\-help
+Show a help message and exit
+.TP
+.B \-v\fR, \fB\-\-verbose
+Show program\(cqs version number and exit
+.TP
+.B \-i\ \fIINPUT_FILE\fR, \fB\-\-input\-file\ \fIINPUT_FILE
+Input file containing a csv dataset
+.TP
+.B \-o\ \fIOUTPUT_FILE\fR, \fB\-\-output\-file\ \fIOUTPUT_FILE
+Output file for mined rules
+.TP
+.B \-a\ \fIALGORITHM\fR, \fB\-\-algorithm\ \fIALGORITHM
+Algorithm to use (niapy class name, e.g. \fBDifferentialEvolution\fR)
+.TP
+.B \-s\ \fISEED\fR, \fB\-\-seed\ \fISEED
+Seed for the algorithm\(cqs random number generator
+.TP
+.B \-\-max\-evals\ \fIMAX_EVALS
+Maximum number of fitness function evaluations
+.TP
+.B \-\-max\-iters\ \fIMAX_ITERS
+Maximum number of iterations
+.TP
+.B \-\-metrics\ \fIMETRICS\fR\ [\fIMETRICS\fR\ ...]
+Metrics to use in the fitness function.
+.TP
+.B \-\-weights\ \fIWEIGHTS\fR\ [\fIWEIGHTS\fR\ ...]
+Weights in range
+.B [0,\ 1]
+corresponding to
+.B \-\-metrics
+.TP
+.B \-\-log
+Enable logging of fitness improvements
+.TP
+.B \-\-stats
+Display stats about mined rules
