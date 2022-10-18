@@ -1,11 +1,49 @@
 # Changelog
 
-## [Unreleased](https://github.com/firefly-cpp/NiaARM/tree/HEAD)
+## [0.2.2](https://github.com/firefly-cpp/NiaARM/tree/0.2.2) (2022-10-15)
 
-[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.1.6...HEAD)
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.2.1...0.2.2)
+
+**Closed issues:**
+
+- Add man page for CLI [\#71](https://github.com/firefly-cpp/NiaARM/issues/71)
 
 **Merged pull requests:**
 
+- Add a man page [\#72](https://github.com/firefly-cpp/NiaARM/pull/72) ([musicinmybrain](https://github.com/musicinmybrain))
+- Small paper fixes [\#70](https://github.com/firefly-cpp/NiaARM/pull/70) ([arfon](https://github.com/arfon))
+
+## [0.2.1](https://github.com/firefly-cpp/NiaARM/tree/0.2.1) (2022-09-29)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.2.0...0.2.1)
+
+**Closed issues:**
+
+- JOSS paper: State of the field not really described [\#66](https://github.com/firefly-cpp/NiaARM/issues/66)
+
+**Merged pull requests:**
+
+- Updated paper [\#69](https://github.com/firefly-cpp/NiaARM/pull/69) ([zStupan](https://github.com/zStupan))
+- Minor revision of the last paragraph in paper [\#68](https://github.com/firefly-cpp/NiaARM/pull/68) ([firefly-cpp](https://github.com/firefly-cpp))
+- Updated paper [\#67](https://github.com/firefly-cpp/NiaARM/pull/67) ([zStupan](https://github.com/zStupan))
+
+## [0.2.0](https://github.com/firefly-cpp/NiaARM/tree/0.2.0) (2022-05-29)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.1.6...0.2.0)
+
+**Closed issues:**
+
+- Add DOI for each paper cited in the paper [\#60](https://github.com/firefly-cpp/NiaARM/issues/60)
+- Figure for paper [\#58](https://github.com/firefly-cpp/NiaARM/issues/58)
+- Enhancement: Association Rule Text Mining [\#44](https://github.com/firefly-cpp/NiaARM/issues/44)
+
+**Merged pull requests:**
+
+- Experimental support for text mining [\#62](https://github.com/firefly-cpp/NiaARM/pull/62) ([zStupan](https://github.com/zStupan))
+- Do not package the tests [\#61](https://github.com/firefly-cpp/NiaARM/pull/61) ([firefly-cpp](https://github.com/firefly-cpp))
+- update figure [\#59](https://github.com/firefly-cpp/NiaARM/pull/59) ([zStupan](https://github.com/zStupan))
+- update paper [\#57](https://github.com/firefly-cpp/NiaARM/pull/57) ([zStupan](https://github.com/zStupan))
+- update paper [\#56](https://github.com/firefly-cpp/NiaARM/pull/56) ([zStupan](https://github.com/zStupan))
 - First draft of the paper [\#55](https://github.com/firefly-cpp/NiaARM/pull/55) ([zStupan](https://github.com/zStupan))
 
 ## [0.1.6](https://github.com/firefly-cpp/NiaARM/tree/0.1.6) (2022-04-22)
