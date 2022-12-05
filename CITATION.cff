@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Stupan"
+  given-names: "Žiga"
+  orcid: "https://orcid.org/0000-0001-9847-7306"
+- family-names: "Fister Jr."
+  given-names: "Iztok"
+  orcid: "https://orcid.org/0000-0002-6418-1272"
+title: "NiaARM: A minimalistic framework for Numerical Association Rule Mining"
+version: 0.2.1
+doi: 10.21105/joss.04448
+date-released: 2022-09-29
+url: "https://github.com/firefly-cpp/NiaARM"
