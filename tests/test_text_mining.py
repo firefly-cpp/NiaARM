@@ -2,6 +2,7 @@ import os
 from unittest import TestCase
 import numpy as np
 import pandas as pd
+import nltk
 
 from niaarm.niaarm import _cut_point
 from niaarm.text import Corpus, TextRule, NiaARTM
@@ -9,6 +10,8 @@ from niaarm.text import Corpus, TextRule, NiaARTM
 
 class TestTextMining(TestCase):
     def setUp(self):
+        nltk.download('punkt')
+        nltk.download('stopwords')
         ds_path = os.path.join(os.path.dirname(__file__), 'test_data', 'artm_test_dataset.json')
         df = pd.read_json(ds_path, orient='records')
         documents = df['text'].tolist()
