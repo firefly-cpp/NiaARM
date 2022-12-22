@@ -197,6 +197,8 @@ class TextRule(Rule):
         consequent (list[str]): A list of consequent terms of the text rule.
         fitness (Optional[float]): Fitness value of the text rule.
         transactions (Optional[pandas.DataFrame]): The tf-idf matrix as a pandas DataFrame.
+        threshold (Optional[float]): Threshold of tf-idf weights. If a weight is less than or equal to the
+         threshold, the term is not included in the transaction. Default: 0.
 
     Attributes:
         aws: The sum of tf-idf values for all the terms in the rule.
@@ -216,11 +218,19 @@ class TextRule(Rule):
         'comprehensibility', 'netconf', 'yulesq', 'aws'
     )
 
-    def __post_init__(self, transactions):
+    def __init__(self, antecedent, consequent, fitness=0.0, transactions=None, threshold=0):
+        super().__init__(antecedent, consequent, fitness, transactions=None)
+
+        if transactions is not None:
+            self.num_transactions = len(transactions)
+            self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(transactions.columns)
+            self.__post_init__(transactions, threshold)
+
+    def __post_init__(self, transactions, threshold=0):
         self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(transactions.columns)
         self.__aws = transactions[self.antecedent + self.consequent].values.sum()
-        contains_antecedent = (transactions[self.antecedent] > 0).all(axis=1)
-        contains_consequent = (transactions[self.consequent] > 0).all(axis=1)
+        contains_antecedent = (transactions[self.antecedent] > threshold).all(axis=1)
+        contains_consequent = (transactions[self.consequent] > threshold).all(axis=1)
         self.antecedent_count = contains_antecedent.sum()
         self.consequent_count = contains_consequent.sum()
         self.full_count = (contains_antecedent & contains_consequent).sum()
@@ -231,6 +241,10 @@ class TextRule(Rule):
     @property
     def amplitude(self):
         return np.nan
+
+    @property
+    def inclusion(self):
+        return self.__inclusion
 
     @property
     def aws(self):
@@ -253,6 +267,8 @@ class NiaARTM(NiaARM):
         metrics (Union[Dict[str, float], Sequence[str]]): Metrics to take into account when computing the fitness.
          Metrics can either be passed as a Dict of pairs {'metric_name': <weight of metric>} or
          a sequence of metrics as strings, in which case, the weights of the metrics will be set to 1.
+        threshold (Optional[float]): Threshold of tf-idf weights. If a weight is less than or equal to the
+         threshold, the term is not included in the transaction. Default: 0.
         logging (bool): Enable logging of fitness improvements. Default: ``False``.
 
     Attributes:
@@ -264,27 +280,36 @@ class NiaARTM(NiaARM):
         'support', 'confidence', 'coverage', 'interestingness', 'comprehensibility', 'inclusion', 'rhs_support', 'aws'
     )
 
-    def __init__(self, max_terms, terms, transactions, metrics, logging=False):
+    def __init__(self, max_terms, terms, transactions, metrics, threshold=0, logging=False):
         super().__init__(max_terms + 1, terms, transactions, metrics, logging)
         self.max_terms = max_terms
+        self.threshold = threshold
 
     def build_rule(self, vector):
-        y = np.zeros(self.num_features, dtype=bool)
-        y[(vector * (self.num_features - 1)).astype(int)] = True
-        return np.array(self.features)[y].tolist()
+        terms = [self.features[int(val * (self.num_features - 1))] for val in vector]
 
-    def _evaluate(self, sol):
-        cut_value = sol[self.dimension - 1]
-        solution = sol[:-1]
-        cut = _cut_point(cut_value, self.max_terms)
+        seen = set()
+        rule = []
+        for term in terms:
+            if term in seen:
+                continue
+            rule.append(term)
+            seen.add(term)
+
+        return rule
+
+    def _evaluate(self, x):
+        cut_value = x[self.dimension - 1]
+        solution = x[:-1]
 
         rule = self.build_rule(solution)
+        cut = _cut_point(cut_value, len(rule))
 
         antecedent = rule[:cut]
         consequent = rule[cut:]
 
         if antecedent and consequent:
-            rule = TextRule(antecedent, consequent, transactions=self.transactions)
+            rule = TextRule(antecedent, consequent, transactions=self.transactions, threshold=self.threshold)
             metrics = [getattr(rule, metric) for metric in self.metrics]
             fitness = np.dot(self.weights, metrics) / self.sum_weights
             rule.fitness = fitness

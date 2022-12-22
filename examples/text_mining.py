@@ -5,7 +5,14 @@ from niapy.algorithms.basic import ParticleSwarmOptimization
 
 df = pd.read_json('datasets/text/artm_test_dataset.json', orient='records')
 documents = df['text'].tolist()
-corpus = Corpus.from_list(documents)
+
+try:
+    corpus = Corpus.from_list(documents)
+except LookupError:
+    import nltk
+    nltk.download('punkt')
+    nltk.download('stopwords')
+    corpus = Corpus.from_list(documents)
 
 algorithm = ParticleSwarmOptimization(population_size=200, seed=123)
 metrics = ('support', 'confidence', 'aws')
