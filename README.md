@@ -276,4 +276,4 @@ This framework is provided as-is, and there are no guarantees that it fits your 
 
 ## Cite us
 
-Stupan, Ž., & Fister Jr., I. (2022). NiaARM: A minimalistic framework for Numerical Association Rule Mining. Journal of Open Source Software, 7(77), 4448.
+Stupan, Ž., & Fister Jr., I. (2022). [NiaARM: A minimalistic framework for Numerical Association Rule Mining](https://www.theoj.org/joss-papers/joss.04448/10.21105.joss.04448.pdf). Journal of Open Source Software, 7(77), 4448.
