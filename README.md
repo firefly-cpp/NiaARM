@@ -122,6 +122,8 @@ from niapy.algorithms.basic import DifferentialEvolution
 from niapy.task import Task, OptimizationType
 
 
+data = Dataset("datasets/Abalone.csv")
+
 # Create a problem:::
 # dimension represents the dimension of the problem;
 # features represent the list of features, while transactions depicts the list of transactions
