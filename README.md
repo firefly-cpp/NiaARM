@@ -92,14 +92,27 @@ data = Dataset('datasets/Abalone.csv')
 print(data)
 ```
 
+### Data Squashing
+
+Optionally, a preprocessing technique, called data squashing [5], can be applied. This will significantly reduce the number of transactions, while providing similar results to the original dataset.
+
+```python
+from niaarm import Dataset, squash
+
+dataset = Dataset('datasets/Abalone.csv')
+squashed = squash(dataset, threshold=0.9, similarity='euclidean')
+print(squashed)
+```
+
 ### Mining association rules the easy way (recommended)
 
 Association rule mining can be easily performed using the `get_rules` function:
 
 ```python
-
-from niaarm import get_rules
+from niaarm import Dataset, get_rules
 from niapy.algorithms.basic import DifferentialEvolution
+
+data = Dataset("datasets/Abalone.csv")
 
 algo = DifferentialEvolution(population_size=50, differential_weight=0.5, crossover_probability=0.9)
 metrics = ('support', 'confidence')
@@ -156,7 +169,7 @@ to be implemented in future releases.
 
 ```python
 from matplotlib import pyplot as plt
-from niaarm import Dataset, RuleList, get_rules
+from niaarm import Dataset, get_rules
 from niaarm.visualize import hill_slopes
 
 dataset = Dataset('datasets/Abalone.csv')
@@ -267,6 +280,8 @@ Ideas are based on the following research papers:
 [5] I. Fister, S. Deb, I. Fister, [Population-based metaheuristics for Association Rule Text Mining](http://www.iztok-jr-fister.eu/static/publications/260.pdf),
     In: Proceedings of the 2020 4th International Conference on Intelligent Systems, Metaheuristics & Swarm Intelligence,
     New York, NY, USA, mar. 2020, pp. 19–23. doi: [10.1145/3396474.3396493](https://dl.acm.org/doi/10.1145/3396474.3396493).
+
+[6] I. Fister, D. Novak and D. Verber, [Data squashing as preprocessing in association rule mining](https://iztok-jr-fister.eu/static/publications/300.pdf), 2022 IEEE Symposium Series on Computational Intelligence (SSCI), Singapore, Singapore, 2022, pp. 1720-1725, doi: [10.1109/SSCI51031.2022.10022240](https://doi.org/10.1109/SSCI51031.2022.10022240).
 
 ## License
 

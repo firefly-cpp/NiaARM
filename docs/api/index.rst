@@ -4,6 +4,7 @@ API Reference
 .. toctree::
 
     dataset
+    preprocessing
     feature
     mine
     niaarm
