@@ -61,6 +61,42 @@ This option is recommended, as it allows you to preprocess the data before minin
     max_val             N/A  0.815     0.65   1.13       2.8255          1.488           0.76        1.005    29
     categories    [M, F, I]    N/A      N/A    N/A          N/A            N/A            N/A          N/A   N/A
 
+
+Preprocessing
+~~~~~~~~~~~~~
+
+The :mod:`~niaarm.preprocessing` module provides functions for preprocessing transaction data.
+The only preprocessing method currently implemented is the :func:`~niaarm.preprocessing.squash` method,
+presented in `this paper <https://ieeexplore.ieee.org/document/10022240>`__.
+
+
+.. code:: python
+
+    from niaarm.dataset import Dataset
+    from niaarm.preprocessing import squash
+
+
+    dataset = Dataset('datasets/Abalone.csv')
+    squashed = squash(dataset, threshold=0.9, similarity='euclidean')
+    print(squashed)
+
+**Output:**
+
+.. code:: text
+
+    DATASET INFO:
+    Number of transactions: 626
+    Number of features: 9
+
+    FEATURE INFO:
+
+                      Sex Length Diameter Height Whole weight Shucked weight Viscera weight Shell weight Rings
+    dtype        category  float    float  float        float          float          float        float   int
+    min_val           N/A  0.075    0.055    0.0        0.002          0.001         0.0005       0.0015     1
+    max_val           N/A  0.815     0.65   1.13       2.8255          1.488           0.76        1.005    29
+    categories  [F, I, M]    N/A      N/A    N/A          N/A            N/A            N/A          N/A   N/A
+
+
 Mining Association Rules
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -198,7 +234,7 @@ Visualization
 
 The :mod:`~niaarm.visualize` module provides functions for plotting association rules.
 The only visualization method currently implemented is the :func:`~niaarm.visualize.hill_slopes` method,
-presented in `this paper <https://link.springer.com/chapter/10.1007/978-3-030-62362-3_10>`_.
+presented in `this paper <https://link.springer.com/chapter/10.1007/978-3-030-62362-3_10>`__.
 
 .. code:: python
 

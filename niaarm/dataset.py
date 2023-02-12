@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from pandas.api.types import is_float_dtype, is_integer_dtype, is_bool_dtype
 from niaarm.feature import Feature
 
 
@@ -31,25 +32,25 @@ class Dataset:
                 self.transactions.columns = pd.Index([f'Feature{i}' for i in range(len(self.transactions.columns))])
         self.header = self.transactions.columns.tolist()
         self.features = []
-        self.__analyse_types()
+        self.__extract_features()
         self.dimension = self.__problem_dimension()
 
-    def __analyse_types(self):
+    def __extract_features(self):
         r"""Extract data types for the data in a dataset."""
         for head in self.header:
             col = self.transactions[head]
 
-            if np.issubdtype(col.dtype, np.floating):
+            if is_float_dtype(col):
                 dtype = "float"
                 min_value = col.min()
                 max_value = col.max()
                 unique_categories = None
-            elif np.issubdtype(col.dtype, np.integer):
+            elif is_integer_dtype(col):
                 dtype = "int"
                 min_value = col.min()
                 max_value = col.max()
                 unique_categories = None
-            elif col.dtype == np.bool_:
+            elif is_bool_dtype(col):
                 self.transactions[head] = self.transactions[head].astype(int)
                 dtype = 'int'
                 min_value = 0
@@ -76,7 +77,14 @@ class Dataset:
 
     def __repr__(self):
         def dtype(x):
-            return str(x.dtype)[:-2] if np.issubdtype(x.dtype, np.number) else 'category'
+            if is_float_dtype(x):
+                return 'float'
+            elif is_integer_dtype(x):
+                return 'int'
+            elif x.dtype == 'category':
+                return 'category'
+            else:
+                return 'unknown'
 
         def min_val(x):
             return x.min() if x.dtype != 'category' else np.nan
