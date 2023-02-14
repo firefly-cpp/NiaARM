@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "niaarm"
-version = "0.3.0"
+version = "0.3.1"
 description = "A minimalistic framework for numerical association rule mining"
 authors = ["Žiga Stupan <ziga.stupan1@student.um.si>", "Iztok Fister Jr. <iztok@iztok-jr-fister.eu>"]
 readme = "README.md"
