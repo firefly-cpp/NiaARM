@@ -3,6 +3,9 @@ name = "niaarm"
 version = "0.3.1"
 description = "A minimalistic framework for numerical association rule mining"
 authors = ["Žiga Stupan <ziga.stupan1@student.um.si>", "Iztok Fister Jr. <iztok@iztok-jr-fister.eu>"]
+keywords = ['association rule mining', 'data science', 'numerical association rule mining', 'preprocessing', 'visualization']
+homepage = "https://github.com/firefly-cpp/NiaARM"
+repository = "https://github.com/firefly-cpp/NiaARM"
 readme = "README.md"
 
 include = [
