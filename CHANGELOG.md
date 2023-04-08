@@ -1,5 +1,55 @@
 # Changelog
 
+## [0.3.1](https://github.com/firefly-cpp/NiaARM/tree/0.3.1) (2023-02-14)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.0...0.3.1)
+
+**Merged pull requests:**
+
+- squashing refactor [\#86](https://github.com/firefly-cpp/NiaARM/pull/86) ([zStupan](https://github.com/zStupan))
+
+## [0.3.0](https://github.com/firefly-cpp/NiaARM/tree/0.3.0) (2023-02-12)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.2.4...0.3.0)
+
+**Closed issues:**
+
+- Lift metric problem [\#82](https://github.com/firefly-cpp/NiaARM/issues/82)
+- Mining association rules the hard way \(example\) [\#80](https://github.com/firefly-cpp/NiaARM/issues/80)
+- Add Fedora/Arch linux badges [\#79](https://github.com/firefly-cpp/NiaARM/issues/79)
+
+**Merged pull requests:**
+
+- Add data squashing [\#85](https://github.com/firefly-cpp/NiaARM/pull/85) ([zStupan](https://github.com/zStupan))
+
+## [0.2.4](https://github.com/firefly-cpp/NiaARM/tree/0.2.4) (2022-12-23)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.2.3...0.2.4)
+
+**Closed issues:**
+
+- New example [\#64](https://github.com/firefly-cpp/NiaARM/issues/64)
+- Test for text mining is missing [\#63](https://github.com/firefly-cpp/NiaARM/issues/63)
+
+**Merged pull requests:**
+
+- Update text mining [\#78](https://github.com/firefly-cpp/NiaARM/pull/78) ([zStupan](https://github.com/zStupan))
+- Add rule example [\#77](https://github.com/firefly-cpp/NiaARM/pull/77) ([zStupan](https://github.com/zStupan))
+
+## [0.2.3](https://github.com/firefly-cpp/NiaARM/tree/0.2.3) (2022-12-17)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.2.2...0.2.3)
+
+**Closed issues:**
+
+- Prepare CITATION.cff file for JOSS paper [\#75](https://github.com/firefly-cpp/NiaARM/issues/75)
+
+**Merged pull requests:**
+
+- Bump certifi from 2022.5.18.1 to 2022.12.7 [\#76](https://github.com/firefly-cpp/NiaARM/pull/76) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump joblib from 1.1.0 to 1.2.0 [\#74](https://github.com/firefly-cpp/NiaARM/pull/74) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pillow from 9.1.1 to 9.3.0 [\#73](https://github.com/firefly-cpp/NiaARM/pull/73) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [0.2.2](https://github.com/firefly-cpp/NiaARM/tree/0.2.2) (2022-10-15)
 
 [Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.2.1...0.2.2)
