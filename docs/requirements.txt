@@ -4,3 +4,4 @@ sphinxcontrib-bibtex==2.4.1
 niapy>=2.0.1
 numpy>=1.22.3
 pandas>=1.4.0
+nltk
