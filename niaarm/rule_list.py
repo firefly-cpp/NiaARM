@@ -97,6 +97,9 @@ class RuleList(UserList):
         print(f"Rules exported to {filename}")
 
     def __str__(self):
+        if not self:  # if list is empty
+            return '[]'
+
         string = f'STATS:\n' \
                  f'Total rules: {len(self)}\n' \
                  f'Average fitness: {self.mean("fitness")}\n' \
