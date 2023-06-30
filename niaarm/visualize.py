@@ -105,3 +105,61 @@ def _ribbon(x, z, width=0.5):
     fig.colorbar(scalar_map, shrink=0.5, aspect=10)
 
     return fig, ax
+
+# implementation of scatter plot visualization
+def scatter_plot(rules, transactions):
+    """Visualize rule as scatter plot.
+
+        Args:
+            rule (Rule): Association rule to visualize.
+            transactions (pandas.DataFrame): Transactions as a DataFrame.
+
+        Returns:
+            tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]: Figure and Axes of plot.
+
+        """
+
+    features = rules.antecedent + rules.consequent
+    num_features = len(features)
+    support = np.empty(num_features)
+
+    for i, f in enumerate(features):
+        if f.dtype != 'cat':
+            match = (transactions[f.name] <= f.max_val) & (transactions[f.name] >= f.min_val)
+        else:
+            match = transactions[f.name] == f.categories[0]
+
+        supp_count = match.sum()
+        supp = supp_count / len(transactions)
+        support[i] = supp
+
+    # Scatter plot settings
+    cmap = plt.get_cmap('viridis')
+    norm = Normalize(vmin=min(support), vmax=max(support))
+    colors = cmap(norm(support))
+    x = np.arange(num_features)
+    y = np.zeros(num_features)
+
+    # Create scatter plot
+    plt.scatter(x, y, c=colors)
+    plt.xlabel('Feature Index')
+    plt.ylabel('Value')
+    plt.title('Scatter Plot')
+    plt.colorbar(ScalarMappable(cmap=cmap, norm=norm), label='Support')
+    plt.show()
+
+
+
+# implementation of grouped_matrix_plot visualization
+def grouped_matrix_plot():
+    """Visualize rule as Grouped matrix plot.
+
+            Args:
+                rule (Rule): Association rule to visualize.
+                transactions (pandas.DataFrame): Transactions as a DataFrame.
+
+            Returns:
+                tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]: Figure and Axes of plot.
+
+            """
+    print("Grouped matrix plot viz")
