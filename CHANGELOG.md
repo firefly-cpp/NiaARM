@@ -1,5 +1,25 @@
 # Changelog
 
+## [Unreleased](https://github.com/firefly-cpp/NiaARM/tree/HEAD)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.2...HEAD)
+
+**Closed issues:**
+
+- Issue when building documentation \(warnings\) [\#89](https://github.com/firefly-cpp/NiaARM/issues/89)
+
+## [0.3.2](https://github.com/firefly-cpp/NiaARM/tree/0.3.2) (2023-05-23)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.1...0.3.2)
+
+**Closed issues:**
+
+- Exceptions and warnings when handling these UCI datasets [\#91](https://github.com/firefly-cpp/NiaARM/issues/91)
+
+**Merged pull requests:**
+
+- Bump requests from 2.28.2 to 2.31.0 [\#90](https://github.com/firefly-cpp/NiaARM/pull/90) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [0.3.1](https://github.com/firefly-cpp/NiaARM/tree/0.3.1) (2023-02-14)
 
 [Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.0...0.3.1)
