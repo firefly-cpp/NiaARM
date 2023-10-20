@@ -1,12 +1,17 @@
 # Changelog
 
-## [Unreleased](https://github.com/firefly-cpp/NiaARM/tree/HEAD)
+## [0.3.3](https://github.com/firefly-cpp/NiaARM/tree/0.3.3) (2023-10-18)
 
-[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.2...HEAD)
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.2...0.3.3)
 
 **Closed issues:**
 
 - Issue when building documentation \(warnings\) [\#89](https://github.com/firefly-cpp/NiaARM/issues/89)
+
+**Merged pull requests:**
+
+- Removed python 3.7 support [\#97](https://github.com/firefly-cpp/NiaARM/pull/97) ([zStupan](https://github.com/zStupan))
+- Bump pygments from 2.14.0 to 2.15.0 [\#94](https://github.com/firefly-cpp/NiaARM/pull/94) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [0.3.2](https://github.com/firefly-cpp/NiaARM/tree/0.3.2) (2023-05-23)
 
