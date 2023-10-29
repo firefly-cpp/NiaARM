@@ -36,7 +36,14 @@ class NiaARM(Problem):
     """
 
     available_metrics = (
-        'support', 'confidence', 'coverage', 'interestingness', 'comprehensibility', 'amplitude', 'inclusion', 'rhs_support'
+        "support",
+        "confidence",
+        "coverage",
+        "interestingness",
+        "comprehensibility",
+        "amplitude",
+        "inclusion",
+        "rhs_support",
     )
 
     def __init__(self, dimension, features, transactions, metrics, logging=False):
@@ -45,7 +52,7 @@ class NiaARM(Problem):
         self.transactions = transactions
 
         if not metrics:
-            raise ValueError('No metrics provided')
+            raise ValueError("No metrics provided")
 
         if isinstance(metrics, dict):
             self.metrics = tuple(metrics.keys())
@@ -54,11 +61,11 @@ class NiaARM(Problem):
             self.metrics = tuple(metrics)
             self.weights = np.ones(len(self.metrics))
         else:
-            raise ValueError(f'Invalid type for metrics: {type(metrics)}')
+            raise ValueError(f"Invalid type for metrics: {type(metrics)}")
 
         if not set(self.metrics).issubset(self.available_metrics):
-            invalid = ', '.join(set(self.metrics).difference(self.available_metrics))
-            raise ValueError(f'Invalid metric(s): {invalid}')
+            invalid = ", ".join(set(self.metrics).difference(self.available_metrics))
+            raise ValueError(f"Invalid metric(s): {invalid}")
 
         self.sum_weights = np.sum(self.weights)
 
@@ -70,7 +77,7 @@ class NiaARM(Problem):
     def build_rule(self, vector):
         rule = []
 
-        permutation = vector[-self.num_features:]
+        permutation = vector[-self.num_features :]
         permutation = sorted(range(self.num_features), key=lambda k: permutation[k])
 
         for i in permutation:
@@ -80,33 +87,45 @@ class NiaARM(Problem):
             vector_position = self.feature_position(i)
 
             # get a threshold for each feature
-            threshold_position = vector_position + 1 + int(feature.dtype != 'cat')
+            threshold_position = vector_position + 1 + int(feature.dtype != "cat")
             if vector[vector_position] > vector[threshold_position]:
-                if feature.dtype != 'cat':
-                    border1 = vector[vector_position] * (feature.max_val - feature.min_val) + feature.min_val
+                if feature.dtype != "cat":
+                    border1 = (
+                        vector[vector_position] * (feature.max_val - feature.min_val)
+                        + feature.min_val
+                    )
                     vector_position = vector_position + 1
-                    border2 = vector[vector_position] * (feature.max_val - feature.min_val) + feature.min_val
+                    border2 = (
+                        vector[vector_position] * (feature.max_val - feature.min_val)
+                        + feature.min_val
+                    )
                     if border1 > border2:
                         border1, border2 = border2, border1
-                    if feature.dtype == 'int':
+                    if feature.dtype == "int":
                         border1 = round(border1)
                         border2 = round(border2)
                     rule.append(Feature(feature.name, feature.dtype, border1, border2))
                 else:
                     categories = feature.categories
                     selected = round(vector[vector_position] * (len(categories) - 1))
-                    rule.append(Feature(feature.name, feature.dtype, categories=[categories[selected]]))
+                    rule.append(
+                        Feature(
+                            feature.name,
+                            feature.dtype,
+                            categories=[categories[selected]],
+                        )
+                    )
             else:
                 rule.append(None)
         return rule
 
     def threshold_move(self, current_feature):
-        return 1 + int(self.features[current_feature].dtype != 'cat')
+        return 1 + int(self.features[current_feature].dtype != "cat")
 
     def feature_position(self, feature):
         position = 0
         for f in self.features[:feature]:
-            position = position + 2 + int(f.dtype != 'cat')
+            position = position + 2 + int(f.dtype != "cat")
         return position
 
     def _evaluate(self, sol):
@@ -138,8 +157,15 @@ class NiaARM(Problem):
 
                 if self.logging and fitness > self.best_fitness:
                     self.best_fitness = fitness
-                    print(f'Fitness: {rule.fitness}, ' + ', '.join(
-                        [f'{metric.capitalize()}: {metrics[i]}' for i, metric in enumerate(self.metrics)]))
+                    print(
+                        f"Fitness: {rule.fitness}, "
+                        + ", ".join(
+                            [
+                                f"{metric.capitalize()}: {metrics[i]}"
+                                for i, metric in enumerate(self.metrics)
+                            ]
+                        )
+                    )
             return fitness
         else:
             return -1.0

@@ -7,7 +7,7 @@ NiaARM is a minimalistic framework for numerical association rule mining.
 
 * **Free software:** MIT license
 * **Github repository:** https://github.com/firefly-cpp/NiaARM
-* **Python versions:** 3.7.x, 3.8.x, 3.9.x, 3.10.x, 3.11.x
+* **Python versions:** 3.9.x, 3.10.x, 3.11.x, 3.12.x
 
 General outline of the framework
 ---------------------------------

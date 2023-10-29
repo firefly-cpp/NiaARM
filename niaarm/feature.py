@@ -10,7 +10,7 @@ class Feature:
 
     """
 
-    __slots__ = ('name', 'dtype', 'min_val', 'max_val', 'categories')
+    __slots__ = ("name", "dtype", "min_val", "max_val", "categories")
 
     def __init__(self, name, dtype, min_val=None, max_val=None, categories=None):
         self.name = name
@@ -20,16 +20,20 @@ class Feature:
         self.categories = categories
 
     def __eq__(self, other):
-        return self.name == other.name and self.dtype == other.dtype and self.min_val == other.min_val \
-               and self.max_val == other.max_val
+        return (
+            self.name == other.name
+            and self.dtype == other.dtype
+            and self.min_val == other.min_val
+            and self.max_val == other.max_val
+        )
 
     def __repr__(self):
-        string = f'{self.name}('
-        if self.dtype == 'cat':
-            string += f'{self.categories if len(self.categories) != 1 else self.categories[0]})'
+        string = f"{self.name}("
+        if self.dtype == "cat":
+            string += f"{self.categories if len(self.categories) != 1 else self.categories[0]})"
         else:
             if self.min_val == self.max_val:
-                string += f'{self.min_val})'
+                string += f"{self.min_val})"
             else:
-                string += f'[{self.min_val}, {self.max_val}])'
+                string += f"[{self.min_val}, {self.max_val}])"
         return string

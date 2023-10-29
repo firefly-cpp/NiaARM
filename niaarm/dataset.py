@@ -23,13 +23,17 @@ class Dataset:
 
     """
 
-    def __init__(self, path_or_df, delimiter=',', header=0, names=None):
+    def __init__(self, path_or_df, delimiter=",", header=0, names=None):
         if isinstance(path_or_df, pd.DataFrame):
             self.transactions = path_or_df
         else:
-            self.transactions = pd.read_csv(path_or_df, delimiter=delimiter, header=header, names=names)
+            self.transactions = pd.read_csv(
+                path_or_df, delimiter=delimiter, header=header, names=names
+            )
             if names is None and header is None:
-                self.transactions.columns = pd.Index([f'Feature{i}' for i in range(len(self.transactions.columns))])
+                self.transactions.columns = pd.Index(
+                    [f"Feature{i}" for i in range(len(self.transactions.columns))]
+                )
         self.header = self.transactions.columns.tolist()
         self.features = []
         self.__extract_features()
@@ -52,18 +56,20 @@ class Dataset:
                 unique_categories = None
             elif is_bool_dtype(col):
                 self.transactions[head] = self.transactions[head].astype(int)
-                dtype = 'int'
+                dtype = "int"
                 min_value = 0
                 max_value = 1
                 unique_categories = None
             else:
                 dtype = "cat"
-                self.transactions[head] = self.transactions[head].astype('category')
+                self.transactions[head] = self.transactions[head].astype("category")
                 unique_categories = self.transactions[head].cat.categories.tolist()
                 min_value = None
                 max_value = None
 
-            self.features.append(Feature(head, dtype, min_value, max_value, unique_categories))
+            self.features.append(
+                Feature(head, dtype, min_value, max_value, unique_categories)
+            )
 
     def __problem_dimension(self):
         r"""Calculate the dimension of the problem."""
@@ -78,26 +84,28 @@ class Dataset:
     def __repr__(self):
         def dtype(x):
             if is_float_dtype(x):
-                return 'float'
+                return "float"
             elif is_integer_dtype(x):
-                return 'int'
-            elif x.dtype == 'category':
-                return 'category'
+                return "int"
+            elif x.dtype == "category":
+                return "category"
             else:
-                return 'unknown'
+                return "unknown"
 
         def min_val(x):
-            return x.min() if x.dtype != 'category' else np.nan
+            return x.min() if x.dtype != "category" else np.nan
 
         def max_val(x):
-            return x.max() if x.dtype != 'category' else np.nan
+            return x.max() if x.dtype != "category" else np.nan
 
         def categories(x):
-            return x.cat.categories.tolist() if x.dtype == 'category' else np.nan
+            return x.cat.categories.tolist() if x.dtype == "category" else np.nan
 
         feature_report = self.transactions.agg([dtype, min_val, max_val, categories])
-        return f"DATASET INFO:\n" \
-               f"Number of transactions: {len(self.transactions)}\n" \
-               f"Number of features: {len(self.features)}\n\n" \
-               f"FEATURE INFO:\n\n" \
-               f"{feature_report.to_string(na_rep='N/A')}"
+        return (
+            f"DATASET INFO:\n"
+            f"Number of transactions: {len(self.transactions)}\n"
+            f"Number of features: {len(self.features)}\n\n"
+            f"FEATURE INFO:\n\n"
+            f"{feature_report.to_string(na_rep='N/A')}"
+        )
