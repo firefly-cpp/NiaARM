@@ -110,4 +110,3 @@ E.g. (for the above run):
     Average length of antecedent: 1.97723292469352
     Average length of consequent: 1.5604203152364273
     Run Time: 6.4538s
-

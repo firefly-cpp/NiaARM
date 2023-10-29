@@ -18,7 +18,7 @@ class RuleList(UserList):
         """
         return np.array([getattr(rule, metric) for rule in self.data])
 
-    def sort(self, by='fitness', reverse=True):
+    def sort(self, by="fitness", reverse=True):
         """Sort rules by metric.
 
         Args:
@@ -83,7 +83,7 @@ class RuleList(UserList):
             filename (str): File to save the rules to.
 
         """
-        with open(filename, 'w', newline='') as f:
+        with open(filename, "w", newline="") as f:
             writer = csv.writer(f)
 
             metrics = self.data[0].metrics
@@ -93,28 +93,32 @@ class RuleList(UserList):
 
             for rule in self.data:
                 writer.writerow(
-                    [rule.antecedent, rule.consequent, rule.fitness] + [getattr(rule, metric) for metric in metrics])
+                    [rule.antecedent, rule.consequent, rule.fitness]
+                    + [getattr(rule, metric) for metric in metrics]
+                )
         print(f"Rules exported to {filename}")
 
     def __str__(self):
         if not self:  # if list is empty
-            return '[]'
+            return "[]"
 
-        string = f'STATS:\n' \
-                 f'Total rules: {len(self)}\n' \
-                 f'Average fitness: {self.mean("fitness")}\n' \
-                 f'Average support: {self.mean("support")}\n' \
-                 f'Average confidence: {self.mean("confidence")}\n' \
-                 f'Average lift: {self.mean("lift")}\n' \
-                 f'Average coverage: {self.mean("coverage")}\n' \
-                 f'Average consequent support: {self.mean("rhs_support")}\n' \
-                 f'Average conviction: {self.mean("conviction")}\n' \
-                 f'Average amplitude: {self.mean("amplitude")}\n' \
-                 f'Average inclusion: {self.mean("inclusion")}\n' \
-                 f'Average interestingness: {self.mean("interestingness")}\n' \
-                 f'Average comprehensibility: {self.mean("comprehensibility")}\n' \
-                 f'Average netconf: {self.mean("netconf")}\n' \
-                 f'Average Yule\'s Q: {self.mean("yulesq")}\n' \
-                 f'Average antecedent length: {sum(len(rule.antecedent) for rule in self) / len(self)}\n' \
-                 f'Average consequent length: {sum(len(rule.consequent) for rule in self) / len(self)}\n'
+        string = (
+            f"STATS:\n"
+            f"Total rules: {len(self)}\n"
+            f'Average fitness: {self.mean("fitness")}\n'
+            f'Average support: {self.mean("support")}\n'
+            f'Average confidence: {self.mean("confidence")}\n'
+            f'Average lift: {self.mean("lift")}\n'
+            f'Average coverage: {self.mean("coverage")}\n'
+            f'Average consequent support: {self.mean("rhs_support")}\n'
+            f'Average conviction: {self.mean("conviction")}\n'
+            f'Average amplitude: {self.mean("amplitude")}\n'
+            f'Average inclusion: {self.mean("inclusion")}\n'
+            f'Average interestingness: {self.mean("interestingness")}\n'
+            f'Average comprehensibility: {self.mean("comprehensibility")}\n'
+            f'Average netconf: {self.mean("netconf")}\n'
+            f'Average Yule\'s Q: {self.mean("yulesq")}\n'
+            f"Average antecedent length: {sum(len(rule.antecedent) for rule in self) / len(self)}\n"
+            f"Average consequent length: {sum(len(rule.consequent) for rule in self) / len(self)}\n"
+        )
         return string

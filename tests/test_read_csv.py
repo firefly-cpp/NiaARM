@@ -11,31 +11,34 @@ import os
 
 class TestReadCSVAbalone(TestCase):
     def test_read_features(self):
-
         header = [
-            'Sex',
-            'Length',
-            'Diameter',
-            'Height',
-            'Whole weight',
-            'Shucked weight',
-            'Viscera weight',
-            'Shell weight',
-            'Rings']
+            "Sex",
+            "Length",
+            "Diameter",
+            "Height",
+            "Whole weight",
+            "Shucked weight",
+            "Viscera weight",
+            "Shell weight",
+            "Rings",
+        ]
         minval = [None, 0.075, 0.055, 0.0, 0.002, 0.001, 0.0005, 0.0015, 1]
         maxval = [None, 0.815, 0.65, 1.13, 2.8255, 1.488, 0.76, 1.005, 29]
         dtypes_a = [
-            'cat',
-            'float',
-            'float',
-            'float',
-            'float',
-            'float',
-            'float',
-            'float',
-            'int']
+            "cat",
+            "float",
+            "float",
+            "float",
+            "float",
+            "float",
+            "float",
+            "float",
+            "int",
+        ]
 
-        data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'Abalone.csv'))
+        data = Dataset(
+            os.path.join(os.path.dirname(__file__), "test_data", "Abalone.csv")
+        )
 
         features = data.features
 
@@ -62,12 +65,14 @@ class TestReadCSVAbalone(TestCase):
 
 class TestReadCSVWiki(TestCase):
     def test_read_features(self):
-        header = ['Feat1', 'Feat2']
+        header = ["Feat1", "Feat2"]
         minval = [None, 0]
         maxval = [None, 1]
-        dtypes_a = ['cat', 'int']
+        dtypes_a = ["cat", "int"]
 
-        data = Dataset(os.path.join(os.path.dirname(__file__), 'test_data', 'wiki_test_case.csv'))
+        data = Dataset(
+            os.path.join(os.path.dirname(__file__), "test_data", "wiki_test_case.csv")
+        )
 
         features = data.features
 
