@@ -102,6 +102,6 @@ def _ribbon(x, z, width=0.5):
     colors = scalar_map.to_rgba(zz)
     ax.plot_surface(xx, yy, zz, rstride=1, cstride=1, facecolors=colors)
 
-    fig.colorbar(scalar_map, shrink=0.5, aspect=10)
+    fig.colorbar(scalar_map, shrink=0.5, aspect=10, ax=ax)
 
     return fig, ax
