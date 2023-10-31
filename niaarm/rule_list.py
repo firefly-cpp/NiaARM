@@ -83,6 +83,10 @@ class RuleList(UserList):
             filename (str): File to save the rules to.
 
         """
+        if not self:
+            print("No rules to output")
+            return
+
         with open(filename, "w", newline="") as f:
             writer = csv.writer(f)
 
