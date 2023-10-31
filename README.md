@@ -92,7 +92,9 @@ data = Dataset('datasets/Abalone.csv')
 print(data)
 ```
 
-### Data Squashing
+### Preprocessing
+
+#### Data Squashing
 
 Optionally, a preprocessing technique, called data squashing [5], can be applied. This will significantly reduce the number of transactions, while providing similar results to the original dataset.
 
@@ -104,7 +106,9 @@ squashed = squash(dataset, threshold=0.9, similarity='euclidean')
 print(squashed)
 ```
 
-### Mining association rules the easy way (recommended)
+### Mining association rules
+
+#### The easy way (recommended)
 
 Association rule mining can be easily performed using the `get_rules` function:
 
@@ -124,7 +128,7 @@ print(f'Run Time: {run_time}')
 rules.to_csv('output.csv')
 ```
 
-### Mining association rules the hard way
+#### The hard way
 
 The above example can be also be implemented using a more low level interface,
 with the `NiaARM` class directly:
@@ -137,7 +141,7 @@ from niapy.task import Task, OptimizationType
 
 data = Dataset("datasets/Abalone.csv")
 
-# Create a problem:::
+# Create a problem
 # dimension represents the dimension of the problem;
 # features represent the list of features, while transactions depicts the list of transactions
 # metrics is a sequence of metrics to be taken into account when computing the fitness;
@@ -161,6 +165,12 @@ problem.rules.sort()
 # export all rules to csv
 problem.rules.to_csv('output.csv')
 ```
+
+#### Interest measures
+
+The framework implements several popular interest measures, which can be used to compute the fitness function value of rules
+and for assessing the quality of the mined rules. A full list of the implemented interest measures along with their descriptions
+and equations can be found [here](interest_measures.md).
 
 ### Visualization
 
@@ -207,13 +217,9 @@ algorithm = ParticleSwarmOptimization(population_size=200, seed=123)
 metrics = ('support', 'confidence', 'aws')
 rules, time = get_text_rules(corpus, max_terms=5, algorithm=algorithm, metrics=metrics, max_evals=10000, logging=True)
 
-if len(rules):
-    print(rules)
-    print(f'Run time: {time:.2f}s')
-    rules.to_csv('output.csv')
-else:
-    print('No rules generated')
-    print(f'Run time: {time:.2f}s')
+print(rules)
+print(f'Run time: {time:.2f}s')
+rules.to_csv('output.csv')
 ```
 
 **Note:** You may need to download stopwords and the punkt tokenizer from nltk by running `import nltk; nltk.download('stopwords'); nltk.download('punkt')`.
