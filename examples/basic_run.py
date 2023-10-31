@@ -8,7 +8,7 @@ if __name__ == "__main__":
     # load and preprocess the dataset from csv
     data = Dataset("datasets/Abalone.csv")
 
-    # Create a problem:::
+    # Create a problem
     # dimension represents the dimension of the problem;
     # features represent the list of features, while transactions depicts the list of transactions
     # the following 4 elements represent weights (support, confidence, coverage, shrinkage)
