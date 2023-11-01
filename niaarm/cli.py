@@ -6,13 +6,37 @@ import platform
 import subprocess
 import sys
 
+try:
+    import tomllib
+except ImportError:
+    import tomli as tomllib
+
 import numpy as np
 import niaarm
-from niaarm import NiaARM, Dataset, get_rules
+from niaarm import NiaARM, Dataset, get_rules, squash
 from niapy.util.factory import get_algorithm
 from niapy.util import distances, repair
 from niapy.algorithms.other import mts
 from niapy.algorithms.basic import de
+
+DEFAULT_CONFIG = {
+    "input_file": None,
+    "output_file": None,
+    "log": False,
+    "stats": False,
+    "preprocessing": {
+        "squashing": {},
+    },
+    "algorithm": {
+        "name": None,
+        "max_evals": np.inf,
+        "max_iters": np.inf,
+        "metrics": None,
+        "weights": None,
+        "seed": None,
+        "parameters": {},
+    },
+}
 
 
 def get_parser():
@@ -26,21 +50,29 @@ def get_parser():
         action="version",
         version=f"%(prog)s version {niaarm.__version__}",
     )
+    parser.add_argument("-c", "--config", type=str, help="Path to a TOML config file")
     parser.add_argument(
         "-i",
         "--input-file",
         type=str,
-        required=True,
         help="Input file containing a csv dataset",
     )
     parser.add_argument(
         "-o", "--output-file", type=str, help="Output file for mined rules"
     )
     parser.add_argument(
+        "--squashing-similarity",
+        type=str,
+        choices=("euclidean", "cosine"),
+        help="Similarity measure to use for squashing",
+    )
+    parser.add_argument(
+        "--squashing-threshold", type=float, help="Threshold to use for squashing"
+    )
+    parser.add_argument(
         "-a",
         "--algorithm",
         type=str,
-        required=True,
         help="Algorithm to use (niapy class name, e.g. DifferentialEvolution)",
     )
     parser.add_argument(
@@ -64,7 +96,6 @@ def get_parser():
         nargs="+",
         action="extend",
         choices=NiaARM.available_metrics,
-        required=True,
         metavar="METRICS",
         help="Metrics to use in the fitness function.",
     )
@@ -83,6 +114,30 @@ def get_parser():
     )
 
     return parser
+
+
+def deep_update(dictionary, other):
+    """Same as `dict.update` but for nested dictionaries."""
+    updated_dict = dictionary.copy()
+    for k, v in other.items():
+        if (
+            k in updated_dict
+            and isinstance(updated_dict[k], dict)
+            and isinstance(v, dict)
+        ):
+            updated_dict[k] = deep_update(updated_dict[k], v)
+        else:
+            updated_dict[k] = v
+    return updated_dict
+
+
+def load_config(file):
+    with open(file, "rb") as f:
+        return tomllib.load(f)
+
+
+def validate_config(config):
+    pass
 
 
 def text_editor():
@@ -193,42 +248,108 @@ def main():
 
     if len(sys.argv) == 1:
         parser.print_help()
-    if args.max_evals == np.inf and args.max_iters == np.inf:
-        print("Error: --max-evals and/or --max-iters missing", file=sys.stderr)
-        return 1
-    metrics = list(set(args.metrics))
+        return 0
 
-    if args.weights and len(args.weights) != len(metrics):
+    config = DEFAULT_CONFIG.copy()
+    if args.config:
+        try:
+            config_from_file = load_config(args.config)
+            config = deep_update(config, config_from_file)
+        except tomllib.TOMLDecodeError:
+            print("Error: Invalid config file", file=sys.stderr)
+    else:
+        config["input_file"] = args.input_file
+        config["output_file"] = args.output_file
+        config["log"] = args.log
+        config["stats"] = args.stats
+        config["preprocessing"]["squashing"]["similarity"] = args.squashing_similarity
+        config["preprocessing"]["squashing"]["threshold"] = args.squashing_threshold
+        config["algorithm"]["name"] = args.algorithm
+        config["algorithm"]["seed"] = args.seed
+        config["algorithm"]["max_evals"] = args.max_evals
+        config["algorithm"]["max_iters"] = args.max_iters
+        config["algorithm"]["metrics"] = args.metrics
+        config["algorithm"]["weights"] = args.weights
+
+    if (
+        config["algorithm"]["max_evals"] == np.inf
+        and config["algorithm"]["max_iters"] == np.inf
+    ):
+        print("Error: max_evals or max_iters missing", file=sys.stderr)
+        return 1
+
+    metrics = list(set(config["algorithm"]["metrics"]))
+    weights = config["algorithm"]["weights"]
+
+    if weights and len(weights) != len(metrics):
         print(
-            "Error: There must be the same amount of weights and metrics",
+            "Error: Metrics and weights dimensions don't match",
             file=sys.stderr,
         )
         return 1
-    weights = args.weights if args.weights else [1] * len(metrics)
+
+    weights = weights if weights else [1] * len(metrics)
     metrics = dict(zip(metrics, weights))
 
     try:
-        dataset = Dataset(args.input_file)
-        algorithm = get_algorithm(args.algorithm, seed=args.seed)
+        dataset = Dataset(config["input_file"])
+
+        squash_config = config["preprocessing"]["squashing"]
+        if squash_config and squash_config["similarity"] and squash_config["threshold"]:
+            num_transactions = len(dataset.transactions)
+            dataset = squash(
+                dataset, squash_config["threshold"], squash_config["similarity"]
+            )
+            print(
+                f"Squashed dataset from"
+                f" {num_transactions} to {len(dataset.transactions)} transactions"
+            )
+
+        algorithm = get_algorithm(
+            config["algorithm"]["name"], seed=config["algorithm"]["seed"]
+        )
         params = algorithm.get_parameters()
-        new_params = edit_parameters(params, algorithm.__class__)
+        if args.config:
+            new_params = config["algorithm"]["parameters"]
+            for k, v in new_params.items():
+                if isinstance(v, str):
+                    if len(v.split(", ")) > 1:  # tuple
+                        value = list(map(str.strip, v.split(", ")))
+                        value = tuple(map(convert_string, value))
+                        value = tuple(
+                            find_function(val, algorithm.__class__)
+                            for val in value
+                            if isinstance(v, str)
+                        )
+                    else:
+                        value = find_function(v, algorithm.__class__)
+
+                    new_params[k] = value
+        else:
+            new_params = edit_parameters(params, algorithm.__class__)
+
         if new_params is None:
-            print("Invalid parameters", file=sys.stderr)
+            print("Error: Invalid parameters", file=sys.stderr)
             return 1
         if not set(new_params).issubset(params):
             print(
-                f"Invalid parameters: {set(new_params).difference(params)}",
+                f"Error: Invalid parameters: {set(new_params).difference(params)}",
                 file=sys.stderr,
             )
             return 1
 
         algorithm.set_parameters(**new_params)
         rules, run_time = get_rules(
-            dataset, algorithm, metrics, args.max_evals, args.max_iters, args.log
+            dataset,
+            algorithm,
+            metrics,
+            config["algorithm"]["max_evals"],
+            config["algorithm"]["max_iters"],
+            config["log"],
         )
-        if args.output_file:
-            rules.to_csv(args.output_file)
-        if args.stats:
+        if config["output_file"]:
+            rules.to_csv(config["output_file"])
+        if config["stats"]:
             print(rules)
         print(f"Run Time: {run_time:.4f}s")
 
