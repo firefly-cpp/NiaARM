@@ -1,0 +1,40 @@
+# dataset to load
+input_file = "datasets/Abalone.csv"
+
+# file to export rules to (optional)
+output_file = "output.csv"
+
+# log fitness improvements (optional)
+log = true
+
+# print stats of the mined rules (optional)
+stats = true
+
+# Data squashing settings (optional)
+[preprocessing.squashing]
+similarity = "euclid" # or "cosine"
+threshold = 0.99
+
+# algorithm settings
+[algorithm]
+# name of NiaPy class
+name = "DifferentialEvolution"
+
+# metrics to compute fitness with
+metrics = ["support", "confidence"]
+# weights of each metric (optional)
+weights = [0.5, 0.5]
+
+# algorithm stopping criteria at least one of max_evals or max_iters is required
+max_evals = 10000
+max_iters = 1000
+
+# random seed (optional)
+seed = 12345
+
+# algorithm parameters (optional), the names need to be the same as NiaPy parameters
+[algorithm.parameters]
+population_size = 50
+differential_weight = 0.5
+crossover_probability = 0.9
+strategy = "cross_rand1"
