@@ -231,30 +231,33 @@ in the GitHub repository.
 
 We provide a simple command line interface, which allows you to easily
 mine association rules on any input dataset, output them to a csv file and/or perform
-a simple statistical analysis on them.
+a simple statistical analysis on them. For more details see the [documentation](https://niaarm.readthedocs.io/en/latest/cli.html).
 
 ```shell
 niaarm -h
 ```
 
 ```
-usage: niaarm [-h] [-v] -i INPUT_FILE [-o OUTPUT_FILE] -a ALGORITHM [-s SEED]
-              [--max-evals MAX_EVALS] [--max-iters MAX_ITERS] --metrics
-              METRICS [METRICS ...] [--weights WEIGHTS [WEIGHTS ...]] [--log]
-              [--show-stats]
+usage: niaarm [-h] [-v] [-c CONFIG] [-i INPUT_FILE] [-o OUTPUT_FILE] [--squashing-similarity {euclidean,cosine}] [--squashing-threshold SQUASHING_THRESHOLD] [-a ALGORITHM] [-s SEED] [--max-evals MAX_EVALS] [--max-iters MAX_ITERS]
+              [--metrics METRICS [METRICS ...]] [--weights WEIGHTS [WEIGHTS ...]] [--log] [--stats]
 
 Perform ARM, output mined rules as csv, get mined rules' statistics
 
 options:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
+  -c CONFIG, --config CONFIG
+                        Path to a TOML config file
   -i INPUT_FILE, --input-file INPUT_FILE
                         Input file containing a csv dataset
   -o OUTPUT_FILE, --output-file OUTPUT_FILE
                         Output file for mined rules
+  --squashing-similarity {euclidean,cosine}
+                        Similarity measure to use for squashing
+  --squashing-threshold SQUASHING_THRESHOLD
+                        Threshold to use for squashing
   -a ALGORITHM, --algorithm ALGORITHM
-                        Algorithm to use (niapy class name, e.g.
-                        DifferentialEvolution)
+                        Algorithm to use (niapy class name, e.g. DifferentialEvolution)
   -s SEED, --seed SEED  Seed for the algorithm's random number generator
   --max-evals MAX_EVALS
                         Maximum number of fitness function evaluations
@@ -265,7 +268,7 @@ options:
   --weights WEIGHTS [WEIGHTS ...]
                         Weights in range [0, 1] corresponding to --metrics
   --log                 Enable logging of fitness improvements
-  --show-stats          Display stats about mined rules
+  --stats               Display stats about mined rules
 ```
 Note: The CLI script can also run as a python module (`python -m niaarm ...`)
 
