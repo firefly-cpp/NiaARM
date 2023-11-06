@@ -63,6 +63,12 @@ To install NiaARM on Fedora, use:
 $ dnf install python3-niaarm
 ```
 
+To install NiaARM on NixOS, please use:
+
+```sh
+nix-env -iA nixos.python311Packages.niaarm
+```
+
 ## Usage
 
 ### Loading data
