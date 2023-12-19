@@ -7,7 +7,7 @@ from niapy.util.factory import get_algorithm
 from niaarm.text import NiaARTM
 
 
-class Result(namedtuple('Result', ('rules', 'run_time'))):
+class Result(namedtuple("Result", ("rules", "run_time"))):
     """Result of an algorithm run as a ``namedtuple``.
 
     Attributes:
@@ -19,7 +19,15 @@ class Result(namedtuple('Result', ('rules', 'run_time'))):
     __slots__ = ()
 
 
-def get_rules(dataset, algorithm, metrics, max_evals=np.inf, max_iters=np.inf, logging=False, **kwargs):
+def get_rules(
+    dataset,
+    algorithm,
+    metrics,
+    max_evals=np.inf,
+    max_iters=np.inf,
+    logging=False,
+    **kwargs,
+):
     """Mine association rules on a dataset.
 
     Args:
@@ -39,8 +47,15 @@ def get_rules(dataset, algorithm, metrics, max_evals=np.inf, max_iters=np.inf, l
         Result: A named tuple containing the list of mined rules and the algorithm's run time in seconds.
 
     """
-    problem = NiaARM(dataset.dimension, dataset.features, dataset.transactions, metrics, logging)
-    task = Task(problem, max_evals=max_evals, max_iters=max_iters, optimization_type=OptimizationType.MAXIMIZATION)
+    problem = NiaARM(
+        dataset.dimension, dataset.features, dataset.transactions, metrics, logging
+    )
+    task = Task(
+        problem,
+        max_evals=max_evals,
+        max_iters=max_iters,
+        optimization_type=OptimizationType.MAXIMIZATION,
+    )
 
     if isinstance(algorithm, str):
         algorithm = get_algorithm(algorithm, **kwargs)
@@ -54,8 +69,19 @@ def get_rules(dataset, algorithm, metrics, max_evals=np.inf, max_iters=np.inf, l
     return Result(problem.rules, stop_time - start_time)
 
 
-def get_text_rules(corpus, max_terms, algorithm, metrics, smooth=True, norm=2, threshold=0, max_evals=np.inf, max_iters=np.inf,
-                   logging=False, **kwargs):
+def get_text_rules(
+    corpus,
+    max_terms,
+    algorithm,
+    metrics,
+    smooth=True,
+    norm=2,
+    threshold=0,
+    max_evals=np.inf,
+    max_iters=np.inf,
+    logging=False,
+    **kwargs,
+):
     """Mine association rules in a text corpus.
 
     Args:
@@ -80,8 +106,20 @@ def get_text_rules(corpus, max_terms, algorithm, metrics, smooth=True, norm=2, t
         Result: A named tuple containing the list of mined rules and the algorithm's run time in seconds.
 
     """
-    problem = NiaARTM(max_terms, corpus.terms(), corpus.tf_idf_matrix(smooth=smooth, norm=norm), metrics, threshold, logging)
-    task = Task(problem, max_evals=max_evals, max_iters=max_iters, optimization_type=OptimizationType.MAXIMIZATION)
+    problem = NiaARTM(
+        max_terms,
+        corpus.terms(),
+        corpus.tf_idf_matrix(smooth=smooth, norm=norm),
+        metrics,
+        threshold,
+        logging,
+    )
+    task = Task(
+        problem,
+        max_evals=max_evals,
+        max_iters=max_iters,
+        optimization_type=OptimizationType.MAXIMIZATION,
+    )
 
     if isinstance(algorithm, str):
         algorithm = get_algorithm(algorithm, **kwargs)

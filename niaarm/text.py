@@ -27,7 +27,7 @@ class Document:
 
     """
 
-    def __init__(self, text, language='english', remove_stopwords=True, lowercase=True):
+    def __init__(self, text, language="english", remove_stopwords=True, lowercase=True):
         if lowercase:
             text = text.lower()
         self.terms = word_tokenize(text, language)
@@ -62,7 +62,14 @@ class Document:
         return len(self.terms)
 
     @classmethod
-    def from_file(cls, path, encoding='utf-8', language='english', remove_stopwords=True, lowercase=True):
+    def from_file(
+        cls,
+        path,
+        encoding="utf-8",
+        language="english",
+        remove_stopwords=True,
+        lowercase=True,
+    ):
         """Construct document from a plain text file.
 
         Args:
@@ -119,7 +126,7 @@ class Corpus:
         return len(self.documents)
 
     @classmethod
-    def from_list(cls, lst, language='english', remove_stopwords=True, lowercase=True):
+    def from_list(cls, lst, language="english", remove_stopwords=True, lowercase=True):
         """Construct corpus from a list of strings.
 
         Args:
@@ -132,10 +139,19 @@ class Corpus:
             Corpus: The constructed corpus.
 
         """
-        return cls([Document(text, language, remove_stopwords, lowercase) for text in lst])
+        return cls(
+            [Document(text, language, remove_stopwords, lowercase) for text in lst]
+        )
 
     @classmethod
-    def from_directory(cls, path, encoding='utf-8', language='english', remove_stopwords=True, lowercase=True):
+    def from_directory(
+        cls,
+        path,
+        encoding="utf-8",
+        language="english",
+        remove_stopwords=True,
+        lowercase=True,
+    ):
         """Construct corpus from a directory containing plain text files.
 
         Args:
@@ -152,7 +168,11 @@ class Corpus:
         documents = []
         for entry in os.scandir(path):
             if entry.is_file():
-                documents.append(Document.from_file(entry.path, encoding, language, remove_stopwords, lowercase))
+                documents.append(
+                    Document.from_file(
+                        entry.path, encoding, language, remove_stopwords, lowercase
+                    )
+                )
         return cls(documents)
 
     def tf_idf_matrix(self, smooth=True, norm=2):
@@ -209,25 +229,51 @@ class TextRule(Rule):
     """
 
     __slots__ = (
-        'antecedent', 'consequent', 'fitness', 'num_transactions', 'full_count', 'antecedent_count', 'consequent_count',
-        'ant_not_con', 'con_not_ant', 'not_ant_not_con', '__inclusion', '__aws'
+        "antecedent",
+        "consequent",
+        "fitness",
+        "num_transactions",
+        "full_count",
+        "antecedent_count",
+        "consequent_count",
+        "ant_not_con",
+        "con_not_ant",
+        "not_ant_not_con",
+        "__inclusion",
+        "__aws",
     )
 
     metrics = (
-        'support', 'confidence', 'lift', 'coverage', 'rhs_support', 'conviction', 'inclusion', 'interestingness',
-        'comprehensibility', 'netconf', 'yulesq', 'aws'
+        "support",
+        "confidence",
+        "lift",
+        "coverage",
+        "rhs_support",
+        "conviction",
+        "inclusion",
+        "interestingness",
+        "comprehensibility",
+        "netconf",
+        "yulesq",
+        "aws",
     )
 
-    def __init__(self, antecedent, consequent, fitness=0.0, transactions=None, threshold=0):
+    def __init__(
+        self, antecedent, consequent, fitness=0.0, transactions=None, threshold=0
+    ):
         super().__init__(antecedent, consequent, fitness, transactions=None)
 
         if transactions is not None:
             self.num_transactions = len(transactions)
-            self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(transactions.columns)
+            self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(
+                transactions.columns
+            )
             self.__post_init__(transactions, threshold)
 
     def __post_init__(self, transactions, threshold=0):
-        self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(transactions.columns)
+        self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(
+            transactions.columns
+        )
         self.__aws = transactions[self.antecedent + self.consequent].values.sum()
         contains_antecedent = (transactions[self.antecedent] > threshold).all(axis=1)
         contains_consequent = (transactions[self.consequent] > threshold).all(axis=1)
@@ -277,10 +323,19 @@ class NiaARTM(NiaARM):
     """
 
     available_metrics = (
-        'support', 'confidence', 'coverage', 'interestingness', 'comprehensibility', 'inclusion', 'rhs_support', 'aws'
+        "support",
+        "confidence",
+        "coverage",
+        "interestingness",
+        "comprehensibility",
+        "inclusion",
+        "rhs_support",
+        "aws",
     )
 
-    def __init__(self, max_terms, terms, transactions, metrics, threshold=0, logging=False):
+    def __init__(
+        self, max_terms, terms, transactions, metrics, threshold=0, logging=False
+    ):
         super().__init__(max_terms + 1, terms, transactions, metrics, logging)
         self.max_terms = max_terms
         self.threshold = threshold
@@ -309,7 +364,12 @@ class NiaARTM(NiaARM):
         consequent = rule[cut:]
 
         if antecedent and consequent:
-            rule = TextRule(antecedent, consequent, transactions=self.transactions, threshold=self.threshold)
+            rule = TextRule(
+                antecedent,
+                consequent,
+                transactions=self.transactions,
+                threshold=self.threshold,
+            )
             metrics = [getattr(rule, metric) for metric in self.metrics]
             fitness = np.dot(self.weights, metrics) / self.sum_weights
             rule.fitness = fitness
@@ -319,8 +379,15 @@ class NiaARTM(NiaARM):
 
                 if self.logging and fitness > self.best_fitness:
                     self.best_fitness = fitness
-                    print(f'Fitness: {rule.fitness}, ' + ', '.join(
-                        [f'{metric.capitalize()}: {metrics[i]}' for i, metric in enumerate(self.metrics)]))
+                    print(
+                        f"Fitness: {rule.fitness}, "
+                        + ", ".join(
+                            [
+                                f"{metric.capitalize()}: {metrics[i]}"
+                                for i, metric in enumerate(self.metrics)
+                            ]
+                        )
+                    )
             return fitness
         else:
             return -1.0

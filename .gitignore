@@ -140,3 +140,6 @@ cython_debug/
 # JOSS artifacts
 paper.pdf
 paper.jats
+
+# Ruff
+.ruff_cache/

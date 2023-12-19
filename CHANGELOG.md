@@ -1,5 +1,58 @@
 # Changelog
 
+## [0.3.5](https://github.com/firefly-cpp/NiaARM/tree/0.3.5) (2023-11-01)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.4...0.3.5)
+
+**Closed issues:**
+
+- More detailed documentation for examples [\#87](https://github.com/firefly-cpp/NiaARM/issues/87)
+- Enhance CLI with setup file [\#84](https://github.com/firefly-cpp/NiaARM/issues/84)
+- Present metrics in README [\#81](https://github.com/firefly-cpp/NiaARM/issues/81)
+
+**Merged pull requests:**
+
+- Added support for config files to CLI [\#102](https://github.com/firefly-cpp/NiaARM/pull/102) ([zStupan](https://github.com/zStupan))
+- Updated docs and examples [\#101](https://github.com/firefly-cpp/NiaARM/pull/101) ([zStupan](https://github.com/zStupan))
+- fix formatting [\#100](https://github.com/firefly-cpp/NiaARM/pull/100) ([zStupan](https://github.com/zStupan))
+
+## [0.3.4](https://github.com/firefly-cpp/NiaARM/tree/0.3.4) (2023-10-29)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.3...0.3.4)
+
+**Closed issues:**
+
+- Add ruff [\#98](https://github.com/firefly-cpp/NiaARM/issues/98)
+
+**Merged pull requests:**
+
+- Add formatting and linting via pre-commit hooks [\#99](https://github.com/firefly-cpp/NiaARM/pull/99) ([zStupan](https://github.com/zStupan))
+
+## [0.3.3](https://github.com/firefly-cpp/NiaARM/tree/0.3.3) (2023-10-18)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.2...0.3.3)
+
+**Closed issues:**
+
+- Issue when building documentation \(warnings\) [\#89](https://github.com/firefly-cpp/NiaARM/issues/89)
+
+**Merged pull requests:**
+
+- Removed python 3.7 support [\#97](https://github.com/firefly-cpp/NiaARM/pull/97) ([zStupan](https://github.com/zStupan))
+- Bump pygments from 2.14.0 to 2.15.0 [\#94](https://github.com/firefly-cpp/NiaARM/pull/94) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [0.3.2](https://github.com/firefly-cpp/NiaARM/tree/0.3.2) (2023-05-23)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.1...0.3.2)
+
+**Closed issues:**
+
+- Exceptions and warnings when handling these UCI datasets [\#91](https://github.com/firefly-cpp/NiaARM/issues/91)
+
+**Merged pull requests:**
+
+- Bump requests from 2.28.2 to 2.31.0 [\#90](https://github.com/firefly-cpp/NiaARM/pull/90) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [0.3.1](https://github.com/firefly-cpp/NiaARM/tree/0.3.1) (2023-02-14)
 
 [Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.0...0.3.1)

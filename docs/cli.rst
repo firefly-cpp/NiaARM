@@ -14,23 +14,26 @@ Usage
 
 .. code-block:: text
 
-    usage: niaarm [-h] [-v] -i INPUT_FILE [-o OUTPUT_FILE] -a ALGORITHM [-s SEED]
-                  [--max-evals MAX_EVALS] [--max-iters MAX_ITERS] --metrics
-                  METRICS [METRICS ...] [--weights WEIGHTS [WEIGHTS ...]] [--log]
-                  [--show-stats]
+    usage: niaarm [-h] [-v] [-c CONFIG] [-i INPUT_FILE] [-o OUTPUT_FILE] [--squashing-similarity {euclidean,cosine}] [--squashing-threshold SQUASHING_THRESHOLD] [-a ALGORITHM] [-s SEED] [--max-evals MAX_EVALS] [--max-iters MAX_ITERS]
+              [--metrics METRICS [METRICS ...]] [--weights WEIGHTS [WEIGHTS ...]] [--log] [--stats]
 
     Perform ARM, output mined rules as csv, get mined rules' statistics
 
     options:
       -h, --help            show this help message and exit
       -v, --version         show program's version number and exit
+      -c CONFIG, --config CONFIG
+                            Path to a TOML config file
       -i INPUT_FILE, --input-file INPUT_FILE
                             Input file containing a csv dataset
       -o OUTPUT_FILE, --output-file OUTPUT_FILE
                             Output file for mined rules
+      --squashing-similarity {euclidean,cosine}
+                            Similarity measure to use for squashing
+      --squashing-threshold SQUASHING_THRESHOLD
+                            Threshold to use for squashing
       -a ALGORITHM, --algorithm ALGORITHM
-                            Algorithm to use (niapy class name, e.g.
-                            DifferentialEvolution)
+                            Algorithm to use (niapy class name, e.g. DifferentialEvolution)
       -s SEED, --seed SEED  Seed for the algorithm's random number generator
       --max-evals MAX_EVALS
                             Maximum number of fitness function evaluations
@@ -111,3 +114,57 @@ E.g. (for the above run):
     Average length of consequent: 1.5604203152364273
     Run Time: 6.4538s
 
+Using a config file
+~~~~~~~~~~~~~~~~~~~
+
+Instead of setting all the options as command-line arguments, you can put them in a TOML
+file and run:
+
+.. code-block:: shell
+
+    niaarm -c config.toml
+
+Bellow is an example of a config file with all the available options:
+
+.. code-block:: toml
+
+    # dataset to load
+    input_file = "datasets/Abalone.csv"
+
+    # file to export rules to (optional)
+    output_file = "output.csv"
+
+    # log fitness improvements (optional)
+    log = true
+
+    # print stats of the mined rules (optional)
+    stats = true
+
+    # Data squashing settings (optional)
+    [preprocessing.squashing]
+    similarity = "euclid" # or "cosine"
+    threshold = 0.99
+
+    # algorithm settings
+    [algorithm]
+    # name of NiaPy class
+    name = "DifferentialEvolution"
+
+    # metrics to compute fitness with
+    metrics = ["support", "confidence"]
+    # weights of each metric (optional)
+    weights = [0.5, 0.5]
+
+    # algorithm stopping criteria at least one of max_evals or max_iters is required
+    max_evals = 10000
+    max_iters = 1000
+
+    # random seed (optional)
+    seed = 12345
+
+    # algorithm parameters (optional), the names need to be the same as NiaPy parameters
+    [algorithm.parameters]
+    population_size = 50
+    differential_weight = 0.5
+    crossover_probability = 0.9
+    strategy = "cross_rand1"

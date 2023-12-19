@@ -16,6 +16,7 @@
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/firefly-cpp/niaarm.svg)](http://isitmaintained.com/project/firefly-cpp/niaarm "Average time to resolve an issue")
 [![Fedora package](https://img.shields.io/fedora/v/python3-niaarm?color=blue&label=Fedora%20Linux&logo=fedora)](https://src.fedoraproject.org/rpms/python-niaarm)
 [![AUR package](https://img.shields.io/aur/version/python-niaarm?color=blue&label=Arch%20Linux&logo=arch-linux)](https://aur.archlinux.org/packages/python-niaarm)
+[![Packaging status](https://repology.org/badge/tiny-repos/python:niaarm.svg)](https://repology.org/project/python:niaarm/versions)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.04448/status.svg)](https://doi.org/10.21105/joss.04448)
 
 
@@ -63,6 +64,12 @@ To install NiaARM on Fedora, use:
 $ dnf install python3-niaarm
 ```
 
+To install NiaARM on NixOS, please use:
+
+```sh
+nix-env -iA nixos.python311Packages.niaarm
+```
+
 ## Usage
 
 ### Loading data
@@ -92,7 +99,9 @@ data = Dataset('datasets/Abalone.csv')
 print(data)
 ```
 
-### Data Squashing
+### Preprocessing
+
+#### Data Squashing
 
 Optionally, a preprocessing technique, called data squashing [5], can be applied. This will significantly reduce the number of transactions, while providing similar results to the original dataset.
 
@@ -104,7 +113,9 @@ squashed = squash(dataset, threshold=0.9, similarity='euclidean')
 print(squashed)
 ```
 
-### Mining association rules the easy way (recommended)
+### Mining association rules
+
+#### The easy way (recommended)
 
 Association rule mining can be easily performed using the `get_rules` function:
 
@@ -124,7 +135,7 @@ print(f'Run Time: {run_time}')
 rules.to_csv('output.csv')
 ```
 
-### Mining association rules the hard way
+#### The hard way
 
 The above example can be also be implemented using a more low level interface,
 with the `NiaARM` class directly:
@@ -137,7 +148,7 @@ from niapy.task import Task, OptimizationType
 
 data = Dataset("datasets/Abalone.csv")
 
-# Create a problem:::
+# Create a problem
 # dimension represents the dimension of the problem;
 # features represent the list of features, while transactions depicts the list of transactions
 # metrics is a sequence of metrics to be taken into account when computing the fitness;
@@ -161,6 +172,12 @@ problem.rules.sort()
 # export all rules to csv
 problem.rules.to_csv('output.csv')
 ```
+
+#### Interest measures
+
+The framework implements several popular interest measures, which can be used to compute the fitness function value of rules
+and for assessing the quality of the mined rules. A full list of the implemented interest measures along with their descriptions
+and equations can be found [here](interest_measures.md).
 
 ### Visualization
 
@@ -207,13 +224,9 @@ algorithm = ParticleSwarmOptimization(population_size=200, seed=123)
 metrics = ('support', 'confidence', 'aws')
 rules, time = get_text_rules(corpus, max_terms=5, algorithm=algorithm, metrics=metrics, max_evals=10000, logging=True)
 
-if len(rules):
-    print(rules)
-    print(f'Run time: {time:.2f}s')
-    rules.to_csv('output.csv')
-else:
-    print('No rules generated')
-    print(f'Run time: {time:.2f}s')
+print(rules)
+print(f'Run time: {time:.2f}s')
+rules.to_csv('output.csv')
 ```
 
 **Note:** You may need to download stopwords and the punkt tokenizer from nltk by running `import nltk; nltk.download('stopwords'); nltk.download('punkt')`.
@@ -225,30 +238,33 @@ in the GitHub repository.
 
 We provide a simple command line interface, which allows you to easily
 mine association rules on any input dataset, output them to a csv file and/or perform
-a simple statistical analysis on them.
+a simple statistical analysis on them. For more details see the [documentation](https://niaarm.readthedocs.io/en/latest/cli.html).
 
 ```shell
 niaarm -h
 ```
 
 ```
-usage: niaarm [-h] [-v] -i INPUT_FILE [-o OUTPUT_FILE] -a ALGORITHM [-s SEED]
-              [--max-evals MAX_EVALS] [--max-iters MAX_ITERS] --metrics
-              METRICS [METRICS ...] [--weights WEIGHTS [WEIGHTS ...]] [--log]
-              [--show-stats]
+usage: niaarm [-h] [-v] [-c CONFIG] [-i INPUT_FILE] [-o OUTPUT_FILE] [--squashing-similarity {euclidean,cosine}] [--squashing-threshold SQUASHING_THRESHOLD] [-a ALGORITHM] [-s SEED] [--max-evals MAX_EVALS] [--max-iters MAX_ITERS]
+              [--metrics METRICS [METRICS ...]] [--weights WEIGHTS [WEIGHTS ...]] [--log] [--stats]
 
 Perform ARM, output mined rules as csv, get mined rules' statistics
 
 options:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
+  -c CONFIG, --config CONFIG
+                        Path to a TOML config file
   -i INPUT_FILE, --input-file INPUT_FILE
                         Input file containing a csv dataset
   -o OUTPUT_FILE, --output-file OUTPUT_FILE
                         Output file for mined rules
+  --squashing-similarity {euclidean,cosine}
+                        Similarity measure to use for squashing
+  --squashing-threshold SQUASHING_THRESHOLD
+                        Threshold to use for squashing
   -a ALGORITHM, --algorithm ALGORITHM
-                        Algorithm to use (niapy class name, e.g.
-                        DifferentialEvolution)
+                        Algorithm to use (niapy class name, e.g. DifferentialEvolution)
   -s SEED, --seed SEED  Seed for the algorithm's random number generator
   --max-evals MAX_EVALS
                         Maximum number of fitness function evaluations
@@ -259,7 +275,7 @@ options:
   --weights WEIGHTS [WEIGHTS ...]
                         Weights in range [0, 1] corresponding to --metrics
   --log                 Enable logging of fitness improvements
-  --show-stats          Display stats about mined rules
+  --stats               Display stats about mined rules
 ```
 Note: The CLI script can also run as a python module (`python -m niaarm ...`)
 

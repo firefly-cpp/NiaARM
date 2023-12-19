@@ -1,11 +1,13 @@
 [tool.poetry]
 name = "niaarm"
-version = "0.3.2"
+version = "0.3.5"
 description = "A minimalistic framework for numerical association rule mining"
 authors = ["Žiga Stupan <ziga.stupan1@student.um.si>", "Iztok Fister Jr. <iztok@iztok-jr-fister.eu>"]
 keywords = ['association rule mining', 'data science', 'numerical association rule mining', 'preprocessing', 'visualization']
 homepage = "https://github.com/firefly-cpp/NiaARM"
 repository = "https://github.com/firefly-cpp/NiaARM"
+documentation = "https://niaarm.readthedocs.io/en/latest/"
+license = "MIT"
 readme = "README.md"
 
 include = [
@@ -15,26 +17,28 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
-niapy = "^2.0.1"
-numpy = [
-    { version = "^1.21.5", python = ">=3.7,<3.11" },
-    { version = "^1.22.3", python = "^3.11" }
-]
-pandas = [
-    { version = "^1.3.5", python = ">=3.7.1,<3.8" },
-    { version = "^1.4.0", python = "^3.8" }
-]
-nltk = "^3.7"
-Sphinx = {version = "^4.4.0", optional = true}
-sphinx-rtd-theme = {version = "^1.0.0", optional = true}
-sphinxcontrib-bibtex = {version = "^2.4.1", optional = true}
+python = ">=3.9,<3.13"
+niapy = "^2.0.5"
+numpy = "^1.26.1"
+pandas = "^2.1.1"
+nltk = "^3.8.1"
+tomli = { version = "^2.0.1", python = "<3.11" }
 
-[tool.poetry.extras]
-docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-bibtex"]
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.5.0"
 
-[tool.poetry.dev-dependencies]
-pytest = "^7.0.1"
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.2"
+pytest-cov = "^4.1.0"
+pytest-randomly = "^3.15.0"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+sphinx-rtd-theme = "^1.0.0"
+sphinxcontrib-bibtex = "^2.4.1"
+sphinx = "^7.2.6"
 
 [tool.poetry.scripts]
 niaarm = 'niaarm.cli:main'

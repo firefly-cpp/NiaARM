@@ -149,13 +149,33 @@ class Rule:
     """
 
     __slots__ = (
-        'antecedent', 'consequent', 'fitness', 'num_transactions', 'full_count', 'antecedent_count', 'consequent_count',
-        'ant_not_con', 'con_not_ant', 'not_ant_not_con', '__inclusion', '__amplitude'
+        "antecedent",
+        "consequent",
+        "fitness",
+        "num_transactions",
+        "full_count",
+        "antecedent_count",
+        "consequent_count",
+        "ant_not_con",
+        "con_not_ant",
+        "not_ant_not_con",
+        "__inclusion",
+        "__amplitude",
     )
 
     metrics = (
-        'support', 'confidence', 'lift', 'coverage', 'rhs_support', 'conviction', 'amplitude', 'inclusion',
-        'interestingness', 'comprehensibility', 'netconf', 'yulesq'
+        "support",
+        "confidence",
+        "lift",
+        "coverage",
+        "rhs_support",
+        "conviction",
+        "amplitude",
+        "inclusion",
+        "interestingness",
+        "comprehensibility",
+        "netconf",
+        "yulesq",
     )
 
     def __init__(self, antecedent, consequent, fitness=0.0, transactions=None):
@@ -174,36 +194,50 @@ class Rule:
 
         if transactions is not None:
             self.num_transactions = len(transactions)
-            self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(transactions.columns)
+            self.__inclusion = (len(self.antecedent) + len(self.consequent)) / len(
+                transactions.columns
+            )
             self.__post_init__(transactions)
 
     def __post_init__(self, transactions):
         min_ = transactions.min(numeric_only=True)
         max_ = transactions.max(numeric_only=True)
         acc = 0
-        contains_antecedent = pd.Series(np.ones(self.num_transactions, dtype=bool), dtype=bool)
+        contains_antecedent = pd.Series(
+            np.ones(self.num_transactions, dtype=bool), dtype=bool
+        )
         for attribute in self.antecedent:
-            if attribute.dtype != 'cat':
+            if attribute.dtype != "cat":
                 feature_min = min_[attribute.name]
                 feature_max = max_[attribute.name]
-                acc += (attribute.max_val - attribute.min_val) / (feature_max - feature_min)
+                acc += (attribute.max_val - attribute.min_val) / (
+                    feature_max - feature_min
+                )
                 contains_antecedent &= transactions[attribute.name] <= attribute.max_val
                 contains_antecedent &= transactions[attribute.name] >= attribute.min_val
             else:
-                contains_antecedent &= transactions[attribute.name] == attribute.categories[0]
+                contains_antecedent &= (
+                    transactions[attribute.name] == attribute.categories[0]
+                )
 
         self.antecedent_count = contains_antecedent.sum()
 
-        contains_consequent = pd.Series(np.ones(self.num_transactions, dtype=bool), dtype=bool)
+        contains_consequent = pd.Series(
+            np.ones(self.num_transactions, dtype=bool), dtype=bool
+        )
         for attribute in self.consequent:
-            if attribute.dtype != 'cat':
+            if attribute.dtype != "cat":
                 feature_min = min_[attribute.name]
                 feature_max = max_[attribute.name]
-                acc += (attribute.max_val - attribute.min_val) / (feature_max - feature_min)
+                acc += (attribute.max_val - attribute.min_val) / (
+                    feature_max - feature_min
+                )
                 contains_consequent &= transactions[attribute.name] <= attribute.max_val
                 contains_consequent &= transactions[attribute.name] >= attribute.min_val
             else:
-                contains_consequent &= transactions[attribute.name] == attribute.categories[0]
+                contains_consequent &= (
+                    transactions[attribute.name] == attribute.categories[0]
+                )
         self.__amplitude = 1 - (1 / (len(self.antecedent) + len(self.consequent))) * acc
         self.consequent_count = contains_consequent.sum()
         self.full_count = (contains_antecedent & contains_consequent).sum()
@@ -237,7 +271,11 @@ class Rule:
 
     @property
     def interestingness(self):
-        return self.confidence * (self.support / self.rhs_support) * (1 - (self.support / self.num_transactions))
+        return (
+            self.confidence
+            * (self.support / self.rhs_support)
+            * (1 - (self.support / self.num_transactions))
+        )
 
     @property
     def yulesq(self):
@@ -249,7 +287,8 @@ class Rule:
     @property
     def netconf(self):
         return (self.support - self.coverage * self.rhs_support) / (
-                    self.coverage * (1 - self.coverage + 2.220446049250313e-16))
+            self.coverage * (1 - self.coverage + 2.220446049250313e-16)
+        )
 
     @property
     def inclusion(self):
@@ -261,10 +300,14 @@ class Rule:
 
     @property
     def comprehensibility(self):
-        return math.log(1 + len(self.consequent)) / math.log(1 + len(self.antecedent) + len(self.consequent))
+        return math.log(1 + len(self.consequent)) / math.log(
+            1 + len(self.antecedent) + len(self.consequent)
+        )
 
     def __eq__(self, other):
-        return self.antecedent == other.antecedent and self.consequent == other.consequent
+        return (
+            self.antecedent == other.antecedent and self.consequent == other.consequent
+        )
 
     def __repr__(self):
-        return f'{self.antecedent} => {self.consequent}'
+        return f"{self.antecedent} => {self.consequent}"
