@@ -145,6 +145,16 @@ class Rule:
          **Reference:** E. V. Altay and B. Alatas, "Sensitivity Analysis of MODENAR Method for Mining of Numeric Association
          Rules," 2019 1st International Informatics and Software Engineering Conference (UBMYK), 2019, pp. 1-6,
          doi: 10.1109/UBMYK48245.2019.8965539.
+        zhang: Zheng's metric measures the strength of association (positive or negative) between the antecedent and consequent, taking into account both their co-occurrence and non-co-occurrence.
+
+         :math:`zhang(X \implies Y) =
+         \frac{conf(X \implies Y) - conf(\neg X \implies Y)}{max\{conf(X \implies Y), conf(\neg X \implies Y)\}}`
+
+         **Range:** :math:`[-1, 1]` (-1 reflects total negative association, 1 reflects perfect positive association
+         and 0 reflects independence)
+
+         **Reference:** T. Zhang, “Association Rules,” in Knowledge Discovery and Data Mining. Current Issues and New
+         Applications, 2000, pp. 245–256. doi: 10.1007/3-540-45571-X_31.
 
     """
 
@@ -176,6 +186,7 @@ class Rule:
         "comprehensibility",
         "netconf",
         "yulesq",
+        "zhang",
     )
 
     def __init__(self, antecedent, consequent, fitness=0.0, transactions=None):
@@ -303,6 +314,17 @@ class Rule:
         return math.log(1 + len(self.consequent)) / math.log(
             1 + len(self.antecedent) + len(self.consequent)
         )
+
+    @property
+    def zhang(self):
+        support_x = self.coverage
+        support_y = self.rhs_support
+        support = self.support
+
+        numerator = support - support_x * support_y
+        denominator = max(support * (1 - support_x), support_x * (support_y - support))
+
+        return numerator / denominator
 
     def __eq__(self, other):
         return (
