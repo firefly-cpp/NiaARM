@@ -192,3 +192,19 @@ and 0 reflects independence)
 **Reference:** E. V. Altay and B. Alatas, "Sensitivity Analysis of MODENAR Method for Mining of Numeric Association
 Rules," 2019 1st International Informatics and Software Engineering Conference (UBMYK), 2019, pp. 1-6,
 doi: 10.1109/UBMYK48245.2019.8965539.
+
+# Zhang's Metric
+
+Zheng's metric measures the strength of association (positive or negative) between the antecedent and consequent, 
+taking into account both their co-occurrence and non-co-occurrence.
+
+```math
+zhang(X \implies Y) =
+\frac{conf(X \implies Y) - conf(\neg X \implies Y)}{max\{conf(X \implies Y), conf(\neg X \implies Y)\}}
+```
+
+**Range:** $`[-1, 1]`$ (-1 reflects total negative association, 1 reflects perfect positive association
+and 0 reflects independence)
+
+**Reference:** T. Zhang, “Association Rules,” in Knowledge Discovery and Data Mining. Current Issues and New 
+Applications, 2000, pp. 245–256. doi: 10.1007/3-540-45571-X_31. 
