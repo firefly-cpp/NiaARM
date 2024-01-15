@@ -193,7 +193,7 @@ and 0 reflects independence)
 Rules," 2019 1st International Informatics and Software Engineering Conference (UBMYK), 2019, pp. 1-6,
 doi: 10.1109/UBMYK48245.2019.8965539.
 
-# Zhang's Metric
+## Zhang's Metric
 
 Zheng's metric measures the strength of association (positive or negative) between the antecedent and consequent, 
 taking into account both their co-occurrence and non-co-occurrence.
