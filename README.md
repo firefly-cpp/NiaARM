@@ -2,11 +2,8 @@
   <img alt="logo" width="300" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/images/logo.png">
 </p>
 
----
-
 # NiaARM - A minimalistic framework for Numerical Association Rule Mining
 
----
 [![PyPI Version](https://img.shields.io/pypi/v/niaarm.svg)](https://pypi.python.org/pypi/niaarm)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/niaarm.svg)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/niaarm.svg)
@@ -19,24 +16,24 @@
 [![Packaging status](https://repology.org/badge/tiny-repos/python:niaarm.svg)](https://repology.org/project/python:niaarm/versions)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.04448/status.svg)](https://doi.org/10.21105/joss.04448)
 
-
-NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. The framework is written fully in Python and runs on all platforms. NiaARM allows users to preprocess the data in a transaction database automatically, to search for association rules and provide a pretty output of the rules found. This framework also supports integral and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization problem, and solved using the nature-inspired algorithms that come from the related framework called [NiaPy](https://github.com/NiaOrg/NiaPy).
-
-* **Documentation:** https://niaarm.readthedocs.io/en/latest/
+* **Documentation:** https://niaarm.readthedocs.io/en/latest
 * **Tested OS:** Windows, Ubuntu, Fedora, Alpine, Arch, macOS. **However, that does not mean it does not work on others**
 
-## Detailed insights
+## About 📋
+NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. 🌿 The framework is written fully in Python and runs on all platforms. NiaARM allows users to preprocess the data in a transaction database automatically, to search for association rules and provide a pretty output of the rules found. 📊 This framework also supports integral and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization problem, and solved using the nature-inspired algorithms that come from the related framework called [NiaPy](https://github.com/NiaOrg/NiaPy). 🔗
+
+## Detailed insights 🔍 
 The current version includes (but is not limited to) the following functions:
 
-- loading datasets in CSV format,
-- preprocessing of data,
-- searching for association rules,
-- providing output of mined association rules,
-- generating statistics about mined association rules,
-- visualization of association rules,
-- association rule text mining (experimental).
+- loading datasets in CSV format 📁
+- preprocessing of data 🧹
+- searching for association rules 🔎
+- providing output of mined association rules 📋
+- generating statistics about mined association rules 📊
+- visualization of association rules 📈
+- association rule text mining (experimental) 📄
 
-## Installation
+## Installation 📦
 
 ### pip
 
@@ -70,7 +67,7 @@ To install NiaARM on NixOS, please use:
 nix-env -iA nixos.python311Packages.niaarm
 ```
 
-## Usage
+## Usage 🚀
 
 ### Loading data
 
@@ -89,7 +86,7 @@ data = Dataset(df)
 print(data) # printing the dataset will generate a feature report
 ```
 
-#### Option 2: From CSV file directly
+#### Option 2: Directly from a CSV file
 
 ```python
 from niaarm import Dataset
@@ -279,7 +276,7 @@ options:
 ```
 Note: The CLI script can also run as a python module (`python -m niaarm ...`)
 
-## Reference Papers
+## Reference Papers 📚
 
 Ideas are based on the following research papers:
 
