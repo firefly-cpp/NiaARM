@@ -322,7 +322,10 @@ class Rule:
         support = self.support
 
         numerator = support - support_x * support_y
-        denominator = max(support * (1 - support_x), support_x * (support_y - support))
+        denominator = (
+            max(support * (1 - support_x), support_x * (support_y - support))
+            + 2.220446049250313e-16
+        )
 
         return numerator / denominator
 

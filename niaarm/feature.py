@@ -1,3 +1,6 @@
+import math
+
+
 class Feature:
     r"""Class representing a feature.
 
@@ -20,19 +23,22 @@ class Feature:
         self.categories = categories
 
     def __eq__(self, other):
-        return (
-            self.name == other.name
-            and self.dtype == other.dtype
-            and self.min_val == other.min_val
-            and self.max_val == other.max_val
-        )
+        if self.dtype != other.dtype or self.name != other.name:
+            return False
+
+        if self.dtype == "cat":
+            return self.categories == other.categories
+
+        return math.isclose(
+            self.min_val, other.min_val, rel_tol=1e-6, abs_tol=1e-6
+        ) and math.isclose(self.max_val, other.max_val, rel_tol=1e-6, abs_tol=1e-6)
 
     def __repr__(self):
         string = f"{self.name}("
         if self.dtype == "cat":
             string += f"{self.categories if len(self.categories) != 1 else self.categories[0]})"
         else:
-            if self.min_val == self.max_val:
+            if math.isclose(self.min_val, self.max_val, rel_tol=1e-6, abs_tol=1e-6):
                 string += f"{self.min_val})"
             else:
                 string += f"[{self.min_val}, {self.max_val}])"
