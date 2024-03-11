@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.3.7](https://github.com/firefly-cpp/NiaARM/tree/0.3.7) (2024-02-10)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.6...0.3.7)
+
+**Implemented enhancements:**
+
+- Do not save "similar rules" [\#103](https://github.com/firefly-cpp/NiaARM/issues/103)
+
+**Closed issues:**
+
+- Large datasets [\#93](https://github.com/firefly-cpp/NiaARM/issues/93)
+
+**Merged pull requests:**
+
+- Do not save similar rules [\#109](https://github.com/firefly-cpp/NiaARM/pull/109) ([zStupan](https://github.com/zStupan))
+- Bump jinja2 from 3.1.2 to 3.1.3 [\#108](https://github.com/firefly-cpp/NiaARM/pull/108) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pillow from 10.1.0 to 10.2.0 [\#107](https://github.com/firefly-cpp/NiaARM/pull/107) ([dependabot[bot]](https://github.com/apps/dependabot))
+- README enhancement [\#106](https://github.com/firefly-cpp/NiaARM/pull/106) ([lahovniktadej](https://github.com/lahovniktadej))
+
+## [0.3.6](https://github.com/firefly-cpp/NiaARM/tree/0.3.6) (2024-01-26)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.5...0.3.6)
+
+**Closed issues:**
+
+- Zhang's metric [\#104](https://github.com/firefly-cpp/NiaARM/issues/104)
+
+**Merged pull requests:**
+
+- Implemented Zhang's Metric [\#105](https://github.com/firefly-cpp/NiaARM/pull/105) ([zStupan](https://github.com/zStupan))
+
 ## [0.3.5](https://github.com/firefly-cpp/NiaARM/tree/0.3.5) (2023-11-01)
 
 [Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.4...0.3.5)
