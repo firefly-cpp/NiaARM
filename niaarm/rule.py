@@ -221,9 +221,8 @@ class Rule:
             if attribute.dtype != "cat":
                 feature_min = min_[attribute.name]
                 feature_max = max_[attribute.name]
-                acc += (attribute.max_val - attribute.min_val) / (
-                    feature_max - feature_min
-                )
+                acc += 1 if feature_max == feature_min \
+                    else (attribute.max_val - attribute.min_val) / (feature_max - feature_min)
                 contains_antecedent &= transactions[attribute.name] <= attribute.max_val
                 contains_antecedent &= transactions[attribute.name] >= attribute.min_val
             else:
@@ -240,9 +239,8 @@ class Rule:
             if attribute.dtype != "cat":
                 feature_min = min_[attribute.name]
                 feature_max = max_[attribute.name]
-                acc += (attribute.max_val - attribute.min_val) / (
-                    feature_max - feature_min
-                )
+                acc += 1 if feature_max == feature_min \
+                    else (attribute.max_val - attribute.min_val) / (feature_max - feature_min)
                 contains_consequent &= transactions[attribute.name] <= attribute.max_val
                 contains_consequent &= transactions[attribute.name] >= attribute.min_val
             else:
