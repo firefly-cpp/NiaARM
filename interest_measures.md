@@ -208,3 +208,18 @@ and 0 reflects independence)
 
 **Reference:** T. Zhang, “Association Rules,” in Knowledge Discovery and Data Mining. Current Issues and New 
 Applications, 2000, pp. 245–256. doi: 10.1007/3-540-45571-X_31. 
+
+## Leverage
+
+Leverage metric is difference between the frequency of antecedent and the consequent appearing together and the expected
+frequency of them appearing separately based on their individual support
+
+```math
+leverage(X \implies Y) = support(X \implies Y) - (support(X) \times support(Y))
+```
+
+**Range:** `[-1, 1]` (-1 reflects total negative association, 1 reflects perfect positive association
+and 0 reflects independence)
+
+**Reference:** Gregory Piatetsky-Shapiro. 1991. Discovery, Analysis, and Presentation of Strong Rules. In
+Knowledge Discovery in Databases, Gregory Piatetsky-Shapiro and William J. Frawley (Eds.). AAAI/MIT Press, 229–248.
