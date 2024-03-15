@@ -1,7 +1,4 @@
 <p align="center">
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
   <img alt="logo" width="300" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/images/logo.png">
 </p>
 
@@ -18,6 +15,7 @@
 [![AUR package](https://img.shields.io/aur/version/python-niaarm?color=blue&label=Arch%20Linux&logo=arch-linux)](https://aur.archlinux.org/packages/python-niaarm)
 [![Packaging status](https://repology.org/badge/tiny-repos/python:niaarm.svg)](https://repology.org/project/python:niaarm/versions)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.04448/status.svg)](https://doi.org/10.21105/joss.04448)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 
 * **Documentation:** https://niaarm.readthedocs.io/en/latest
 * **Tested OS:** Windows, Ubuntu, Fedora, Alpine, Arch, macOS. **However, that does not mean it does not work on others**
