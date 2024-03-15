@@ -43,6 +43,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "lahovniktadej",
+      "name": "Tadej Lahovnik",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57890734?v=4",
+      "profile": "https://github.com/lahovniktadej",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
