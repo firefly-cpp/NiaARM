@@ -33,6 +33,16 @@
         "maintenance",
         "ideas"
       ]
+    },
+    {
+      "login": "erkankarabulut",
+      "name": "Erkan Karabulut",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15374776?v=4",
+      "profile": "https://erkankarabulut.github.io",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
