@@ -61,6 +61,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "rhododendrom",
+      "name": "Dusan Fister",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3198785?v=4",
+      "profile": "http://www.dusanfister.com",
+      "contributions": [
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
