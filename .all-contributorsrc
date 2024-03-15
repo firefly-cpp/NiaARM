@@ -1,0 +1,31 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "zStupan",
+      "name": "zStupan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/48752988?v=4",
+      "profile": "https://github.com/zStupan",
+      "contributions": [
+        "code",
+        "bug",
+        "doc",
+        "content",
+        "ideas",
+        "example"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "NiaARM",
+  "projectOwner": "firefly-cpp"
+}
