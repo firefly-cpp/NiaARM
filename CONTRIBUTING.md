@@ -35,21 +35,25 @@ All the project's dependencies should be installed and the project ready for fur
 
 | Package | Version | Platform |
 |---------|:-------:|:--------:|
-| niapy   | ^2.0.1  |   All    |
-| pandas  | ^1.3.5  |   All    |
-| numpy   | ^1.21.5 |   All    |
+| niapy   | ^2.0.5  |   All    |
+| numpy   | ^1.26.1 |   All    |
+| pandas  | ^2.1.1  |   All    |
+| nltk    | ^3.8.1  |   All    |
+| tomli   | ^2.0.1  |   All    |
 
 #### Development dependencies
 
-| Package | Version | Platform |
-|---------|:-------:|:--------:|
-| pytest  | ^7.0.1  |   Any    |
+| Package          | Version | Platform |
+|------------------|:-------:|:--------:|
+| pytest           | ^7.4.2  |   Any    |
+| pytest-cov       | ^4.1.0  |   Any    |
+| pytest.randomly  | ^3.15.0 |   Any    |
 
 #### Extras
 
 | Package              | Version | Platform |
 |----------------------|:-------:|:--------:|
-| sphinx               | ^4.4.0  |   Any    |
+| sphinx               | ^7.2.6  |   Any    |
 | sphinx-rtd-theme     | ^1.0.0  |   Any    |
 | sphinxcontrib-bibtex | ^2.4.1  |   Any    |
 
