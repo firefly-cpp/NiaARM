@@ -65,7 +65,7 @@ pandas==2.2.0
     # via
     #   -r requirements.in
     #   niapy
-pillow==10.2.0
+pillow==10.3.0
     # via matplotlib
 pybtex==0.24.0
     # via
