@@ -13,11 +13,12 @@ readme = "README.md"
 include = [
     { path="LICENSE", format="sdist" },
     { path="CHANGELOG.md", format="sdist" },
+    { path="CITATION.cff", format="sdist" },
     { path="niaarm.1", format="sdist" },
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.13"
+python = "^3.9"
 niapy = "^2.0.5"
 numpy = "^1.26.1"
 pandas = "^2.1.1"
