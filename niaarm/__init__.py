@@ -9,4 +9,4 @@ from niaarm.preprocessing import squash
 
 __all__ = ["NiaARM", "Dataset", "Feature", "Rule", "RuleList", "get_rules", "squash"]
 
-__version__ = "0.3.8"
+__version__ = "0.3.9"

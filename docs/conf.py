@@ -22,7 +22,7 @@ copyright = "2022-2024, Žiga Stupan, Iztok Fister Jr."
 author = "Žiga Stupan, Iztok Fister Jr."
 
 # The full version, including alpha/beta/rc tags
-release = "0.3.8"
+release = "0.3.9"
 
 
 # -- General configuration ---------------------------------------------------
