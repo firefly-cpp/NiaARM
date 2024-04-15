@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.3.9](https://github.com/firefly-cpp/NiaARM/tree/0.3.9) (2024-04-12)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.8...0.3.9)
+
+**Fixed bugs:**
+
+- Bug Report: RuntimeWarning: invalid value encountered in scalar divide [\#112](https://github.com/firefly-cpp/NiaARM/issues/112)
+
+**Merged pull requests:**
+
+- Bump idna from 3.4 to 3.7 in /docs [\#126](https://github.com/firefly-cpp/NiaARM/pull/126) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump idna from 3.4 to 3.7 [\#125](https://github.com/firefly-cpp/NiaARM/pull/125) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pillow from 10.2.0 to 10.3.0 in /docs [\#124](https://github.com/firefly-cpp/NiaARM/pull/124) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pillow from 10.2.0 to 10.3.0 [\#123](https://github.com/firefly-cpp/NiaARM/pull/123) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Dependency version [\#122](https://github.com/firefly-cpp/NiaARM/pull/122) ([lahovniktadej](https://github.com/lahovniktadej))
+- docs: add rhododendrom as a contributor for design [\#120](https://github.com/firefly-cpp/NiaARM/pull/120) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- docs: add musicinmybrain as a contributor for doc [\#119](https://github.com/firefly-cpp/NiaARM/pull/119) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- docs: add lahovniktadej as a contributor for doc [\#118](https://github.com/firefly-cpp/NiaARM/pull/118) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- docs: add erkankarabulut as a contributor for code, and bug [\#117](https://github.com/firefly-cpp/NiaARM/pull/117) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- docs: add firefly-cpp as a contributor for code, bug, and 3 more [\#116](https://github.com/firefly-cpp/NiaARM/pull/116) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- docs: add zStupan as a contributor for code, bug, and 4 more [\#115](https://github.com/firefly-cpp/NiaARM/pull/115) ([allcontributors[bot]](https://github.com/apps/allcontributors))
+- Add Leverage Rule Quality Criterion [\#114](https://github.com/firefly-cpp/NiaARM/pull/114) ([erkankarabulut](https://github.com/erkankarabulut))
+
+## [0.3.8](https://github.com/firefly-cpp/NiaARM/tree/0.3.8) (2024-03-13)
+
+[Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.7...0.3.8)
+
+**Merged pull requests:**
+
+- Fix division by zero error during acc calculation [\#113](https://github.com/firefly-cpp/NiaARM/pull/113) ([erkankarabulut](https://github.com/erkankarabulut))
+
 ## [0.3.7](https://github.com/firefly-cpp/NiaARM/tree/0.3.7) (2024-02-10)
 
 [Full Changelog](https://github.com/firefly-cpp/NiaARM/compare/0.3.6...0.3.7)
