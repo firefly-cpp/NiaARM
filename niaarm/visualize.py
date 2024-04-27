@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import mpld3
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
 import numpy as np
@@ -110,51 +111,83 @@ def _ribbon(x, z, width=0.5):
 
     return fig, ax
 
-# implementation of scatter plot visualization
-def scatter_plot(rules, transactions):
-    """Visualize rule as scatter plot.
 
-        Args:
-            rule (Rule): Association rule to visualize.
-            transactions (pandas.DataFrame): Transactions as a DataFrame.
 
-        Returns:
-            tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]: Figure and Axes of plot.
+# NOTE - Implementation of scatter plot visualization
+def scatter_plot(rule, transactions):
+    """
+    Visualize rule as scatter plot.
 
-        """
+    Args:
+        rule (Rule): Association rule to visualize.
+        transactions (pandas.DataFrame): Transactions as a DataFrame.
+    Returns:
+        tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]: Figure and Axes of plot.
+    """
 
-    features = rules.antecedent + rules.consequent
+    features = rule.antecedent + rule.consequent
     num_features = len(features)
-    support = np.empty(num_features)
+    max_index = -1
+    max_support = -1
+    match_x = None
+    x_count = 0
 
+    # Calculate support for rule
+    support = np.empty(num_features)
     for i, f in enumerate(features):
-        if f.dtype != 'cat':
-            match = (transactions[f.name] <= f.max_val) & (transactions[f.name] >= f.min_val)
+        if f.dtype != "cat":
+            match = (transactions[f.name] <= f.max_val) & (
+                    transactions[f.name] >= f.min_val
+            )
         else:
             match = transactions[f.name] == f.categories[0]
 
         supp_count = match.sum()
         supp = supp_count / len(transactions)
         support[i] = supp
+        if supp >= max_support:
+            max_support = supp
+            max_index = i
+            match_x = match
+            x_count = supp_count
+
+    # Calculate confidence for rule
+    confidence = np.empty(num_features)
+    for i, y in enumerate(features):
+        if i == max_index:
+            confidence[i] = 2
+            continue
+        if y.dtype != "cat":
+            match_y = (transactions[y.name] <= y.max_val) & (
+                    transactions[y.name] >= y.min_val
+            )
+        else:
+            match_y = transactions[y.name] == y.categories[0]
+        supp_count = (match_x & match_y).sum()
+        confidence[i] = supp_count / x_count
 
     # Scatter plot settings
     cmap = plt.get_cmap('viridis')
     norm = Normalize(vmin=min(support), vmax=max(support))
-    colors = cmap(norm(support))
+    colors = cmap(norm(support))  # Ensure this is properly mapped
     x = np.arange(num_features)
     y = np.zeros(num_features)
 
     # Create scatter plot
-    plt.scatter(x, y, c=colors)
-    plt.xlabel('Feature Index')
-    plt.ylabel('Value')
-    plt.title('Scatter Plot')
-    plt.colorbar(ScalarMappable(cmap=cmap, norm=norm), label='Support')
-    plt.show()
+    fig, ax = plt.subplots()
+    scatter = ax.scatter(x, y, c=support, cmap=cmap)  # Use support directly for coloring
+    ax.set_xlabel('Feature Index')
+    ax.set_ylabel('Value')
+    ax.set_title('Scatter Plot of Rule Support')
+
+    # Create colorbar properly associated with the scatter plot
+    cbar = plt.colorbar(ScalarMappable(cmap=cmap, norm=norm), ax=ax, label='Support')
+
+    return fig, ax
 
 
 
-# implementation of grouped_matrix_plot visualization
+# NOTE - Implementation of grouped_matrix_plot visualization
 def grouped_matrix_plot():
     """Visualize rule as Grouped matrix plot.
 
@@ -167,3 +200,44 @@ def grouped_matrix_plot():
 
             """
     print("Grouped matrix plot viz")
+
+
+
+# NOTE - For interactivity can also use "plotly"
+# NOTE - See below example:
+
+# pip install plotly
+
+# import plotly.express as px
+#
+# def scatter_plot_interactive(rule, transactions, save_path=None):
+#     # Extract support values for antecedents and consequents
+#     support_values = [rule.support for _ in rule.antecedent] + \
+#                      [rule.rhs_support for _ in rule.consequent]
+#     # Generate labels for each rule condition
+#     condition_names = [attr.name for attr in rule.antecedent] + \
+#                       [attr.name for attr in rule.consequent]
+#
+#     # Create a DataFrame for Plotly
+#     df = pd.DataFrame({
+#         'Rule Conditions': condition_names,
+#         'Support': support_values
+#     })
+#
+#     # Create Plotly figure
+#     fig = px.scatter(df, x='Rule Conditions', y='Support',
+#                      color='Support', color_continuous_scale='Viridis')
+#
+#     # Update layout for a better look
+#     fig.update_layout(title='Support for Rule Conditions',
+#                       xaxis_title='Rule Conditions',
+#                       yaxis_title='Support')
+#
+#     # Save plot to a file if a path is provided
+#     if save_path:
+#         fig.write_html(save_path)
+#
+#     # Show the plot
+#     fig.show()
+#
+#     return fig
