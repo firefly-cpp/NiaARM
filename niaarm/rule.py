@@ -145,7 +145,27 @@ class Rule:
          **Reference:** E. V. Altay and B. Alatas, "Sensitivity Analysis of MODENAR Method for Mining of Numeric Association
          Rules," 2019 1st International Informatics and Software Engineering Conference (UBMYK), 2019, pp. 1-6,
          doi: 10.1109/UBMYK48245.2019.8965539.
+        zhang: Zheng's metric measures the strength of association (positive or negative) between the antecedent and consequent, taking into account both their co-occurrence and non-co-occurrence.
 
+         :math:`zhang(X \implies Y) =
+         \frac{conf(X \implies Y) - conf(\neg X \implies Y)}{max\{conf(X \implies Y), conf(\neg X \implies Y)\}}`
+
+         **Range:** :math:`[-1, 1]` (-1 reflects total negative association, 1 reflects perfect positive association
+         and 0 reflects independence)
+
+         **Reference:** T. Zhang, “Association Rules,” in Knowledge Discovery and Data Mining. Current Issues and New
+         Applications, 2000, pp. 245–256. doi: 10.1007/3-540-45571-X_31.
+
+        leverage: difference between the frequency of antecedent and the consequent appearing together and the expected
+        frequency of them appearing separately based on their individual support
+
+        :math: `leverage(X \implies Y) = support(X \implies Y) - (support(X) \times support(Y))`
+
+        **Range:** :math: `[-1, 1]` (-1 reflects total negative association, 1 reflects perfect positive association
+         and 0 reflects independence)
+
+        **Reference:** Gregory Piatetsky-Shapiro. 1991. Discovery, Analysis, and Presentation of Strong Rules. In
+        Knowledge Discovery in Databases, Gregory Piatetsky-Shapiro and William J. Frawley (Eds.). AAAI/MIT Press, 229–248.
     """
 
     __slots__ = (
@@ -176,6 +196,7 @@ class Rule:
         "comprehensibility",
         "netconf",
         "yulesq",
+        "zhang",
     )
 
     def __init__(self, antecedent, consequent, fitness=0.0, transactions=None):
@@ -210,9 +231,8 @@ class Rule:
             if attribute.dtype != "cat":
                 feature_min = min_[attribute.name]
                 feature_max = max_[attribute.name]
-                acc += (attribute.max_val - attribute.min_val) / (
-                    feature_max - feature_min
-                )
+                acc += 1 if feature_max == feature_min \
+                    else (attribute.max_val - attribute.min_val) / (feature_max - feature_min)
                 contains_antecedent &= transactions[attribute.name] <= attribute.max_val
                 contains_antecedent &= transactions[attribute.name] >= attribute.min_val
             else:
@@ -229,9 +249,8 @@ class Rule:
             if attribute.dtype != "cat":
                 feature_min = min_[attribute.name]
                 feature_max = max_[attribute.name]
-                acc += (attribute.max_val - attribute.min_val) / (
-                    feature_max - feature_min
-                )
+                acc += 1 if feature_max == feature_min \
+                    else (attribute.max_val - attribute.min_val) / (feature_max - feature_min)
                 contains_consequent &= transactions[attribute.name] <= attribute.max_val
                 contains_consequent &= transactions[attribute.name] >= attribute.min_val
             else:
@@ -303,6 +322,25 @@ class Rule:
         return math.log(1 + len(self.consequent)) / math.log(
             1 + len(self.antecedent) + len(self.consequent)
         )
+
+    @property
+    def zhang(self):
+        support_x = self.coverage
+        support_y = self.rhs_support
+        support = self.support
+
+        numerator = support - support_x * support_y
+        denominator = (
+            max(support * (1 - support_x), support_x * (support_y - support))
+            + 2.220446049250313e-16
+        )
+
+        return numerator / denominator
+
+    @property
+    def leverage(self):
+        return self.support - (
+                (self.antecedent_count / self.num_transactions) * (self.consequent_count / self.num_transactions))
 
     def __eq__(self, other):
         return (

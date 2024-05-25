@@ -334,6 +334,7 @@ The framework currently implements the following interest measures (metrics):
 - Comprehensibility
 - Netconf [#fn]_
 - Yule's Q [#fn]_
+- Zhang's Metric [#fn]_
 
 More information about these interest measures can be found in the API reference
 of the :class:`~niaarm.rule.Rule` class.

@@ -1,0 +1,81 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "zStupan",
+      "name": "zStupan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/48752988?v=4",
+      "profile": "https://github.com/zStupan",
+      "contributions": [
+        "code",
+        "bug",
+        "doc",
+        "content",
+        "ideas",
+        "example"
+      ]
+    },
+    {
+      "login": "firefly-cpp",
+      "name": "Iztok Fister Jr.",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1633361?v=4",
+      "profile": "http://www.iztok.xyz",
+      "contributions": [
+        "code",
+        "bug",
+        "mentoring",
+        "maintenance",
+        "ideas"
+      ]
+    },
+    {
+      "login": "erkankarabulut",
+      "name": "Erkan Karabulut",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15374776?v=4",
+      "profile": "https://erkankarabulut.github.io",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "lahovniktadej",
+      "name": "Tadej Lahovnik",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57890734?v=4",
+      "profile": "https://github.com/lahovniktadej",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "musicinmybrain",
+      "name": "Ben Beasley",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6898909?v=4",
+      "profile": "https://github.com/musicinmybrain",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "rhododendrom",
+      "name": "Dusan Fister",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3198785?v=4",
+      "profile": "http://www.dusanfister.com",
+      "contributions": [
+        "design"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "NiaARM",
+  "projectOwner": "firefly-cpp"
+}

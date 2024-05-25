@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "niaarm"
-version = "0.3.5"
+version = "0.3.9"
 description = "A minimalistic framework for numerical association rule mining"
 authors = ["Žiga Stupan <ziga.stupan1@student.um.si>", "Iztok Fister Jr. <iztok@iztok-jr-fister.eu>"]
 keywords = ['association rule mining', 'data science', 'numerical association rule mining', 'preprocessing', 'visualization']
@@ -13,11 +13,12 @@ readme = "README.md"
 include = [
     { path="LICENSE", format="sdist" },
     { path="CHANGELOG.md", format="sdist" },
+    { path="CITATION.cff", format="sdist" },
     { path="niaarm.1", format="sdist" },
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.13"
+python = "^3.9"
 niapy = "^2.0.5"
 numpy = "^1.26.1"
 pandas = "^2.1.1"

@@ -66,3 +66,11 @@ class TestMetrics(TestCase):
     def test_yulesq(self):
         self.assertAlmostEqual(self.rule_one.yulesq, (6 - 1) / (6 + 1))
         self.assertAlmostEqual(self.rule_two.yulesq, (6 - 1) / (6 + 1))
+
+    def test_zhang(self):
+        self.assertAlmostEqual(self.rule_one.zhang, 5 / 9)
+        self.assertAlmostEqual(self.rule_two.zhang, 5 / 8)
+
+    def test_leverage(self):
+        self.assertAlmostEqual(self.rule_one.leverage, 0.102040816326)
+        self.assertAlmostEqual(self.rule_two.leverage, 0.102040816326)

@@ -2,11 +2,8 @@
   <img alt="logo" width="300" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/images/logo.png">
 </p>
 
----
-
 # NiaARM - A minimalistic framework for Numerical Association Rule Mining
 
----
 [![PyPI Version](https://img.shields.io/pypi/v/niaarm.svg)](https://pypi.python.org/pypi/niaarm)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/niaarm.svg)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/niaarm.svg)
@@ -18,25 +15,26 @@
 [![AUR package](https://img.shields.io/aur/version/python-niaarm?color=blue&label=Arch%20Linux&logo=arch-linux)](https://aur.archlinux.org/packages/python-niaarm)
 [![Packaging status](https://repology.org/badge/tiny-repos/python:niaarm.svg)](https://repology.org/project/python:niaarm/versions)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.04448/status.svg)](https://doi.org/10.21105/joss.04448)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 
-
-NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. The framework is written fully in Python and runs on all platforms. NiaARM allows users to preprocess the data in a transaction database automatically, to search for association rules and provide a pretty output of the rules found. This framework also supports integral and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization problem, and solved using the nature-inspired algorithms that come from the related framework called [NiaPy](https://github.com/NiaOrg/NiaPy).
-
-* **Documentation:** https://niaarm.readthedocs.io/en/latest/
+* **Documentation:** https://niaarm.readthedocs.io/en/latest
 * **Tested OS:** Windows, Ubuntu, Fedora, Alpine, Arch, macOS. **However, that does not mean it does not work on others**
 
-## Detailed insights
+## About 📋
+NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. 🌿 The framework is written fully in Python and runs on all platforms. NiaARM allows users to preprocess the data in a transaction database automatically, to search for association rules and provide a pretty output of the rules found. 📊 This framework also supports integral and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization problem, and solved using the nature-inspired algorithms that come from the related framework called [NiaPy](https://github.com/NiaOrg/NiaPy). 🔗
+
+## Detailed insights 🔍 
 The current version includes (but is not limited to) the following functions:
 
-- loading datasets in CSV format,
-- preprocessing of data,
-- searching for association rules,
-- providing output of mined association rules,
-- generating statistics about mined association rules,
-- visualization of association rules,
-- association rule text mining (experimental).
+- loading datasets in CSV format 📁
+- preprocessing of data 🧹
+- searching for association rules 🔎
+- providing output of mined association rules 📋
+- generating statistics about mined association rules 📊
+- visualization of association rules 📈
+- association rule text mining (experimental) 📄
 
-## Installation
+## Installation 📦
 
 ### pip
 
@@ -70,7 +68,7 @@ To install NiaARM on NixOS, please use:
 nix-env -iA nixos.python311Packages.niaarm
 ```
 
-## Usage
+## Usage 🚀
 
 ### Loading data
 
@@ -89,7 +87,7 @@ data = Dataset(df)
 print(data) # printing the dataset will generate a feature report
 ```
 
-#### Option 2: From CSV file directly
+#### Option 2: Directly from a CSV file
 
 ```python
 from niaarm import Dataset
@@ -279,7 +277,7 @@ options:
 ```
 Note: The CLI script can also run as a python module (`python -m niaarm ...`)
 
-## Reference Papers:
+## Reference Papers 📚
 
 Ideas are based on the following research papers:
 
@@ -299,6 +297,12 @@ Ideas are based on the following research papers:
 
 [6] I. Fister, I. Fister Jr., D. Novak and D. Verber, [Data squashing as preprocessing in association rule mining](https://iztok-jr-fister.eu/static/publications/300.pdf), 2022 IEEE Symposium Series on Computational Intelligence (SSCI), Singapore, Singapore, 2022, pp. 1720-1725, doi: [10.1109/SSCI51031.2022.10022240](https://doi.org/10.1109/SSCI51031.2022.10022240).
 
+## See also
+
+[1] [NiaARM.jl: Numerical Association Rule Mining in Julia](https://github.com/firefly-cpp/NiaARM.jl)
+
+[2] [arm-preprocessing: Implementation of several preprocessing techniques for Association Rule Mining (ARM)](https://github.com/firefly-cpp/arm-preprocessing)
+
 ## License
 
 This package is distributed under the MIT License. This license can be found online at <http://www.opensource.org/licenses/MIT>.
@@ -310,3 +314,30 @@ This framework is provided as-is, and there are no guarantees that it fits your 
 ## Cite us
 
 Stupan, Ž., & Fister Jr., I. (2022). [NiaARM: A minimalistic framework for Numerical Association Rule Mining](https://www.theoj.org/joss-papers/joss.04448/10.21105.joss.04448.pdf). Journal of Open Source Software, 7(77), 4448.
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/zStupan"><img src="https://avatars.githubusercontent.com/u/48752988?v=4?s=100" width="100px;" alt="zStupan"/><br /><sub><b>zStupan</b></sub></a><br /><a href="https://github.com/firefly-cpp/NiaARM/commits?author=zStupan" title="Code">💻</a> <a href="https://github.com/firefly-cpp/NiaARM/issues?q=author%3AzStupan" title="Bug reports">🐛</a> <a href="https://github.com/firefly-cpp/NiaARM/commits?author=zStupan" title="Documentation">📖</a> <a href="#content-zStupan" title="Content">🖋</a> <a href="#ideas-zStupan" title="Ideas, Planning, & Feedback">🤔</a> <a href="#example-zStupan" title="Examples">💡</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.iztok.xyz"><img src="https://avatars.githubusercontent.com/u/1633361?v=4?s=100" width="100px;" alt="Iztok Fister Jr."/><br /><sub><b>Iztok Fister Jr.</b></sub></a><br /><a href="https://github.com/firefly-cpp/NiaARM/commits?author=firefly-cpp" title="Code">💻</a> <a href="https://github.com/firefly-cpp/NiaARM/issues?q=author%3Afirefly-cpp" title="Bug reports">🐛</a> <a href="#mentoring-firefly-cpp" title="Mentoring">🧑‍🏫</a> <a href="#maintenance-firefly-cpp" title="Maintenance">🚧</a> <a href="#ideas-firefly-cpp" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://erkankarabulut.github.io"><img src="https://avatars.githubusercontent.com/u/15374776?v=4?s=100" width="100px;" alt="Erkan Karabulut"/><br /><sub><b>Erkan Karabulut</b></sub></a><br /><a href="https://github.com/firefly-cpp/NiaARM/commits?author=erkankarabulut" title="Code">💻</a> <a href="https://github.com/firefly-cpp/NiaARM/issues?q=author%3Aerkankarabulut" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/lahovniktadej"><img src="https://avatars.githubusercontent.com/u/57890734?v=4?s=100" width="100px;" alt="Tadej Lahovnik"/><br /><sub><b>Tadej Lahovnik</b></sub></a><br /><a href="https://github.com/firefly-cpp/NiaARM/commits?author=lahovniktadej" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/musicinmybrain"><img src="https://avatars.githubusercontent.com/u/6898909?v=4?s=100" width="100px;" alt="Ben Beasley"/><br /><sub><b>Ben Beasley</b></sub></a><br /><a href="https://github.com/firefly-cpp/NiaARM/commits?author=musicinmybrain" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.dusanfister.com"><img src="https://avatars.githubusercontent.com/u/3198785?v=4?s=100" width="100px;" alt="Dusan Fister"/><br /><sub><b>Dusan Fister</b></sub></a><br /><a href="#design-rhododendrom" title="Design">🎨</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
