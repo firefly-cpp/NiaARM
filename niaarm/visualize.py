@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
 import numpy as np
-
 import plotly.express as px
 import pandas as pd
+from sklearn.cluster import KMeans
 
 
 def hill_slopes(rule, transactions):
@@ -113,79 +113,383 @@ def _ribbon(x, z, width=0.5):
 
     return fig, ax
 
-# Get rule names in str
-def get_rule_names(rule):
-    # Get antecedent names
-    antecedent_names = []
-    consequent_names = []
-
-    for ant in rule.antecedent:
-        ant_names = [f'[{ant.name}({ant_cat})]' for ant_cat in ant.categories]
-        antecedent_names.append(", ".join(ant_names))
-
-    for cons in rule.consequent:
-        cons_names = [f'[{cons.name}({cons_cat})]' for cons_cat in cons.categories]
-        consequent_names.append(", ".join(cons_names))
-
-    antecedent_name = ", ".join(antecedent_names)
-    consequent_name = ", ".join(consequent_names)
-
-    rule_name = f'{antecedent_name} => {consequent_name}'
-
-    return rule_name
-
 
 def scatter_plot(rules, metrics, interactive=False):
+    """
+    Visualize rules/rule as scatter plot
+    Args:
+        rules (Rule): Association rule or rules to visualize.
+        metrics (tuple): Metrics to display in visualization. Maximum of 2 metrics.
+        interactive: Make plot interactive. Default: ``False``
+
+    Returns:
+         Figure or plot.
+    """
+
     # Function for preparing data for visualization
-    def prepare_data(rules, metrics):
+    def prepare_data(arm_rules, arm_metrics):
+        # Init data
         data = {
             "rule": [],
-            "lift": []
         }
 
         # Set metrics to data
-        for temp_metric in metrics:
+        for temp_metric in arm_metrics:
             data[temp_metric] = []
 
         # Get data
-        for rule in rules:
-            rule_name = get_rule_names(rule)
-            data["rule"].append(rule_name)
-            data["lift"].append(rule.lift)
-            for temp_metric in metrics:
+        for rule in arm_rules:
+            # Set rule name
+            data["rule"].append(rule.__repr__())
+            # Set metrics data
+            for temp_metric in arm_metrics:
                 data[temp_metric].append(getattr(rule, temp_metric))
 
         # Return as DataFrame
-        return pd.DataFrame(data)
+        data_frame = pd.DataFrame(data)
+        return data_frame
 
     # Check if one or more rules
     if not hasattr(rules, "data"):
         rules = [rules]
 
-    # Get DataFrame
+    # Prepare data
     df = prepare_data(rules, metrics)
 
-    # Display scatter plot visualization as interactive using plotly
+    # Use plotly for interactive scatter plot visualization
     if interactive:
-        title = f'Interactive Scatter Plot for {len(rules)} rules' if len(rules) > 1 else 'Interactive Scatter Plot for Rule'
-        fig = px.scatter(df, title=title, x=metrics[0], y=metrics[1], color='lift', size='lift', hover_name='rule')
-        fig.update_layout(xaxis_title=metrics[0], yaxis_title=metrics[1], coloraxis_colorbar=dict(title='lift'))
-        fig.show()
-    # Use matplotlib for normal scatter plot visualization
+        # Set title
+        title = f'Interactive scatter plot for {len(rules)} rules' if len(rules) > 1 else "Interactive scatter plot for rule"
+        # Create figure
+        fig = px.scatter(
+            data_frame=df,
+            title=title,
+            x=metrics[0],
+            y=metrics[1],
+            color="lift",
+            size="lift",
+            hover_name="rule"
+        )
+        # Set titles and colorbar
+        fig.update_layout(
+            xaxis_title=metrics[0],
+            yaxis_title=metrics[1],
+            coloraxis_colorbar=dict(
+                title="lift"
+            )
+        )
+
+        return fig
+
+    # Use matplotlib for static scatter plot visualization
     else:
+        # Set title
+        plt.title(f'Scatter plot for {len(rules)} rules' if len(rules) > 1 else 'Scatter plot for rule')
+        # Set figure size
         plt.figure(figsize=(10, 6))
-        scatter = plt.scatter(x=df[metrics[0]], y=df[metrics[1]], c=df['lift'], s=df['lift'] * 100, alpha=0.6)
-        plt.colorbar(scatter, label='lift')
+        # Create scatter plot (s = scale size of points, alpha = transparency of points)
+        scatter = plt.scatter(
+            x=df[metrics[0]],
+            y=df[metrics[1]],
+            c=df["lift"],
+            s=df["lift"] * 100,
+            alpha=0.6
+        )
+        # Set colorbar
+        plt.colorbar(scatter, label="lift")
+
+        # Set label for x and y axes
         plt.xlabel(metrics[0])
         plt.ylabel(metrics[1])
-        plt.title(f'Scatter Plot for {len(rules)} rules' if len(rules) > 1 else 'Scatter Plot for Rule')
-        # for i, txt in enumerate(df['rule']):
-        #     plt.annotate(txt, (df[metrics[0]][i], df[metrics[1]][i]), fontsize=8, alpha=0.7)
-        # plt.grid(True)
-        plt.show()
+
+        return plt
 
 
-# NOTE - Implementation of grouped_matrix_plot visualization
-def grouped_matrix_plot():
-    pass
+def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
+    """
+        Visualize rules as grouped matrix plot.
+    Args:
+        rules:
+        metrics:
+        k:
+        interactive:
 
+    Returns:
+
+    """
+
+    def prepare_data(arm_rules, arm_metrics):
+        """
+
+        Args:
+            arm_rules:
+            arm_metrics:
+
+        Returns:
+
+        """
+
+        # Init data
+        data = {
+            "antecedent": [],
+            "consequent": [],
+        }
+
+        # Set metrics to data
+        for temp_metric in arm_metrics:
+            data[temp_metric] = []
+
+        # Set antecedents, consequents and metrics data to dictionary
+        for rule in arm_rules:
+            ant_names = []
+            for ant in rule.antecedent:
+                ant_names.append(ant.__repr__())
+            data["antecedent"].append(", ".join(ant_names))
+
+            cons_names = []
+            for cons in rule.consequent:
+                cons_names.append(cons.__repr__())
+            data["consequent"].append(", ".join(cons_names))
+
+            for temp_metric in arm_metrics:
+                data[temp_metric].append(getattr(rule, temp_metric))
+
+        # Return as DataFrame
+        data_frame = pd.DataFrame(data)
+        return data_frame
+
+    def encode_antecedents(data_frame):
+        """
+
+        Args:
+            data_frame:
+
+        Returns:
+
+        """
+
+        # Get unique antecedents from the dataframe (for mapping we need only unique antecedents)
+        antecedents = data_frame["antecedent"].unique()
+
+        # Create dictionary that maps each antecedent to an integer
+        ant_to_int = {}
+        for i, antecedent in enumerate(antecedents):
+            ant_to_int[antecedent] = i
+
+        # Create new column in dataframe where each antecedent is replaced by its corresponding integer from the
+        # dictionary
+        data_frame["antecedent_int"] = data_frame["antecedent"].map(ant_to_int)
+
+        # Return the data frame containing new mapped antecedents to integer
+        return data_frame, ant_to_int
+
+    def perform_clustering(data_frame, num_clusters):
+        """
+
+        Args:
+            data_frame:
+            num_clusters:
+
+        Returns:
+
+        """
+
+        # Create clusters
+        # TODO: Try out different algorithms
+        kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(data_frame[['antecedent_int']])
+
+        # Assigns each antecedent into a cluster
+        data_frame["cluster"] = kmeans.labels_
+
+        # Return data frame with new assigned clusters to rules
+        return data_frame
+
+    def find_most_interesting_items(data_frame):
+        """
+
+        Args:
+            data_frame:
+
+        Returns:
+
+        """
+
+        cluster_to_ant = {}
+
+        # The loop iterates through each rule, appending the antecedent and support to the corresponding cluster
+        for index, rule in data_frame.iterrows():
+            cluster = rule["cluster"]
+            if cluster not in cluster_to_ant:
+                cluster_to_ant[cluster] = []
+            cluster_to_ant[cluster].append((rule["antecedent"], rule["support"]))   # TODO: here you can add 'confidence', 'lift' as well
+
+        # Sort cluster for clarity
+        cluster_to_ant = dict(sorted(cluster_to_ant.items()))
+
+        # Dictionary where keys are clusters and values are the most interesting antecedent (example: the one with the highest support) in each cluster.
+        most_interesting_antecedent_from_clusters = {}
+        for cluster, rules in cluster_to_ant.items():
+            most_interesting_rule = max(rules, key=lambda metric: metric[1])  # TODO: Based on support, gets the biggest support value from the cluster, that rule in considered most interesting because it has the highest value, ADD OTHERS
+            most_interesting_antecedent_from_clusters[cluster] = most_interesting_rule[0]
+
+        return cluster_to_ant, most_interesting_antecedent_from_clusters
+
+    def create_cluster_descriptions(cluster_to_ant, most_interesting, data_frame):
+        """
+
+        Args:
+            cluster_to_ant:
+            most_interesting:
+            data_frame:
+
+        Returns:
+
+        """
+
+        # Create a description for every cluster, where each cluster has the total number of rules in the cluster (or antecedents), in the middle is the most interesting antecedents from the cluster, and the last number +.. us the total number of rules or antecedents in the cluster
+        cluster_desc = {}
+        for cluster, rules in cluster_to_ant.items():
+            # Collect unique antecedents
+            unique_antecedents = set()
+            for rule in rules:
+                unique_antecedents.add(rule[0])
+            total_items = len(unique_antecedents)  # Number of unique antecedents
+
+            num_rules = len(rules) # Total number of rules in the cluster
+            cluster_desc[cluster] = '{} rules; {{{}}}, +{} items'.format(num_rules, most_interesting[cluster], total_items)
+
+        # creates a new column with these descriptions.
+        data_frame["cluster_description"] = data_frame["cluster"].map(cluster_desc)
+
+        return data_frame, cluster_desc
+
+    def create_plot_data(data_frame):
+        """
+
+        Args:
+            data_frame:
+
+        Returns:
+
+        """
+
+        # Gets unique consequents
+        cons = data_frame["consequent"].unique()
+
+        # Mapping consequents to y-axis positions
+        # creates a dictionary mapping each unique consequent to an integer.
+        cons_to_int = {}
+        for i, consequent in enumerate(cons):
+            cons_to_int[consequent] = i
+
+        # Prepare data for plotly
+        plot_data = []
+        for index, rule in data_frame.iterrows():
+            plot_data.append({
+                "cluster": rule["cluster_description"],
+                "consequent": rule["consequent"],
+                "support": rule["support"],
+                "lift": rule["lift"],
+                "size": rule["support"] * 1000
+            })
+
+        plot_data_frame = pd.DataFrame(plot_data)
+
+        return plot_data_frame, cons_to_int, cons
+
+    # Prepare data
+    df = prepare_data(rules, metrics)
+
+    # Get encoded antecedents to integer
+    df, antecedent_to_int = encode_antecedents(df)
+
+    # Perform k-means clustering
+    df = perform_clustering(df, k)
+
+    # Find the most interesting item in each cluster
+    cluster_to_antecedents, cluster_to_most_interesting = find_most_interesting_items(df)
+
+    # Maps each rules cluster with it's most interesting antecedent in the cluster
+    df["grouped_antecedent"] = df["cluster"].map(cluster_to_most_interesting)
+
+    # Create descriptions for clusters
+    df, cluster_descriptions = create_cluster_descriptions(cluster_to_antecedents, cluster_to_most_interesting, df)
+
+    # Get data for plotting
+    plot_df, consequent_to_int, consequents = create_plot_data(df)
+
+    # Use plotly for interactive grouped matrix plot visualization
+    if interactive:
+        fig = px.scatter(
+            plot_df,
+            x="cluster",
+            y="consequent",
+            size="size",
+            color="lift",
+            hover_name="cluster",
+            hover_data={"support": True, "lift": True, "size": False},
+            labels={
+                "cluster": "Grouped Antecedents",
+                "consequent": "Consequents",
+                "lift": "Lift"
+            }
+        )
+
+        fig.update_layout(
+            xaxis_title="Items in LHS Groups",
+            yaxis_title="RHS",
+            coloraxis_colorbar=dict(
+                title="Lift",
+                orientation="h",
+                x=0.5,
+                y=-0.3,
+                xanchor="center",
+                yanchor="top"
+            ),
+            xaxis=dict(side="top"),
+            yaxis=dict(side="right")
+        )
+
+        return fig
+
+    # Use matplotlib for static grouped matrix plot visualization
+    else:
+        fig, ax = plt.subplots(figsize=(20, 12))
+
+        scatter_plots = []
+        for idx, row in plot_df.iterrows():
+            x = list(cluster_descriptions.values()).index(row["cluster"])
+            y = consequent_to_int[row["consequent"]]
+            size = row["size"]
+            color = row["lift"]
+            scatter = ax.scatter(
+                x=x,
+                y=y,
+                s=size,
+                c=[color],
+                cmap="coolwarm",
+                alpha=0.6,
+                edgecolors="w",
+                linewidth=0.5
+            )
+            scatter_plots.append(scatter)
+
+        ax.set_xlabel("Items in LHS Groups")
+        ax.set_ylabel("RHS")
+        ax.set_xticks(np.arange(k))
+        ax.set_xticklabels([cluster_descriptions[i] for i in range(k)], rotation=45, ha="right")
+        ax.set_yticks(np.arange(len(consequents)))
+        ax.set_yticklabels(consequents)
+        ax.xaxis.set_label_position("top")
+        ax.xaxis.tick_top()
+        ax.yaxis.set_label_position("right")
+        ax.yaxis.tick_right()
+
+        if scatter_plots:
+            cbar = plt.colorbar(scatter_plots[0], orientation="horizontal", pad=0.2)
+            cbar.set_label("Lift")
+
+        plt.subplots_adjust(left=0.2, right=0.8, top=0.8, bottom=0.2)
+        plt.grid(which="both", color="grey", linestyle="-", linewidth=0.5)
+
+        return plt
