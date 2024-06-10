@@ -120,7 +120,7 @@ def scatter_plot(rules, metrics, interactive=False):
     Args:
         rules (Rule): Association rule or rules to visualize.
         metrics (tuple): Metrics to display in visualization. Maximum of 2 metrics.
-        interactive: Make plot interactive. Default: ``False``
+        interactive (bool): Make plot interactive. Default: ``False``
 
     Returns:
          Figure or plot.
@@ -159,7 +159,8 @@ def scatter_plot(rules, metrics, interactive=False):
     # Use plotly for interactive scatter plot visualization
     if interactive:
         # Set title
-        title = f'Interactive scatter plot for {len(rules)} rules' if len(rules) > 1 else "Interactive scatter plot for rule"
+        title = f'Interactive scatter plot for {len(rules)} rules' \
+            if len(rules) > 1 else "Interactive scatter plot for rule"
         # Create figure
         fig = px.scatter(
             data_frame=df,
@@ -184,7 +185,9 @@ def scatter_plot(rules, metrics, interactive=False):
     # Use matplotlib for static scatter plot visualization
     else:
         # Set title
-        plt.title(f'Scatter plot for {len(rules)} rules' if len(rules) > 1 else 'Scatter plot for rule')
+        title = f'Scatter plot for {len(rules)} rules' \
+            if len(rules) > 1 else 'Scatter plot for rule'
+        plt.title(title)
         # Set figure size
         plt.figure(figsize=(10, 6))
         # Create scatter plot (s = scale size of points, alpha = transparency of points)
@@ -207,28 +210,18 @@ def scatter_plot(rules, metrics, interactive=False):
 
 def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
     """
-        Visualize rules as grouped matrix plot.
+    Visualize rules as grouped matrix plot.
     Args:
-        rules:
-        metrics:
-        k:
-        interactive:
+        rules (Rule): Association rules to visualize
+        metrics (tuple): Metrics to display in visualization.
+        k (int): Number of clusters or groups to display
+        interactive (bool): Make plot interactive. Default: ``False``
 
     Returns:
-
+        Figure or plot.
     """
 
     def prepare_data(arm_rules, arm_metrics):
-        """
-
-        Args:
-            arm_rules:
-            arm_metrics:
-
-        Returns:
-
-        """
-
         # Init data
         data = {
             "antecedent": [],
@@ -259,15 +252,6 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
         return data_frame
 
     def encode_antecedents(data_frame):
-        """
-
-        Args:
-            data_frame:
-
-        Returns:
-
-        """
-
         # Get unique antecedents from the dataframe (for mapping we need only unique antecedents)
         antecedents = data_frame["antecedent"].unique()
 
@@ -284,18 +268,7 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
         return data_frame, ant_to_int
 
     def perform_clustering(data_frame, num_clusters):
-        """
-
-        Args:
-            data_frame:
-            num_clusters:
-
-        Returns:
-
-        """
-
         # Create clusters
-        # TODO: Try out different algorithms
         kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(data_frame[['antecedent_int']])
 
         # Assigns each antecedent into a cluster
@@ -305,84 +278,64 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
         return data_frame
 
     def find_most_interesting_items(data_frame):
-        """
-
-        Args:
-            data_frame:
-
-        Returns:
-
-        """
-
         cluster_to_ant = {}
 
-        # The loop iterates through each rule, appending the antecedent and support to the corresponding cluster
+        # Iterate through each rule and append the antecedent and support to the corresponding cluster
         for index, rule in data_frame.iterrows():
             cluster = rule["cluster"]
             if cluster not in cluster_to_ant:
                 cluster_to_ant[cluster] = []
-            cluster_to_ant[cluster].append((rule["antecedent"], rule["support"]))   # TODO: here you can add 'confidence', 'lift' as well
+
+            # Can add more metrics if needed
+            cluster_to_ant[cluster].append((rule["antecedent"], rule["support"]))
 
         # Sort cluster for clarity
         cluster_to_ant = dict(sorted(cluster_to_ant.items()))
 
-        # Dictionary where keys are clusters and values are the most interesting antecedent (example: the one with the highest support) in each cluster.
+        # Dictionary where keys are clusters and values are the most interesting antecedent
         most_interesting_antecedent_from_clusters = {}
-        for cluster, rules in cluster_to_ant.items():
-            most_interesting_rule = max(rules, key=lambda metric: metric[1])  # TODO: Based on support, gets the biggest support value from the cluster, that rule in considered most interesting because it has the highest value, ADD OTHERS
+        for cluster, ant in cluster_to_ant.items():
+            # Determine most interesting rule
+            # Can add more metrics if needed
+            most_interesting_rule = max(ant, key=lambda metric: metric[1])
             most_interesting_antecedent_from_clusters[cluster] = most_interesting_rule[0]
 
         return cluster_to_ant, most_interesting_antecedent_from_clusters
 
     def create_cluster_descriptions(cluster_to_ant, most_interesting, data_frame):
-        """
-
-        Args:
-            cluster_to_ant:
-            most_interesting:
-            data_frame:
-
-        Returns:
-
-        """
-
-        # Create a description for every cluster, where each cluster has the total number of rules in the cluster (or antecedents), in the middle is the most interesting antecedents from the cluster, and the last number +.. us the total number of rules or antecedents in the cluster
+        # Create a description for every cluster, where each cluster has the total number of rules in the cluster
         cluster_desc = {}
-        for cluster, rules in cluster_to_ant.items():
+        for cluster, ant in cluster_to_ant.items():
             # Collect unique antecedents
             unique_antecedents = set()
-            for rule in rules:
+            for rule in ant:
                 unique_antecedents.add(rule[0])
-            total_items = len(unique_antecedents)  # Number of unique antecedents
 
-            num_rules = len(rules) # Total number of rules in the cluster
+            # Number of unique antecedents
+            total_items = len(unique_antecedents)
+
+            # Total number of rules in the cluster
+            num_rules = len(ant)
+
+            # Create description
             cluster_desc[cluster] = '{} rules; {{{}}}, +{} items'.format(num_rules, most_interesting[cluster], total_items)
 
-        # creates a new column with these descriptions.
+        # Creates a new column with these descriptions.
         data_frame["cluster_description"] = data_frame["cluster"].map(cluster_desc)
 
         return data_frame, cluster_desc
 
     def create_plot_data(data_frame):
-        """
-
-        Args:
-            data_frame:
-
-        Returns:
-
-        """
-
         # Gets unique consequents
         cons = data_frame["consequent"].unique()
 
         # Mapping consequents to y-axis positions
-        # creates a dictionary mapping each unique consequent to an integer.
+        # Creates a dictionary mapping each unique consequent to an integer.
         cons_to_int = {}
         for i, consequent in enumerate(cons):
             cons_to_int[consequent] = i
 
-        # Prepare data for plotly
+        # Prepare data for plot
         plot_data = []
         for index, rule in data_frame.iterrows():
             plot_data.append({
@@ -393,6 +346,7 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
                 "size": rule["support"] * 1000
             })
 
+        # Create DataFrame
         plot_data_frame = pd.DataFrame(plot_data)
 
         return plot_data_frame, cons_to_int, cons
@@ -409,7 +363,7 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
     # Find the most interesting item in each cluster
     cluster_to_antecedents, cluster_to_most_interesting = find_most_interesting_items(df)
 
-    # Maps each rules cluster with it's most interesting antecedent in the cluster
+    # Maps each rules cluster with the most interesting antecedent in the cluster
     df["grouped_antecedent"] = df["cluster"].map(cluster_to_most_interesting)
 
     # Create descriptions for clusters
