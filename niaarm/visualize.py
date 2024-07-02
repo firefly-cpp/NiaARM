@@ -119,25 +119,24 @@ def scatter_plot(rules, metrics, interactive=False):
     Visualize rules/rule as scatter plot
     Args:
         rules (Rule): Association rule or rules to visualize.
-        metrics (tuple): Metrics to display in visualization. Maximum of 2 metrics.
+        metrics (tuple): Metrics to display in visualization_examples. Maximum of 2 metrics.
         interactive (bool): Make plot interactive. Default: ``False``
 
     Returns:
          Figure or plot.
     """
 
-    # Function for preparing data for visualization
+    # Function for preparing data for visualization_examples
     def prepare_data(arm_rules, arm_metrics):
-        # Init data
+        # Create dictionary for rule data
         data = {
             "rule": [],
         }
 
-        # Set metrics to data
+        # Set metrics to data dictionary
         for temp_metric in arm_metrics:
             data[temp_metric] = []
 
-        # Get data
         for rule in arm_rules:
             # Set rule name
             data["rule"].append(rule.__repr__())
@@ -156,7 +155,7 @@ def scatter_plot(rules, metrics, interactive=False):
     # Prepare data
     df = prepare_data(rules, metrics)
 
-    # Use plotly for interactive scatter plot visualization
+    # Use plotly for interactive scatter plot visualization_examples
     if interactive:
         # Set title
         title = f'Interactive scatter plot for {len(rules)} rules' \
@@ -171,32 +170,34 @@ def scatter_plot(rules, metrics, interactive=False):
             size="lift",
             hover_name="rule"
         )
+
         # Set titles and colorbar
         fig.update_layout(
             xaxis_title=metrics[0],
             yaxis_title=metrics[1],
             coloraxis_colorbar=dict(
-                title="lift"
+                title="lift",
             )
         )
 
         return fig
 
-    # Use matplotlib for static scatter plot visualization
+    # Use matplotlib for static scatter plot visualization_examples
     else:
         # Set title
         title = f'Scatter plot for {len(rules)} rules' \
             if len(rules) > 1 else 'Scatter plot for rule'
         plt.title(title)
         # Set figure size
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(24, 14))
         # Create scatter plot (s = scale size of points, alpha = transparency of points)
         scatter = plt.scatter(
             x=df[metrics[0]],
             y=df[metrics[1]],
             c=df["lift"],
             s=df["lift"] * 100,
-            alpha=0.6
+            alpha=0.6,
+            cmap="plasma",
         )
         # Set colorbar
         plt.colorbar(scatter, label="lift")
@@ -213,7 +214,7 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
     Visualize rules as grouped matrix plot.
     Args:
         rules (Rule): Association rules to visualize
-        metrics (tuple): Metrics to display in visualization.
+        metrics (tuple): Metrics to display in visualization_examples.
         k (int): Number of clusters or groups to display
         interactive (bool): Make plot interactive. Default: ``False``
 
@@ -221,14 +222,15 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
         Figure or plot.
     """
 
+    # Function for preparing data for visualization_examples
     def prepare_data(arm_rules, arm_metrics):
-        # Init data
+        # Create dictionary for rule data
         data = {
             "antecedent": [],
             "consequent": [],
         }
 
-        # Set metrics to data
+        # Set metrics to data dictionary
         for temp_metric in arm_metrics:
             data[temp_metric] = []
 
@@ -269,7 +271,7 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
 
     def perform_clustering(data_frame, num_clusters):
         # Create clusters
-        kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(data_frame[['antecedent_int']])
+        kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(data_frame[["antecedent_int"]])
 
         # Assigns each antecedent into a cluster
         data_frame["cluster"] = kmeans.labels_
@@ -318,7 +320,7 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
             num_rules = len(ant)
 
             # Create description
-            cluster_desc[cluster] = '{} rules; {{{}}}, +{} items'.format(num_rules, most_interesting[cluster], total_items)
+            cluster_desc[cluster] = "{} rules; {{{}}}, +{} items".format(num_rules, most_interesting[cluster], total_items)
 
         # Creates a new column with these descriptions.
         data_frame["cluster_description"] = data_frame["cluster"].map(cluster_desc)
@@ -372,7 +374,7 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
     # Get data for plotting
     plot_df, consequent_to_int, consequents = create_plot_data(df)
 
-    # Use plotly for interactive grouped matrix plot visualization
+    # Use plotly for interactive grouped matrix plot visualization_examples
     if interactive:
         fig = px.scatter(
             plot_df,
@@ -406,10 +408,9 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
 
         return fig
 
-    # Use matplotlib for static grouped matrix plot visualization
+    # Use matplotlib for static grouped matrix plot visualization_examples
     else:
-        fig, ax = plt.subplots(figsize=(20, 12))
-
+        fig, ax = plt.subplots(figsize=(24, 14))
         scatter_plots = []
         for idx, row in plot_df.iterrows():
             x = list(cluster_descriptions.values()).index(row["cluster"])
@@ -421,17 +422,18 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
                 y=y,
                 s=size,
                 c=[color],
-                cmap="coolwarm",
+                cmap="plasma",
                 alpha=0.6,
                 edgecolors="w",
                 linewidth=0.5
             )
+
             scatter_plots.append(scatter)
 
         ax.set_xlabel("Items in LHS Groups")
         ax.set_ylabel("RHS")
         ax.set_xticks(np.arange(k))
-        ax.set_xticklabels([cluster_descriptions[i] for i in range(k)], rotation=45, ha="right")
+        ax.set_xticklabels([cluster_descriptions[i] for i in range(k)], rotation=-35, ha="right", rotation_mode="anchor")
         ax.set_yticks(np.arange(len(consequents)))
         ax.set_yticklabels(consequents)
         ax.xaxis.set_label_position("top")
@@ -439,11 +441,10 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
         ax.yaxis.set_label_position("right")
         ax.yaxis.tick_right()
 
-        if scatter_plots:
-            cbar = plt.colorbar(scatter_plots[0], orientation="horizontal", pad=0.2)
-            cbar.set_label("Lift")
+        cbar = plt.colorbar(scatter_plots[0], orientation="horizontal", pad=0.2)
+        cbar.set_label("Lift")
 
-        plt.subplots_adjust(left=0.2, right=0.8, top=0.8, bottom=0.2)
+        plt.subplots_adjust(left=0.1, right=0.7, top=0.65, bottom=0.05)
         plt.grid(which="both", color="grey", linestyle="-", linewidth=0.5)
 
         return plt
