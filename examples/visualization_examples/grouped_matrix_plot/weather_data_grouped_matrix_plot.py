@@ -41,6 +41,6 @@ print("Support: ", rules[3].support)
 print("Lift: ", rules[3].lift)
 print("\nMetrics:", metrics)
 
-# Visualize scatter plot
+# Visualize grouped matrix plot
 fig = grouped_matrix_plot(rules=rules, metrics=metrics, k=5, interactive=True)
 fig.show()

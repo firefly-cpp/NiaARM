@@ -2,7 +2,7 @@ from examples.visualization_examples.prepare_datasets import get_football_player
 from niaarm import Dataset, get_rules
 from niaarm.visualize import scatter_plot
 
-# Get prepared weather data
+# Get prepared football player data
 arm_df = get_football_player_data()
 
 # Prepare Dataset

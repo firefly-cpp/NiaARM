@@ -2,7 +2,7 @@ from examples.visualization_examples.prepare_datasets import get_data_developer_
 from niaarm import Dataset, get_rules
 from niaarm.visualize import grouped_matrix_plot
 
-# Get prepared weather data
+# Get prepared data developer salary data
 arm_df = get_data_developer_salary_data()
 
 # Prepare Dataset
@@ -40,6 +40,6 @@ print("Support: ", rules[3].support)
 print("Lift: ", rules[3].lift)
 print("\nMetrics:", metrics)
 
-# Visualize scatter plot
+# Visualize grouped matrix plot
 fig = grouped_matrix_plot(rules=rules, metrics=metrics, k=5, interactive=True)
 fig.show()
