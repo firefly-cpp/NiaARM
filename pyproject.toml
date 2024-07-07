@@ -24,6 +24,8 @@ numpy = "^1.26.1"
 pandas = "^2.1.1"
 nltk = "^3.8.1"
 tomli = { version = "^2.0.1", python = "<3.11" }
+plotly = "^5.22.0"
+scikit-learn = "^1.5.1"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.5.0"

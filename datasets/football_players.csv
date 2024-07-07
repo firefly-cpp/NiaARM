@@ -1,0 +1,55 @@
+Rank,Origin,Player,From(Country),From(Club),To(Country),To(Club),Position,Fee(€ mln),Fee(£ mln),Year,Born
+1,Brazil,Neymar,Spain,Barcelona,France,Paris Saint-Germain,Forward,222.0,£198,2017,1992
+2,France,Kylian Mbappé,France,Monaco,France,Paris Saint-Germain,Forward,180.0,£163,2018,1998
+3,Brazil,Philippe Coutinho,England,Liverpool,Spain,Barcelona,Midfielder,145.0,£105,2018,1992
+4,Portugal,João Félix,Portugal,Benfica,Spain,Atlético Madrid,Forward,126.0,£104.1,2019,1999
+5,France,Antoine Griezmann,Spain,Atlético Madrid,Spain,Barcelona,Forward,120.0,£107,2019,1991
+6,England,Jack Grealish,England,Aston Villa,England,Manchester City,Midfielder,117.0,£100,2021,1995
+7,France,Paul Pogba,Italy,Juventus,England,Manchester United,Midfielder,105.0,£89,2016,1993
+7,France,Ousmane Dembélé,Germany,Borussia Dortmund,Spain,Barcelona,Forward,105.0,£97,2017,1997
+9,Wakes,Gareth Bale,England,Tottenham Hotspur,Spain,Real Madrid,Forward,100.0,£86,2013,1989
+10,Portugal,Cristiano Ronaldo,Spain,Real Madrid,Italy,Juventus,Forward,100.0,£88,2018,1985
+11,Belgium,Eden Hazard,England,Chelsea,Spain,Real Madrid,Forward,100.0,£89,2019,1991
+12,Portugal,Cristiano Ronaldo,England,Manchester United,Spain,Real Madrid,Forward,94.0,£80,2009,1985
+13,Argentina,Gonzalo Higuaín,Italy,Napoli,Italy,Juventus,Striker,90.0,£75.3,2016,1987
+14,England,Harry Maguire,England,Leicester City,England,Manchester United,Defender,87.0,£80,2019,1993
+15,Belgium,Romelu Lukaku,England,Everton,England,Manchester United,Striker,85.0,£75,2017,1993
+16,England,Jadon Sancho,Germany,Borussia Dortmund,England,Manchester United,Midfielder,85.0,£73,2021,2000
+17,Netherlands,Virgil van Dijk,England,Southampton,England,Liverpool,Defender,84.5,£75,2018,1991
+18,Uruguay,Luis Suárez,England,Liverpool,Spain,Barcelona,Striker,82.3,£65,2014,1987
+19,Spain,Kepa Arrizabalaga,Spain,Athletic Bilbao,England,Chelsea,Goalkeeper,80.0,£71.6,2018,1994
+20,Ivory Coast,Nicolas Pépé,France,Lille,England,Arsenal,Forward,80.0,£72,2019,1995
+21,France,Lucas Hernandez,Spain,Atlético Madrid,Germany,Bayern Munich,Defender,80.0,£68,2019,1996
+22,Belgium,Romelu Lukaku,England,Manchester United,Italy,Internazionale,Striker,80.0,£74,2019,1993
+23,Germany,Kai Havertz,Germany,Bayer Leverkusen,England,Chelsea,Midfielder,77.0,£70,2020,1999
+24,France,Zinedine Zidane,Italy,Juventus,Spain,Real Madrid,Midfielder,76.0,£46.6,2001,1972
+25,Argentina,Ángel Di María,Spain,Real Madrid,England,Manchester United,Midfielder,75.6,£59.7,2014,1988
+26,Netherlands,Matthijs de Ligt,Netherlands,Ajax,Italy,Juventus,Defender,75.0,£67.5,2019,1999
+27,Netherlands,Frenkie de Jong,Netherlands,Ajax,Spain,Barcelona,Midfielder,75.0,£65,2019,1997
+28,Colombia,James Rodríguez,France,Monaco,Spain,Real Madrid,Midfielder,75.0,£63,2014,1991
+29,Belgium,Kevin De Bruyne,Germany,VfL Wolfsburg,England,Manchester City,Midfielder,75.0,£55,2015,1991
+30,Brazil,Arthur,Spain,Barcelona,Italy,Juventus,Midfielder,72.0,£66,2020,1996
+31,Spain,Rodri,Spain,Atlético Madrid,England,Manchester City,Midfielder,70.0,£63,2019,1996
+32,Nigeria,Victor Osimhen,France,Lille,Italy,Napoli,Forward,70.0,£65,2020,1998
+33,France,Thomas Lemar,France,Monaco,Spain,Atlético Madrid,Midfielder,70.0,£63,2018,1995
+34,Sweden,Sweden Zlatan Ibrahimović,Italy,Internazionale,Spain,Barcelona,Striker,69.5,£56,2009,1981
+35,Portugal,Rúben Dias,Portugal,Benfica,England,Manchester City,Defender,68.0,£61.64,2020,1997
+36,Algeria,Riyad Mahrez,England,Leicester City,England,Manchester City,Forward,67.8,£60,2018,1991
+37,Brazil,Kaká,Italy,Milan,Spain,Real Madrid,Midfielder,67.0,£56,2009,1982
+38,Spain,Álvaro Morata,Spain,Real Madrid,England,Chelsea,Striker,65.5,£58,2017,1992
+39,France,Aymeric Laporte,Spain,Athletic Bilbao,England,Manchester City,Defender,65.2,£57,2018,1994
+40,Portugal,João Cancelo,Italy,Juventus,England,Manchester City,Defender,65.0,£60,2019,1994
+41,Uruguay,Edinson Cavani,Italy,Napoli,France,Paris Saint-Germain,Striker,64.5,£55,2013,1987
+42,United States,Christian Pulisic,Germany,Borussia Dortmund,England,Chelsea,Forward,64.0,£58,2019,1998
+42,Argentina,Ángel Di María,England,Manchester United,France,Paris Saint-Germain,Midfielder,64.0,£44,2015,1988
+44,Gabon,Pierre-Emerick Aubameyang,Germany,Borussia Dortmund,England,Arsenal,Striker,63.7,£56.1,2018,1989
+45,England,Raheem Sterling,England,Liverpool,England,Manchester City,Forward,62.5,£44,2015,1994
+45,Brazil,Alisson,Italy,Roma,England,Liverpool,Goalkeeper,62.5,£56,2018,1992
+47,Portugal,Luís Figo,Spain,Barcelona,Spain,Real Madrid,Midfielder,62.0,£37,2000,1972
+48,Brazil,Oscar,England,Chelsea,China,Shanghai SIPG,Midfielder,61.0,£52,2017,1991
+49,Serbia,Luka Jović,Germany,Eintracht Frankfurt,Spain,Real Madrid,Striker,60.0,£52.4,2019,1997
+50,Morocco,Achraf Hakimi,Italy,Internazionale,France,Paris Saint-Germain,Defender,60.0,£51.3,2021,1998
+51,Guinea,Naby Keïta,Germany,RB Leipzig,England,Liverpool,Midfielder,60.0,£52.75,2018,1995
+52,France,Tanguy Ndombele,France,Lyon,England,Tottenham Hotspur,Midfielder,60.0,£53.8,2019,1996
+53,Colombia,Radamel Falcao,Spain,Atlético Madrid,France,Monaco,Striker,60.0,£51,2013,1986
+54,Bosnia and Herzegovina,Miralem Pjanić,Italy,Juventus,Spain,Barcelona,Midfielder,60.0,£54.8,2020,1990
