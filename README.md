@@ -179,8 +179,15 @@ and equations can be found [here](interest_measures.md).
 
 ### Visualization
 
-The framework currently supports the hill slopes visualization method presented in [4]. More visualization methods are planned
-to be implemented in future releases.
+The framework currently supports:
+
+- hill slopes (presented in [4]),
+- scatter plot and
+- grouped matrix plot visualization methods.
+
+More visualization methods are planned to be implemented in future releases.
+
+#### Hill Slopes
 
 ```python
 from matplotlib import pyplot as plt
@@ -199,6 +206,67 @@ plt.show()
     <img alt="logo" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/images/hill_slopes.png">
 </p>
 
+#### Scatter Plot
+
+```python
+from examples.visualization_examples.prepare_datasets import get_weather_data
+from niaarm import Dataset, get_rules
+from niaarm.visualize import scatter_plot
+
+# Get prepared data
+arm_df = get_weather_data()
+
+# Prepare Dataset
+dataset = Dataset(path_or_df=arm_df,delimiter=",")
+
+# Get rules
+metrics = ("support", "confidence")
+rules, run_time = get_rules(dataset, "DifferentialEvolution", metrics, max_evals=500)
+
+# Add lift to metrics
+metrics = list(metrics)
+metrics.append("lift")
+metrics = tuple(metrics)
+
+# Visualize scatter plot
+fig = scatter_plot(rules=rules, metrics=metrics, interactive=False)
+fig.show()
+```
+
+<p>
+    <img alt="logo" src=".github/images/scatter_plot.png">
+</p>
+
+#### Grouped Matrix Plot
+
+```python
+from examples.visualization_examples.prepare_datasets import get_football_player_data
+from niaarm import Dataset, get_rules
+from niaarm.visualize import grouped_matrix_plot
+
+# Get prepared data
+arm_df = get_football_player_data()
+
+# Prepare Dataset
+dataset = Dataset(path_or_df=arm_df, delimiter=",")
+
+# Get rules
+metrics = ("support", "confidence")
+rules, run_time = get_rules(dataset, "DifferentialEvolution", metrics, max_evals=500)
+
+# Add lift to metrics
+metrics = list(metrics)
+metrics.append("lift")
+metrics = tuple(metrics)
+
+# Visualize grouped matrix plot
+fig = grouped_matrix_plot(rules=rules, metrics=metrics, k=5, interactive=False)
+fig.show()
+```
+
+<p>
+    <img alt="logo" src=".github/images/grouped_matrix_plot.png">
+</p>
 
 ### Text Mining (Experimental)
 
