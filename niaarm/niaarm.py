@@ -70,7 +70,7 @@ class NiaARM(Problem):
         self.sum_weights = np.sum(self.weights)
 
         self.logging = logging
-        self.best_fitness = np.NINF
+        self.best_fitness = -np.inf
         self.rules = RuleList()
         super().__init__(dimension, 0.0, 1.0)
 
