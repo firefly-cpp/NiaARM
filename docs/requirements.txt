@@ -46,7 +46,7 @@ matplotlib==3.8.2
     # via niapy
 niapy==2.1.0
     # via -r requirements.in
-nltk==3.8.1
+nltk==3.9
     # via -r requirements.in
 numpy==1.26.4
     # via
