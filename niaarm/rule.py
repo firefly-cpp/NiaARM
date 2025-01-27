@@ -159,7 +159,7 @@ class Rule:
         leverage: difference between the frequency of antecedent and the consequent appearing together and the expected
         frequency of them appearing separately based on their individual support
 
-        :math: `leverage(X \implies Y) = support(X \implies Y) - (support(X) \times support(Y))`
+        :math:`leverage(X \implies Y) = support(X \implies Y) - (support(X) \times support(Y))`
 
         **Range:** :math: `[-1, 1]` (-1 reflects total negative association, 1 reflects perfect positive association
          and 0 reflects independence)
