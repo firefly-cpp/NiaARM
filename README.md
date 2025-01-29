@@ -2,28 +2,75 @@
   <img alt="logo" width="300" src="https://raw.githubusercontent.com/firefly-cpp/NiaARM/main/.github/images/logo.png">
 </p>
 
-# NiaARM - A minimalistic framework for Numerical Association Rule Mining
+<h1 align="center">
+  NiaARM
+</h1>
 
-[![PyPI Version](https://img.shields.io/pypi/v/niaarm.svg)](https://pypi.python.org/pypi/niaarm)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/niaarm.svg)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/niaarm.svg)
-[![Downloads](https://pepy.tech/badge/niaarm)](https://pepy.tech/project/niaarm)
-[![GitHub license](https://img.shields.io/github/license/firefly-cpp/niaarm.svg)](https://github.com/firefly-cpp/NiaARM/blob/main/LICENSE)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/w/firefly-cpp/niaarm.svg)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/firefly-cpp/niaarm.svg)](http://isitmaintained.com/project/firefly-cpp/niaarm "Average time to resolve an issue")
-[![Fedora package](https://img.shields.io/fedora/v/python3-niaarm?color=blue&label=Fedora%20Linux&logo=fedora)](https://src.fedoraproject.org/rpms/python-niaarm)
-[![AUR package](https://img.shields.io/aur/version/python-niaarm?color=blue&label=Arch%20Linux&logo=arch-linux)](https://aur.archlinux.org/packages/python-niaarm)
-[![Packaging status](https://repology.org/badge/tiny-repos/python:niaarm.svg)](https://repology.org/project/python:niaarm/versions)
-[![DOI](https://joss.theoj.org/papers/10.21105/joss.04448/status.svg)](https://doi.org/10.21105/joss.04448)
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<h2 align="center">
+  A minimalistic framework for Numerical Association Rule Mining
+</h2>
+
+<p align="center">
+  <a href="https://pypi.python.org/pypi/niaarm">
+    <img alt="PyPI Version" src="https://img.shields.io/pypi/v/niaarm.svg" />
+  </a>
+  <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/niaarm.svg" />
+  <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/niaarm.svg" />
+  <a href="https://src.fedoraproject.org/rpms/python-niaarm">
+    <img alt="Fedora package" src="https://img.shields.io/fedora/v/python3-niaarm?color=blue&label=Fedora%20Linux&logo=fedora" />
+  </a>
+  <a href="https://aur.archlinux.org/packages/python-niaarm">
+    <img alt="AUR package" src="https://img.shields.io/aur/version/python-niaarm?color=blue&label=Arch%20Linux&logo=arch-linux" />
+  </a>
+  <a href="https://repology.org/project/python:niaarm/versions">
+    <img alt="Packaging status" src="https://repology.org/badge/tiny-repos/python:niaarm.svg" />
+  </a>
+  <a href="https://pepy.tech/project/niaarm">
+    <img alt="Downloads" src="https://pepy.tech/badge/niaarm" />
+  </a>
+  <a href="https://github.com/firefly-cpp/NiaARM/blob/main/LICENSE">
+    <img alt="GitHub license" src="https://img.shields.io/github/license/firefly-cpp/niaarm.svg" />
+  </a>
+  <img alt="NiaARM" src="https://github.com/firefly-cpp/niaarm/actions/workflows/test.yml/badge.svg" />
+  <img alt="Documentation status" src="https://readthedocs.org/projects/niaarm/badge/?version=latest" />
+</p>
+
+<p align="center">
+  <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/w/firefly-cpp/niaarm.svg" />
+  <a href="http://isitmaintained.com/project/firefly-cpp/niaarml">
+    <img alt="Percentage of issues still open" src="http://isitmaintained.com/badge/open/firefly-cpp/niaarm.svg">
+  </a>
+  <a href='http://isitmaintained.com/project/firefly-cpp/niaarm "Average time to resolve an issue'>
+    <img alt="Average time to resolve an issue" src="http://isitmaintained.com/badge/resolution/firefly-cpp/niaarm.svg" />
+  </a>
+  <a href="#-contributors">
+    <img alt="All Contributors" src="https://img.shields.io/badge/all_contributors-1-orange.svg" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://doi.org/10.21105/joss.04448">
+    <img alt="DOI" src="https://joss.theoj.org/papers/10.21105/joss.04448/status.svg" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="#-detailed-insights">🔍 Detailed insights</a> •
+  <a href="#-installation">📦 Installation</a> •
+  <a href="#-usage">🚀 Usage</a> •
+  <a href="#-cite-us">📄 Cite us</a> •
+  <a href="#-references">📚 References</a> •
+  <a href="#-see-also">📖 See also</a> •
+  <a href="#-license">🔑 License</a> •
+  <a href="#-contributors">🫂 Contributors</a>
+</p>
+
+NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. 🌿 The framework is written fully in Python and runs on all platforms. NiaARM allows users to preprocess the data in a transaction database automatically, to search for association rules and provide a pretty output of the rules found. 📊 This framework also supports integral and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization problem, and solved using the nature-inspired algorithms that come from the related framework called [NiaPy](https://github.com/NiaOrg/NiaPy). 🔗
 
 * **Documentation:** https://niaarm.readthedocs.io/en/latest
 * **Tested OS:** Windows, Ubuntu, Fedora, Alpine, Arch, macOS. **However, that does not mean it does not work on others**
 
-## About 📋
-NiaARM is a framework for Association Rule Mining based on nature-inspired algorithms for optimization. 🌿 The framework is written fully in Python and runs on all platforms. NiaARM allows users to preprocess the data in a transaction database automatically, to search for association rules and provide a pretty output of the rules found. 📊 This framework also supports integral and real-valued types of attributes besides the categorical ones. Mining the association rules is defined as an optimization problem, and solved using the nature-inspired algorithms that come from the related framework called [NiaPy](https://github.com/NiaOrg/NiaPy). 🔗
-
-## Detailed insights 🔍 
+## 🔍 Detailed insights
 The current version includes (but is not limited to) the following functions:
 
 - loading datasets in CSV format 📁
@@ -34,41 +81,41 @@ The current version includes (but is not limited to) the following functions:
 - visualization of association rules 📈
 - association rule text mining (experimental) 📄
 
-## Installation 📦
+## 📦 Installation
 
 ### pip
 
-Install NiaARM with pip:
+To install `NiaARM` with pip, use:
 
 ```sh
 pip install niaarm
 ```
 
-To install NiaARM on Alpine Linux, please enable Community repository and use:
+To install `NiaARM` on Alpine Linux, enable Community repository and use:
 
 ```sh
 $ apk add py3-niaarm
 ```
 
-To install NiaARM on Arch Linux, please use an [AUR helper](https://wiki.archlinux.org/title/AUR_helpers):
+To install `NiaARM` on Arch Linux, use an [AUR helper](https://wiki.archlinux.org/title/AUR_helpers):
 
 ```sh
 $ yay -Syyu python-niaarm
 ```
 
-To install NiaARM on Fedora, use:
+To install `NiaARM` on Fedora, use:
 
 ```sh
 $ dnf install python3-niaarm
 ```
 
-To install NiaARM on NixOS, please use:
+To install `NiaARM` on NixOS, use:
 
 ```sh
 nix-env -iA nixos.python311Packages.niaarm
 ```
 
-## Usage 🚀
+## 🚀 Usage
 
 ### Loading data
 
@@ -345,7 +392,11 @@ options:
 ```
 Note: The CLI script can also run as a python module (`python -m niaarm ...`)
 
-## Reference Papers 📚
+## 📄 Cite us
+
+Stupan, Ž., & Fister Jr., I. (2022). [NiaARM: A minimalistic framework for Numerical Association Rule Mining](https://www.theoj.org/joss-papers/joss.04448/10.21105.joss.04448.pdf). Journal of Open Source Software, 7(77), 4448.
+
+## 📚 References
 
 Ideas are based on the following research papers:
 
@@ -365,13 +416,13 @@ Ideas are based on the following research papers:
 
 [6] I. Fister, I. Fister Jr., D. Novak and D. Verber, [Data squashing as preprocessing in association rule mining](https://iztok-jr-fister.eu/static/publications/300.pdf), 2022 IEEE Symposium Series on Computational Intelligence (SSCI), Singapore, Singapore, 2022, pp. 1720-1725, doi: [10.1109/SSCI51031.2022.10022240](https://doi.org/10.1109/SSCI51031.2022.10022240).
 
-## See also
+## 📖 See also
 
 [1] [NiaARM.jl: Numerical Association Rule Mining in Julia](https://github.com/firefly-cpp/NiaARM.jl)
 
 [2] [arm-preprocessing: Implementation of several preprocessing techniques for Association Rule Mining (ARM)](https://github.com/firefly-cpp/arm-preprocessing)
 
-## License
+## 🔑 License
 
 This package is distributed under the MIT License. This license can be found online at <http://www.opensource.org/licenses/MIT>.
 
@@ -379,11 +430,7 @@ This package is distributed under the MIT License. This license can be found onl
 
 This framework is provided as-is, and there are no guarantees that it fits your purposes or that it is bug-free. Use it at your own risk!
 
-## Cite us
-
-Stupan, Ž., & Fister Jr., I. (2022). [NiaARM: A minimalistic framework for Numerical Association Rule Mining](https://www.theoj.org/joss-papers/joss.04448/10.21105.joss.04448.pdf). Journal of Open Source Software, 7(77), 4448.
-
-## Contributors ✨
+## 🫂 Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
