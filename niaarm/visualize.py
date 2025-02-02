@@ -549,3 +549,4 @@ def two_key_plot(rules, metrics, interactive=False):
         plt.legend(title="Order")
         plt.grid(True)
         return plt
+        
