@@ -448,3 +448,104 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
         plt.grid(which="both", color="grey", linestyle="-", linewidth=0.5)
 
         return plt
+
+def two_key_plot(rules, metrics, interactive=False):
+    """
+    Visualize rules as a two key plot with two primary metrics (support, confidence) and rule order.
+    
+    Args:
+        rules (Rule): Association rule or rules to visualize.
+        metrics (tuple): Two metrics to display on the x and y axes. 'order' will be used for point color.
+        interactive (bool): Make plot interactive. Default: False.
+    
+    Returns:
+        Figure or plot.
+    """
+
+    # Ensure exactly two metrics for the axes
+    if len(metrics) != 2:
+        raise ValueError("Please provide exactly two metrics for a two-key plot.")
+
+    # Function to prepare the data
+    def prepare_data(rules, metrics):
+        data = {
+            "rule": [],
+            metrics[0]: [],
+            metrics[1]: [],
+            "order": []  # Store rule order (length)
+        }
+
+        for rule in rules:
+            data["rule"].append(rule.__repr__())
+            data[metrics[0]].append(getattr(rule, metrics[0]))
+            data[metrics[1]].append(getattr(rule, metrics[1]))
+            
+            # Calculate order dynamically as the total number of items in antecedent and consequent
+            if hasattr(rule, 'antecedent') and hasattr(rule, 'consequent'):
+                rule_order = len(rule.antecedent) + len(rule.consequent)
+            else:
+                rule_order = 0  # Fallback if structure is missing
+            
+            data["order"].append(rule_order)
+
+        # Return as DataFrame
+        data_frame = pd.DataFrame(data)
+        return data_frame
+
+    # Check if one or more rules
+    if not hasattr(rules, "data"):
+        rules = [rules]
+
+    # Prepare the data
+    df = prepare_data(rules, metrics)
+
+    # Interactive plot using Plotly
+    if interactive:
+        title = f'Interactive two-key plot for {len(rules)} rules' \
+            if len(rules) > 1 else "Interactive two-key plot for rule"
+        
+        # Create figure
+        fig = px.scatter(
+            data_frame=df,
+            x=metrics[0],
+            y=metrics[1],
+            color=df["order"].astype(str),
+            hover_name="rule",
+            title=title,
+            labels={"color": "order"},
+            color_discrete_sequence=px.colors.qualitative.Plotly
+        )
+        fig.update_layout(
+            xaxis_title=metrics[0],
+            yaxis_title=metrics[1],
+            legend_title = "Order"
+        )
+        return fig
+
+    # Static plot using Matplotlib
+    else:
+        plt.figure(figsize=(12, 8))
+
+        # Map each order to a unique color
+        unique_orders = sorted(df["order"].unique())
+        color_map = plt.cm.get_cmap("tab10", len(unique_orders))  
+        color_mapping = {order: color_map(i) for i, order in enumerate(unique_orders)}
+
+        # Plot each order separately for discrete colors
+        for order in unique_orders:
+            subset = df[df["order"] == order]
+            plt.scatter(
+                subset[metrics[0]],
+                subset[metrics[1]],
+                label=f"Order {order}",
+                color=color_mapping[order],
+                alpha=0.7
+            )
+
+        # Add legend and labels
+        plt.title(f'Two-key plot for {len(rules)} rules')
+        plt.xlabel(metrics[0])
+        plt.ylabel(metrics[1])
+        plt.legend(title="Order")
+        plt.grid(True)
+        return plt
