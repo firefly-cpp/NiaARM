@@ -493,7 +493,7 @@ def two_key_plot(rules, metrics, interactive=False):
         return data_frame
 
     # Check if one or more rules
-    if not hasattr(rules, "data"):
+    if not hasattr(rules, "data") and not isinstance(rules, list):
         rules = [rules]
 
     # Prepare the data
@@ -528,16 +528,21 @@ def two_key_plot(rules, metrics, interactive=False):
 
         # Map each order to a unique color
         unique_orders = sorted(df["order"].unique())
-        color_map = plt.cm.get_cmap("tab10", len(unique_orders))  
-        color_mapping = {order: color_map(i) for i, order in enumerate(unique_orders)}
+        color_map = plt.colormaps.get_cmap("Set1")
+        color_indices = np.linspace(0, 1, len(unique_orders)) 
+        colors = [color_map(i) for i in color_indices]
+        color_mapping = {order: colors[i] for i, order in enumerate(unique_orders)}
 
         # Plot each order separately for discrete colors
         for order in unique_orders:
             subset = df[df["order"] == order]
+            x_data = np.array(subset[metrics[0]].tolist())
+            y_data = np.array(subset[metrics[1]].tolist())
+			
             plt.scatter(
-                subset[metrics[0]],
-                subset[metrics[1]],
-                label=f"Order {order}",
+                x_data,
+                y_data,
+                label=order,
                 color=color_mapping[order],
                 alpha=0.7
             )
