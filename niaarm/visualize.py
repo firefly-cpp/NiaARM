@@ -593,11 +593,11 @@ def sankey_diagram(rules, interestingness_measure, M=4):
     
     def knapsack_selection(adj_matrix, rules, M):
         fitness_scores = np.array([rule.fitness for rule in rules])
-        N = len(rules)
-        weights = np.ones(N)
+        N = len(rules)  # number of rules
+        weights = np.ones(N) # all rules have the same weight
         similarity_weight = 1.0
         fitness_weight = 0.5
-        combined_profits = similarity_weight * np.sum(adj_matrix) + fitness_weight * fitness_scores
+        combined_profits = similarity_weight * np.sum(adj_matrix) + fitness_weight * fitness_scores # combined similarities with fitness for values
     
         selected = np.zeros(N, dtype=int)
     
@@ -622,6 +622,9 @@ def sankey_diagram(rules, interestingness_measure, M=4):
         return selected_rules
 
     def prepare_data(rules, M, interestingness_measure):
+        if not rules:
+            return [], [], [], []
+			
         adj_matrix = build_adjacency_matrix(rules)
         selected_rules = knapsack_selection(adj_matrix, rules, M)
 
@@ -644,13 +647,17 @@ def sankey_diagram(rules, interestingness_measure, M=4):
                     labels.append(str(consequent))
                 targets.append(node_indices[str(consequent)])
             
-            measure_value = getattr(rule, interestingness_measure, rule.support) #default support
-            values.append(measure_value) 
+            if hasattr(rule, interestingness_measure):
+                measure_value = getattr(rule, interestingness_measure)
+            else:
+                measure_value=rule.support # Default support
+            values.append(measure_value)
 
         return labels, sources, targets, values
 
     labels, sources, targets, values = prepare_data(rules, M, interestingness_measure)
 
+	# Visualization using Plotly
     fig = go.Figure(go.Sankey(
         node=dict(
             pad=15, 
