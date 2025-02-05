@@ -165,3 +165,127 @@ def get_data_developer_salary_data():
     ]]
 
     return arm_df
+
+
+def get_abalone_data():
+	# Read csv and create DataFrame
+    df = pd.read_csv("datasets/Abalone.csv")
+	
+	######### DISCRETIZATION #########
+    def get_descriptive_stats(data_frame, column, bins_num):
+        stats = data_frame[column].describe()
+        bins_values = []
+        if bins_num == 5:
+            bins_values = [
+                stats["min"],
+                stats["25%"],
+                stats["50%"],
+                stats["75%"],
+                stats["max"],
+                stats["max"] + 0.01
+            ]
+        elif bins_num == 3:
+            bins_values = [
+                stats["min"],
+                (stats["min"] + (stats["max"] - stats["min"]) / 3),
+                (stats["min"] + 2 * (stats["max"] - stats["min"]) / 3),
+                stats["max"] + 0.01
+            ]
+
+        return bins_values
+		
+	# LENGTH
+    length_stats = get_descriptive_stats(df, "Length", 3)
+    length_labels = ["Small", "Medium", "Large"]
+    df["Length"] = pd.cut(
+        df["Length"],
+        bins=length_stats,
+        labels=length_labels,
+        include_lowest=True
+    )
+	
+	# DIAMETER
+    diameter_stats = get_descriptive_stats(df, "Diameter", 3)
+    diameter_labels = ["Small", "Medium", "Large"]
+    df["Diameter"] = pd.cut(
+        df["Diameter"],
+        bins=diameter_stats,
+        labels=diameter_labels,
+        include_lowest=True
+    )
+	
+	# HEIGHT
+    height_stats = get_descriptive_stats(df, "Height", 3)
+    height_labels = ["Small", "Medium", "Large"]
+    df["Height"] = pd.cut(
+        df["Height"],
+        bins=height_stats,
+        labels=height_labels,
+        include_lowest=True
+    )	
+	
+	# WHOLE WEIGHT
+    whole_weight_stats = get_descriptive_stats(df, "Whole weight", 3)
+    whole_weight_labels = ["Light", "Medium", "Heavy"]
+    df["Whole weight"] = pd.cut(
+        df["Whole weight"],
+        bins=whole_weight_stats,
+        labels=whole_weight_labels,
+        include_lowest=True
+    )
+		
+	# SHUCKED WEIGHT
+    shucked_weight_stats = get_descriptive_stats(df, "Shucked weight", 3)
+    shucked_weight_labels = ["Light", "Medium", "Heavy"]
+    df["Shucked weight"] = pd.cut(
+        df["Shucked weight"],
+        bins=shucked_weight_stats,
+        labels=shucked_weight_labels,
+        include_lowest=True
+    )
+			
+	# VISCERA WEIGHT
+    viscera_weight_stats = get_descriptive_stats(df, "Viscera weight", 3)
+    viscera_weight_labels = ["Light", "Medium", "Heavy"]
+    df["Viscera weight"] = pd.cut(
+        df["Viscera weight"],
+        bins=viscera_weight_stats,
+        labels=viscera_weight_labels,
+        include_lowest=True
+    )
+					
+	# SHELL WEIGHT
+    shell_weight_stats = get_descriptive_stats(df, "Shell weight", 3)
+    shell_weight_labels = ["Light", "Medium", "Heavy"]
+    df["Shell weight"] = pd.cut(
+        df["Shell weight"],
+        bins=shell_weight_stats,
+        labels=shell_weight_labels,
+        include_lowest=True
+    )
+			
+	# AGE
+    age_stats = get_descriptive_stats(df, "Rings", 3)
+    age_labels = ["Young", "Adult", "Old"]
+    df["Age"] = pd.cut(
+        df["Rings"],
+        bins=age_stats,
+        labels=age_labels,
+        include_lowest=True
+    )
+	
+    # Select relevant columns for ARM
+    arm_df = df[[
+        "Sex",
+        "Length",
+        "Diameter",
+        "Height",
+        "Whole weight",
+        "Shucked weight",
+        "Viscera weight",
+        "Shell weight",
+        "Age"
+    ]]
+
+    return arm_df
+    
