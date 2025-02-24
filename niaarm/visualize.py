@@ -635,23 +635,25 @@ def sankey_diagram(rules, interestingness_measure, M=4):
         node_indices = {}
 
         for rule in selected_rules:
+			# Ensure all antecedents and consequents exist in the node list
+            for item in rule.antecedent + rule.consequent:
+                item_str = str(item)
+                if item_str not in node_indices:
+                    node_indices[item_str] = len(labels)
+                    labels.append(item_str)
+
+			# Connect each antecedent to each consequent
             for antecedent in rule.antecedent:
-                if str(antecedent) not in node_indices:
-                    node_indices[str(antecedent)] = len(labels)
-                    labels.append(str(antecedent))
-                sources.append(node_indices[str(antecedent)])
-            
-            for consequent in rule.consequent:
-                if str(consequent) not in node_indices:
-                    node_indices[str(consequent)] = len(labels)
-                    labels.append(str(consequent))
-                targets.append(node_indices[str(consequent)])
-            
-            if hasattr(rule, interestingness_measure):
-                measure_value = getattr(rule, interestingness_measure)
-            else:
-                measure_value=rule.support # Default support
-            values.append(measure_value)
+                for consequent in rule.consequent:
+                    sources.append(node_indices[str(antecedent)])
+                    targets.append(node_indices[str(consequent)])
+
+					# Assign measure value for each connection
+                    if hasattr(rule, interestingness_measure):
+                        measure_value = getattr(rule, interestingness_measure)
+                    else:
+                        measure_value = rule.support  # Default support
+                    values.append(measure_value)
 
         return labels, sources, targets, values
 
