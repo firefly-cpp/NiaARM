@@ -3,8 +3,10 @@ from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
 import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
 import pandas as pd
 from sklearn.cluster import KMeans
+from itertools import combinations
 
 
 def hill_slopes(rule, transactions):
@@ -554,4 +556,124 @@ def two_key_plot(rules, metrics, interactive=False):
         plt.legend(title="Order")
         plt.grid(True)
         return plt
-        
+
+
+def sankey_diagram(rules, interestingness_measure, M=4):
+    """
+    Visualize rules as a sankey diagram.
+    
+    Args:
+        rules (Rule): Association rule or rules to visualize.
+        interestingness_measures (str): Interestingness measure Z = {supp, cons, lift},reflecting the quality of a particular connection.
+        m (int): Maximum number of rules to be selected for visualization. Default: 4
+    
+    Returns:
+        Figure or plot.
+    """
+
+    
+    def compute_similarity(rule1, rule2):
+        """Compute similarity between two rules."""
+        ant_inter = len(set(str(rule1.antecedent)) & set(str(rule2.antecedent)))
+        ant_union = len(set(str(rule1.antecedent)) | set(str(rule2.antecedent)))
+        con_inter = len(set(str(rule1.consequent)) & set(str(rule2.consequent)))
+        con_union = len(set(str(rule1.consequent)) | set(str(rule2.consequent)))
+        return (ant_inter + con_inter) / (ant_union + con_union)
+
+    def build_adjacency_matrix(rules):
+        size = len(rules)
+        adjacency_matrix = np.zeros((size, size))
+
+        for i, j in combinations(range(size), 2):
+            similarity = compute_similarity(rules[i], rules[j])
+            adjacency_matrix[i, j] = similarity
+            adjacency_matrix[j, i] = similarity
+
+        return adjacency_matrix
+    
+    def knapsack_selection(adj_matrix, rules, M):
+        fitness_scores = np.array([rule.fitness for rule in rules])
+        N = len(rules)  # number of rules
+        weights = np.ones(N) # all rules have the same weight
+        similarity_weight = 1.0
+        fitness_weight = 0.5
+        combined_profits = similarity_weight * np.sum(adj_matrix) + fitness_weight * fitness_scores # combined similarities with fitness for values
+    
+        selected = np.zeros(N, dtype=int)
+    
+        # Initialize DP table
+        dp = np.zeros((N + 1, M + 1))
+        for i in range(1, N + 1):
+            for w in range(1, M + 1):
+                if weights[i - 1] <= w:
+                    dp[i, w] = max(dp[i - 1, w], dp[i - 1, w - 1] + combined_profits[i - 1])
+                else:
+                    dp[i, w] = dp[i - 1, w]
+    
+        # Backtrack to find selected rules
+        w = M
+        for i in range(N, 0, -1):
+            if dp[i, w] != dp[i - 1, w]:
+                selected[i - 1] = 1
+                w -= 1
+    
+        selected_rules = [rules[i] for i in range(N) if selected[i]]
+
+        return selected_rules
+
+    def prepare_data(rules, M, interestingness_measure):
+        if not rules:
+            return [], [], [], []
+			
+        adj_matrix = build_adjacency_matrix(rules)
+        selected_rules = knapsack_selection(adj_matrix, rules, M)
+
+        sources=[]
+        targets=[] 
+        values=[] 
+        labels=[]
+        node_indices = {}
+
+        for rule in selected_rules:
+			# Ensure all antecedents and consequents exist in the node list
+            for item in rule.antecedent + rule.consequent:
+                item_str = str(item)
+                if item_str not in node_indices:
+                    node_indices[item_str] = len(labels)
+                    labels.append(item_str)
+
+			# Connect each antecedent to each consequent
+            for antecedent in rule.antecedent:
+                for consequent in rule.consequent:
+                    sources.append(node_indices[str(antecedent)])
+                    targets.append(node_indices[str(consequent)])
+
+					# Assign measure value for each connection
+                    if hasattr(rule, interestingness_measure):
+                        measure_value = getattr(rule, interestingness_measure)
+                    else:
+                        measure_value = rule.support  # Default support
+                    values.append(measure_value)
+
+        return labels, sources, targets, values
+
+    labels, sources, targets, values = prepare_data(rules, M, interestingness_measure)
+
+	# Visualization using Plotly
+    fig = go.Figure(go.Sankey(
+        node=dict(
+            pad=15, 
+            thickness=20, 
+            line=dict(color='black', width=0.5),
+            label=labels
+        ),
+        link=dict(
+            source=sources,
+            target=targets,
+            value=values
+        )
+    ))
+    fig.update_layout(title_text=f'Sankey Diagram of Association Rules ({interestingness_measure})', font_size=10)
+    
+    return fig       
+	
