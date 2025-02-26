@@ -30,7 +30,8 @@ class TestSankeyDiagram(unittest.TestCase):
 		fig = sankey_diagram(self.rules, "support", M=3)
 		link_data = fig.data[0].link
 		flow_values = link_data['value']  
-		self.assertEqual(len(flow_values), len(self.rules))  
+		expected_links = sum(len(rule.antecedent) * len(rule.consequent) for rule in self.rules)
+		self.assertEqual(len(flow_values), expected_links)
     
 	def test_sankey_with_custom_fitness(self):
 		fig = sankey_diagram(self.rules, "support", M=2)
