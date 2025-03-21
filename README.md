@@ -226,7 +226,7 @@ and equations can be found [here](interest_measures.md).
 
 ### Visualization
 
-The framework currently supports:
+The framework currently supports ([visualizations](visualization.md)):
 
 - hill slopes (presented in [4]),
 - scatter plot and
