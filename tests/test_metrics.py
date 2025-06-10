@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from unittest import TestCase
 from niaarm import Dataset, Feature, Rule
 
@@ -74,3 +75,28 @@ class TestMetrics(TestCase):
     def test_leverage(self):
         self.assertAlmostEqual(self.rule_one.leverage, 0.102040816326)
         self.assertAlmostEqual(self.rule_two.leverage, 0.102040816326)
+
+
+class TestMetricsMultipleCategories(TestCase):
+    def setUp(self):
+        self.data = Dataset(
+            pd.DataFrame({'col1': [1.5,2.5, 1.0], 'col2': ['Green', 'Blue', 'Red']})
+        )
+        self.rule = Rule([Feature("col1", dtype="float", min_val=0.99, max_val=1.51)],
+                    [Feature("col2", dtype="cat", categories=["Red", "Green"])],
+                    transactions=self.data.transactions)
+
+    def test_support(self):
+        self.assertEqual(self.rule.support, 2 / 3)
+
+    def test_coverage(self):
+        self.assertEqual(self.rule.coverage, 2 / 3)
+
+    def test_rhs_support(self):
+        self.assertEqual(self.rule.rhs_support, 2 / 3)
+
+    def test_confidence(self):
+        self.assertEqual(self.rule.confidence, 1)
+
+    def test_lift(self):
+        self.assertEqual(self.rule.lift, 1.5)
