@@ -237,7 +237,7 @@ class Rule:
                 contains_antecedent &= transactions[attribute.name] >= attribute.min_val
             else:
                 contains_antecedent &= (
-                    transactions[attribute.name] == attribute.categories[0]
+                    np.isin(transactions[attribute.name], attribute.categories)
                 )
 
         self.antecedent_count = contains_antecedent.sum()
@@ -255,7 +255,7 @@ class Rule:
                 contains_consequent &= transactions[attribute.name] >= attribute.min_val
             else:
                 contains_consequent &= (
-                    transactions[attribute.name] == attribute.categories[0]
+                    np.isin(transactions[attribute.name], attribute.categories)
                 )
         self.__amplitude = 1 - (1 / (len(self.antecedent) + len(self.consequent))) * acc
         self.consequent_count = contains_consequent.sum()
