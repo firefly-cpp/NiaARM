@@ -80,14 +80,22 @@ class TestMetrics(TestCase):
 class TestMetricsMultipleCategories(TestCase):
     def setUp(self):
         self.data = Dataset(
-            pd.DataFrame({'col1': [1.5,2.5, 1.0], 'col2': ['Green', 'Blue', 'Red']})
+            pd.DataFrame({"col1": [1.5, 2.5, 1.0], "col2": ["Green", "Blue", "Red"]})
         )
-        self.rule = Rule([Feature("col1", dtype="float", min_val=0.99, max_val=1.51)],
-                    [Feature("col2", dtype="cat", categories=["Red", "Green"])],
-                    transactions=self.data.transactions)
+        self.rule = Rule(
+            [Feature("col1", dtype="float", min_val=1.0, max_val=1.5)],
+            [Feature("col2", dtype="cat", categories=["Red", "Green"])],
+            transactions=self.data.transactions,
+        )
 
     def test_support(self):
         self.assertEqual(self.rule.support, 2 / 3)
+
+    def test_confidence(self):
+        self.assertEqual(self.rule.confidence, 1)
+
+    def test_lift(self):
+        self.assertEqual(self.rule.lift, 1.5)
 
     def test_coverage(self):
         self.assertEqual(self.rule.coverage, 2 / 3)
@@ -95,8 +103,33 @@ class TestMetricsMultipleCategories(TestCase):
     def test_rhs_support(self):
         self.assertEqual(self.rule.rhs_support, 2 / 3)
 
-    def test_confidence(self):
-        self.assertEqual(self.rule.confidence, 1)
+    def test_conviction(self):
+        self.assertAlmostEqual(
+            self.rule.conviction,
+            (1 - self.rule.rhs_support)
+            / (1 - self.rule.confidence + 2.220446049250313e-16),
+        )
 
-    def test_lift(self):
-        self.assertEqual(self.rule.lift, 1.5)
+    def test_amplitude(self):
+        self.assertEqual(self.rule.amplitude, 5 / 6)
+
+    def test_inclusion(self):
+        self.assertEqual(self.rule.inclusion, 1)
+
+    def test_interestingness(self):
+        self.assertEqual(self.rule.interestingness, 1 * 1 * (1 - (2 / 3) / 3))
+
+    def test_comprehensibility(self):
+        self.assertAlmostEqual(self.rule.comprehensibility, 0.630929753571)
+
+    def test_netconf(self):
+        self.assertAlmostEqual(self.rule.netconf, ((2/3) - (2/3 * 2/3))/(2/3 * 1/3))
+
+    def test_yulesq(self):
+        self.assertAlmostEqual(self.rule.yulesq,1)
+
+    def test_zhang(self):
+        self.assertAlmostEqual(self.rule.zhang, 1)
+
+    def test_leverage(self):
+        self.assertAlmostEqual(self.rule.leverage, 2/3 - (2/3 * 2/3))
