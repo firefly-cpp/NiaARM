@@ -224,17 +224,15 @@ class Rule:
         min_ = transactions.min(numeric_only=True)
         max_ = transactions.max(numeric_only=True)
         acc = 0
-        contains_antecedent = pd.Series(
-            np.ones(self.num_transactions, dtype=bool), dtype=bool
-        )
+        contains_antecedent = np.ones(self.num_transactions, dtype=bool)
         for attribute in self.antecedent:
             if attribute.dtype != "cat":
                 feature_min = min_[attribute.name]
                 feature_max = max_[attribute.name]
                 acc += 1 if feature_max == feature_min \
                     else (attribute.max_val - attribute.min_val) / (feature_max - feature_min)
-                contains_antecedent &= transactions[attribute.name] <= attribute.max_val
-                contains_antecedent &= transactions[attribute.name] >= attribute.min_val
+                contains_antecedent &= ((transactions[attribute.name] <= attribute.max_val) &
+                                        (transactions[attribute.name] >= attribute.min_val)).to_numpy()
             else:
                 contains_antecedent &= (
                     np.isin(transactions[attribute.name], attribute.categories)
@@ -242,17 +240,16 @@ class Rule:
 
         self.antecedent_count = contains_antecedent.sum()
 
-        contains_consequent = pd.Series(
-            np.ones(self.num_transactions, dtype=bool), dtype=bool
-        )
+        contains_consequent = np.ones(self.num_transactions, dtype=bool)
+
         for attribute in self.consequent:
             if attribute.dtype != "cat":
                 feature_min = min_[attribute.name]
                 feature_max = max_[attribute.name]
                 acc += 1 if feature_max == feature_min \
                     else (attribute.max_val - attribute.min_val) / (feature_max - feature_min)
-                contains_consequent &= transactions[attribute.name] <= attribute.max_val
-                contains_consequent &= transactions[attribute.name] >= attribute.min_val
+                contains_consequent &= ((transactions[attribute.name] <= attribute.max_val) &
+                                        (transactions[attribute.name] >= attribute.min_val)).to_numpy()
             else:
                 contains_consequent &= (
                     np.isin(transactions[attribute.name], attribute.categories)
