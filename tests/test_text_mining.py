@@ -10,7 +10,7 @@ from niaarm.text import Corpus, TextRule, NiaARTM
 
 class TestTextMining(TestCase):
     def setUp(self):
-        nltk.download("punkt")
+        nltk.download("punkt_tab")
         nltk.download("stopwords")
         ds_path = os.path.join(
             os.path.dirname(__file__), "test_data", "artm_test_dataset.json"
