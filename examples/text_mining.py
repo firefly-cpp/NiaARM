@@ -7,13 +7,13 @@ from niapy.algorithms.basic import ParticleSwarmOptimization
 df = pd.read_json("datasets/text/artm_test_dataset.json", orient="records")
 documents = df["text"].tolist()
 
-# create a Corpus object from the documents (requires nltk's punkt tokenizer and the stopwords list)
+# create a Corpus object from the documents (requires nltk's punkt_tab tokenizer and the stopwords list)
 try:
     corpus = Corpus.from_list(documents)
 except LookupError:
     import nltk
 
-    nltk.download("punkt")
+    nltk.download("punkt_tab")
     nltk.download("stopwords")
     corpus = Corpus.from_list(documents)
 
