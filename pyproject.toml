@@ -18,8 +18,8 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.14"
-niapy = "^2.5.2"
+python = ">=3.10,<=3.14"
+niapy = "^2.6.1"
 numpy = ">=1.22.4"
 pandas = "^2.2.2"
 nltk = "^3.8.1"
