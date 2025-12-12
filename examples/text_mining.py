@@ -1,13 +1,15 @@
 import pandas as pd
-from niaarm.text import Corpus
-from niaarm.mine import get_text_rules
 from niapy.algorithms.basic import ParticleSwarmOptimization
+
+from niaarm.mine import get_text_rules
+from niaarm.text import Corpus
 
 # load corpus and extract the documents as a list of strings
 df = pd.read_json("datasets/text/artm_test_dataset.json", orient="records")
 documents = df["text"].tolist()
 
-# create a Corpus object from the documents (requires nltk's punkt_tab tokenizer and the stopwords list)
+# create a Corpus object from the documents
+# requires nltk's punkt_tab tokenizer and the stopwords list
 try:
     corpus = Corpus.from_list(documents)
 except LookupError:

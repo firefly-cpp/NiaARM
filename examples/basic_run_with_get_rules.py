@@ -1,5 +1,6 @@
-from niaarm import Dataset, get_rules
 from niapy.algorithms.basic import DifferentialEvolution
+
+from niaarm import Dataset, get_rules
 
 # load dataset
 data = Dataset("datasets/Abalone.csv")
