@@ -1,13 +1,13 @@
 """
-Example usage of the RuleList class. The RuleList class is a wrapper around a python list, with some added features, mainly
-getting statistical data of rule metrics and sorting by metric.
+Example usage of the RuleList class. The RuleList class is a wrapper around
+a python list, with some added features, mainly getting statistical data
+of rule metrics and sorting by metric.
 """
 
-
-from niaarm import NiaARM, Dataset
 from niapy.algorithms.basic import DifferentialEvolution
-from niapy.task import Task, OptimizationType
+from niapy.task import OptimizationType, Task
 
+from niaarm import Dataset, NiaARM
 
 if __name__ == "__main__":
     # Load the dataset and run the algorithm
@@ -29,7 +29,8 @@ if __name__ == "__main__":
     # print the RuleList to get basic data about the mined rules.
     print(problem.rules)
 
-    # RuleList also provides methods for getting the min, max, mean and std. dev. of metrics:
+    # RuleList also provides methods for getting the min, max, mean and std. dev. of
+    # metrics:
     print("Min support", problem.rules.min("support"))
     print("Max support", problem.rules.max("support"))
     print("Mean support", problem.rules.mean("support"))

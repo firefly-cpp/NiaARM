@@ -1,9 +1,11 @@
-from collections import namedtuple
 import time
+from collections import namedtuple
+
 import numpy as np
-from niaarm.niaarm import NiaARM
 from niapy.task import OptimizationType, Task
 from niapy.util.factory import get_algorithm
+
+from niaarm.niaarm import NiaARM
 from niaarm.text import NiaARTM
 
 
@@ -32,19 +34,21 @@ def get_rules(
 
     Args:
         dataset (Dataset): Dataset to mine rules on.
-        algorithm (Union[niapy.algorithms.Algorithm, str]): Algorithm to use.
+        algorithm (niapy.algorithms.Algorithm | str): Algorithm to use.
          Can be either an Algorithm object or the class name as a string.
          In that case, algorithm parameters can be passed in as keyword arguments.
-        metrics (Union[Dict[str, float], Sequence[str]]): Metrics to take into account when computing the fitness.
-         Metrics can either be passed as a Dict of pairs {'metric_name': <weight of metric>} or
-         a sequence of metrics as strings, in which case, the weights of the metrics will be set to 1.
-        max_evals (Optional[int]): Maximum number of iterations. Default: ``inf``. At least one of ``max_evals`` or
-         ``max_iters`` must be provided.
-        max_iters (Optional[int]): Maximum number of fitness evaluations. Default: ``inf``.
+        metrics (dict[str, float] | Sequence[str]): Metrics to take into account when
+         computing the fitness. Metrics can either be passed as a Dict of pairs
+         {'metric_name': <weight>} or a sequence of metrics as strings, in which case,
+         the weights of the metrics will be set to 1.
+        max_evals (int | None): Maximum number of iterations. Default: ``inf``. At
+         least one of ``max_evals`` or ``max_iters`` must be provided.
+        max_iters (int | None): Maximum number of fitness evaluations. Default: ``inf``.
         logging (bool): Enable logging of fitness improvements. Default: ``False``.
 
     Returns:
-        Result: A named tuple containing the list of mined rules and the algorithm's run time in seconds.
+        Result: A named tuple containing the list of mined rules and the algorithm's
+         run time in seconds.
 
     """
     problem = NiaARM(
@@ -87,23 +91,26 @@ def get_text_rules(
     Args:
         corpus (Corpus): Dataset to mine rules on.
         max_terms (int): Maximum number of terms in association rule.
-        algorithm (Union[niapy.algorithms.Algorithm, str]): Algorithm to use.
+        algorithm (niapy.algorithms.Algorithm | str): Algorithm to use.
          Can be either an Algorithm object or the class name as a string.
          In that case, algorithm parameters can be passed in as keyword arguments.
-        metrics (Union[Dict[str, float], Sequence[str]]): Metrics to take into account when computing the fitness.
-         Metrics can either be passed as a Dict of pairs {'metric_name': <weight of metric>} or
-         a sequence of metrics as strings, in which case, the weights of the metrics will be set to 1.
+        metrics (dict[str, float] | Sequence[str]): Metrics to take into account when
+         computing the fitness. Metrics can either be passed as a dict of pairs
+         {'metric_name': <weight of metric>} or a sequence of metrics as strings,
+         in which case, the weights of the metrics will be set to 1.
         smooth (bool): Smooth idf to prevent division by 0 error. Default: ``True``.
         norm (int): Order of norm for normalizing the tf-idf matrix. Default: 2.
-        threshold (Optional[float]): Threshold of tf-idf weights. If a weight is less than or equal to the
-         threshold, the term is not included in the transaction. Default: 0.
-        max_evals (Optional[int]): Maximum number of iterations. Default: ``inf``. At least one of ``max_evals`` or
-         ``max_iters`` must be provided.
-        max_iters (Optional[int]): Maximum number of fitness evaluations. Default: ``inf``.
+        threshold (float | None): Threshold of tf-idf weights. If a weight is less
+         than or equal to the threshold, the term is not included in the transaction.
+         Default: 0.
+        max_evals (int | None): Maximum number of iterations. Default: ``inf``. At
+         least one of ``max_evals`` or ``max_iters`` must be provided.
+        max_iters (int | None): Maximum number of fitness evaluations. Default: ``inf``.
         logging (bool): Enable logging of fitness improvements. Default: ``False``.
 
     Returns:
-        Result: A named tuple containing the list of mined rules and the algorithm's run time in seconds.
+        Result: A named tuple containing the list of mined rules and the algorithm's
+        run time in seconds.
 
     """
     problem = NiaARTM(

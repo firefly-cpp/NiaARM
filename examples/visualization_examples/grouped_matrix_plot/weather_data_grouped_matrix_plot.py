@@ -6,22 +6,17 @@ from niaarm.visualize import grouped_matrix_plot
 arm_df = get_weather_data()
 
 # Prepare Dataset
-dataset = Dataset(
-    path_or_df=arm_df,
-    delimiter=","
-)
+dataset = Dataset(path_or_df=arm_df, delimiter=",")
 
 # Get rules
 metrics = ("support", "confidence")
 rules, run_time = get_rules(
-    dataset=dataset,
-    algorithm="DifferentialEvolution",
-    metrics=metrics,
-    max_evals=500
+    dataset=dataset, algorithm="DifferentialEvolution", metrics=metrics, max_evals=500
 )
 
 # Add lift after the rules have been generated
-# Cannot be in metrics before because get_rules metrics doesn't contain lift, therefore we need to add after
+# Cannot be in metrics before because get_rules metrics doesn't contain lift,
+# therefore we need to add after
 metrics = list(metrics)
 metrics.append("lift")
 metrics = tuple(metrics)
@@ -32,7 +27,7 @@ rules.sort(by="support")
 # Print rule information
 print("\nRules:")
 print(rules)
-print(f'\nTime to generate rules: {f"{run_time:.3f}"} seconds')
+print(f"\nTime to generate rules: {f'{run_time:.3f}'} seconds")
 print("\nRule information: ", rules[3])
 print("Antecedent: ", rules[3].antecedent)
 print("Consequent: ", rules[3].consequent)

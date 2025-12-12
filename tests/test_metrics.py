@@ -1,6 +1,8 @@
 import os
-import pandas as pd
 from unittest import TestCase
+
+import pandas as pd
+
 from niaarm import Dataset, Feature, Rule
 
 
@@ -123,22 +125,29 @@ class TestMetricsMultipleCategories(TestCase):
         self.assertAlmostEqual(self.rule.comprehensibility, 0.630929753571)
 
     def test_netconf(self):
-        self.assertAlmostEqual(self.rule.netconf, ((2/3) - (2/3 * 2/3))/(2/3 * 1/3))
+        self.assertAlmostEqual(
+            self.rule.netconf, ((2 / 3) - (2 / 3 * 2 / 3)) / (2 / 3 * 1 / 3)
+        )
 
     def test_yulesq(self):
-        self.assertAlmostEqual(self.rule.yulesq,1)
+        self.assertAlmostEqual(self.rule.yulesq, 1)
 
     def test_zhang(self):
         self.assertAlmostEqual(self.rule.zhang, 1)
 
     def test_leverage(self):
-        self.assertAlmostEqual(self.rule.leverage, 2/3 - (2/3 * 2/3))
+        self.assertAlmostEqual(self.rule.leverage, 2 / 3 - (2 / 3 * 2 / 3))
 
 
 class TestMetricsShuffleDataframe(TestCase):
     def setUp(self):
         self.data = Dataset(
-            pd.DataFrame({"col1": [1.5, 2.5, 1.0], "col2": ["Green", "Blue", "Red"]}).sample(frac=1.0)
+            pd.DataFrame(
+                {
+                    "col1": [1.5, 2.5, 1.0],
+                    "col2": ["Green", "Blue", "Red"],
+                }
+            ).sample(frac=1.0)
         )
         self.rule = Rule(
             [Feature("col1", dtype="float", min_val=1.0, max_val=1.5)],
@@ -181,13 +190,15 @@ class TestMetricsShuffleDataframe(TestCase):
         self.assertAlmostEqual(self.rule.comprehensibility, 0.630929753571)
 
     def test_netconf(self):
-        self.assertAlmostEqual(self.rule.netconf, ((2/3) - (2/3 * 2/3))/(2/3 * 1/3))
+        self.assertAlmostEqual(
+            self.rule.netconf, ((2 / 3) - (2 / 3 * 2 / 3)) / (2 / 3 * 1 / 3)
+        )
 
     def test_yulesq(self):
-        self.assertAlmostEqual(self.rule.yulesq,1)
+        self.assertAlmostEqual(self.rule.yulesq, 1)
 
     def test_zhang(self):
         self.assertAlmostEqual(self.rule.zhang, 1)
 
     def test_leverage(self):
-        self.assertAlmostEqual(self.rule.leverage, 2/3 - (2/3 * 2/3))
+        self.assertAlmostEqual(self.rule.leverage, 2 / 3 - (2 / 3 * 2 / 3))

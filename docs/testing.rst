@@ -9,4 +9,4 @@ For the purpose of checking if all test are passing locally you can run followin
 
 .. code:: sh
 
-    $ poetry run pytest
+    uv run pytest

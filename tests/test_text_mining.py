@@ -1,11 +1,12 @@
 import os
 from unittest import TestCase
+
+import nltk
 import numpy as np
 import pandas as pd
-import nltk
 
 from niaarm.niaarm import _cut_point
-from niaarm.text import Corpus, TextRule, NiaARTM
+from niaarm.text import Corpus, NiaARTM, TextRule
 
 
 class TestTextMining(TestCase):

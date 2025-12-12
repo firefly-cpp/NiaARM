@@ -1,8 +1,7 @@
-from niaarm import NiaARM
-from niaarm.dataset import Dataset
 from niapy.algorithms.basic import DifferentialEvolution
-from niapy.task import Task, OptimizationType
+from niapy.task import OptimizationType, Task
 
+from niaarm import Dataset, NiaARM
 
 if __name__ == "__main__":
     # load and preprocess the dataset from csv
@@ -10,9 +9,12 @@ if __name__ == "__main__":
 
     # Create a problem
     # dimension represents the dimension of the problem;
-    # features represent the list of features, while transactions depicts the list of transactions
-    # the following 4 elements represent weights (support, confidence, coverage, shrinkage)
-    # A weight of 0.0 means that criteria are omitted and are, therefore, excluded from the fitness function
+    # features represent the list of features, while transactions depicts the list of
+    # transactions
+    # the following 4 elements represent weights (support, confidence, coverage,
+    # shrinkage)
+    # A weight of 0.0 means that criteria are omitted and are, therefore, excluded
+    # from the fitness function
     problem = NiaARM(
         data.dimension,
         data.features,
@@ -27,7 +29,8 @@ if __name__ == "__main__":
     )
 
     # use Differential Evolution (DE) algorithm from the NiaPy library
-    # see full list of available algorithms: https://github.com/NiaOrg/NiaPy/blob/master/Algorithms.md
+    # see full list of available algorithms:
+    # https://github.com/NiaOrg/NiaPy/blob/master/Algorithms.md
     algo = DifferentialEvolution(
         population_size=50, differential_weight=0.5, crossover_probability=0.9
     )

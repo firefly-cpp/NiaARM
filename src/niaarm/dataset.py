@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from pandas.api.types import is_float_dtype, is_integer_dtype, is_bool_dtype
+from pandas.api.types import is_bool_dtype, is_float_dtype, is_integer_dtype
+
 from niaarm.feature import Feature
 
 
@@ -8,12 +9,14 @@ class Dataset:
     r"""Class for working with a dataset.
 
     Args:
-        path_or_df (Union[str, os.PathLike, pandas.DataFrame]): Path to the dataset (csv) file or a pandas DataFrame.
+        path_or_df (str | os.PathLike | pandas.DataFrame): Path to the dataset (csv)
+        file or a pandas DataFrame.
         delimiter (str): The delimiter in the csv file.
-        header (Optional[int]): Row to use as header (zero-based). Default: 0.
+        header (int | None): Row to use as header (zero-based). Default: 0.
          Pass ``header=None`` if the file doesn't contain a header.
-        names (Optional[list[str]]): List of feature names to use.
-         If the file already contains a header row, pass ``header=0`` to override the feature names.
+        names (list[str] | None): List of feature names to use.
+         If the file already contains a header row, pass ``header=0`` to override the
+         feature names.
 
     Attributes:
         transactions (pandas.DataFrame): Transactional data.

@@ -1,7 +1,9 @@
 from unittest import TestCase
+
 import matplotlib.pyplot as plt
-import pandas as pd
+
 from niaarm.visualize import two_key_plot
+
 
 class Rule:
     def __init__(self, antecedent, consequent, support, confidence):
@@ -13,15 +15,25 @@ class Rule:
     def __repr__(self):
         return f"Rule({self.antecedent} -> {self.consequent})"
 
+
 class TestTwoKeyPlot(TestCase):
-    
     @classmethod
     def setUpClass(cls):
-        cls.rule1 = Rule(antecedent=["A", "B"], consequent=["C"], support=0.3, confidence=0.8)
-        cls.rule2 = Rule(antecedent=["D"], consequent=["E", "F"], support=0.5, confidence=0.7)
-        cls.rule3 = Rule(antecedent=["G", "H"], consequent=["I"], support=0.2, confidence=0.9)
+        cls.rule1 = Rule(
+            antecedent=["A", "B"], consequent=["C"], support=0.3, confidence=0.8
+        )
+        cls.rule2 = Rule(
+            antecedent=["D"], consequent=["E", "F"], support=0.5, confidence=0.7
+        )
+        cls.rule3 = Rule(
+            antecedent=["G", "H"], consequent=["I"], support=0.2, confidence=0.9
+        )
 
-        cls.rules = [cls.rule1, cls.rule2, cls.rule3]  # Ensure rules are available to all tests
+        cls.rules = [
+            cls.rule1,
+            cls.rule2,
+            cls.rule3,
+        ]  # Ensure rules are available to all tests
 
     def test_two_key_plot(self):
         metrics = ("support", "confidence")
@@ -43,4 +55,8 @@ class TestTwoKeyPlot(TestCase):
         fig = two_key_plot(self.rules, metrics, interactive=True)
 
         # Verify that a Plotly figure is returned
-        self.assertEqual(fig.__class__.__name__, "Figure", "Expected a Plotly figure but got a different type.")
+        self.assertEqual(
+            fig.__class__.__name__,
+            "Figure",
+            "Expected a Plotly figure but got a different type.",
+        )

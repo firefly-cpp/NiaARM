@@ -7,7 +7,7 @@ This project and everyone participating in it is governed by the [NiaARM Code of
 ## How Can I Contribute?
 
 ### Reporting Bugs
-Before creating bug reports, please check existing issues list as you might find out that you don't need to create one. When you are creating a bug report, please include as many details as possible in the [issue template](.github/templates/ISSUE_TEMPLATE.md).
+Before creating bug reports, please check existing issues list as you might find out that you don't need to create one. When you are creating a bug report, please include as mAll details as possible in the [issue template](.github/templates/ISSUE_TEMPLATE.md).
 
 ### Suggesting Enhancements
 
@@ -21,56 +21,59 @@ Fill in the [pull request template](.github/templates/PULL_REQUEST.md) and make 
 
 ### Requirements
 
-* Poetry: [https://python-poetry.org/docs/](https://python-poetry.org/docs/)
+* uv: [https://docs.astral.sh/uv/](https://docs.astral.sh/uv/)
 
-After installing Poetry and cloning the project from GitHub, you should run the following command from the root of the cloned project:
+After installing uv and cloning the project from GitHub, you should
+run the following command from the root of the cloned project:
 
 ```sh
-poetry install
+uv sync --dev
 ```
 
-All the project's dependencies should be installed and the project ready for further development. **Note that Poetry creates a separate virtual environment for your project.**
+All the project's development dependencies should be installed and the project ready for further development.
 
 ### Dependencies
 
-| Package | Version | Platform |
-|---------|:-------:|:--------:|
-| niapy   | ^2.0.5  |   All    |
-| numpy   | ^1.26.1 |   All    |
-| pandas  | ^2.1.1  |   All    |
-| nltk    | ^3.8.1  |   All    |
-| tomli   | ^2.0.1  |   All    |
+| Package      | Version  | Platform |
+|--------------|:--------:|:--------:|
+| niapy        | \>=2.6.1 |   All    |
+| numpy        | \>=2.3.5 |   All    |
+| pandas       | \>=2.3.3 |   All    |
+| nltk         | \>=3.9.2 |   All    |
+| scikit-learn | \>=1.8.0 |   All    |
+| plotly       | \>=6.5.0 |   All    |
 
 #### Development dependencies
 
-| Package          | Version | Platform |
-|------------------|:-------:|:--------:|
-| pytest           | ^7.4.2  |   Any    |
-| pytest-cov       | ^4.1.0  |   Any    |
-| pytest.randomly  | ^3.15.0 |   Any    |
+| Package         |  Version  | Platform |
+|-----------------|:---------:|:--------:|
+| pytest          | \>=9.0.0  |   All    |
+| pytest-cov      | \>=7.0.0  |   All    |
+| pytest.randomly | \>=4.0.1  |   All    |
+| pre-commit      | \>=4.5.0  |   All    |
+| ruff            | \>=0.14.9 |   All    |
 
-#### Extras
+#### Documentation Dependencies
 
-| Package              | Version | Platform |
-|----------------------|:-------:|:--------:|
-| sphinx               | ^7.2.6  |   Any    |
-| sphinx-rtd-theme     | ^1.0.0  |   Any    |
-| sphinxcontrib-bibtex | ^2.4.1  |   Any    |
+| Package              | Version  | Platform |
+|----------------------|:--------:|:--------:|
+| sphinx               | \>=8.2.3 |   All    |
+| sphinx-rtd-theme     | \>=3.0.2 |   All    |
+| sphinxcontrib-bibtex | \>=2.6.5 |   All    |
 
-## Development Tasks
-
-### Testing
+## Testing
 
 Manually run the tests:
 
 ```sh
-$ poetry run pytest
+uv run pytest
 ```
 
-### Documentation
+## Documentation
 
 Build the documentation:
 
 ```sh
-$ poetry run sphinx-build ./docs ./docs/_build
+uv sync --group docs
+uv run sphinx-build ./docs ./docs/_build
 ```

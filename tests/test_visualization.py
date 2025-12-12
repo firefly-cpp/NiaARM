@@ -1,8 +1,10 @@
 import os
 from unittest import TestCase
+
 import numpy as np
+
 from niaarm import Dataset, Feature, Rule
-from niaarm.visualize import hill_slopes, _ribbon
+from niaarm.visualize import _ribbon, hill_slopes
 
 
 class TestHillSlopes(TestCase):
@@ -30,16 +32,48 @@ class TestHillSlopes(TestCase):
 
     def test_hill_slopes(self):
         support = np.array(
-            [0.934286, 0.847143, 0.74, 0.561429, 0.244286, 0.225714, 0.00714286]
+            [
+                0.934286,
+                0.847143,
+                0.74,
+                0.561429,
+                0.244286,
+                0.225714,
+                0.00714286,
+            ]
         )
         confidence = np.array(
-            [0.934286, 0.847095, 0.753823, 0.570336, 0.261468, 0.224771, 0.00458716]
+            [
+                0.934286,
+                0.847095,
+                0.753823,
+                0.570336,
+                0.261468,
+                0.224771,
+                0.00458716,
+            ]
         )
         length = np.array(
-            [1.32128, 1.19801, 1.05634, 0.800303, 0.357828, 0.318542, 0.00848896]
+            [
+                1.32128,
+                1.19801,
+                1.05634,
+                0.800303,
+                0.357828,
+                0.318542,
+                0.00848896,
+            ]
         )
         position = np.array(
-            [0.66064, 2.76738, 4.64837, 6.14703, 6.98756, 7.55052, 7.71862]
+            [
+                0.66064,
+                2.76738,
+                4.64837,
+                6.14703,
+                6.98756,
+                7.55052,
+                7.71862,
+            ]
         )
 
         s = (length + support + confidence) / 2

@@ -68,5 +68,4 @@ bibtex_default_style = "unsrt"
 html_logo = "_static/logo.png"
 html_theme_options = {
     "logo_only": True,
-    "display_version": False,
 }

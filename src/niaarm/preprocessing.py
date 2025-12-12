@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from pandas.api.types import is_float_dtype, is_integer_dtype
+
 from niaarm.dataset import Dataset
 
 
@@ -12,8 +13,10 @@ def euclidean(reference, targets, *, cat_data, num_data, cat_weights, num_weight
         targets (np.ndarray): Indices of target transactions to compare
         cat_data (np.ndarray | None): Categorical feature data (keyword-only)
         num_data (np.ndarray | None): Numerical feature data (keyword-only)
-        cat_weights (np.ndarray | None): Squared weights for categorical features (keyword-only)
-        num_weights (np.ndarray | None): Squared weights for numerical features (keyword-only)
+        cat_weights (np.ndarray | None): Squared weights for categorical features (
+         keyword-only)
+        num_weights (np.ndarray | None): Squared weights for numerical features (
+         keyword-only)
 
     Returns:
         np.ndarray: Distances from input to each target
@@ -50,7 +53,8 @@ def cosine_similarity(reference, targets, *, transactions):
 
 
 def mean_or_mode(column):
-    """Aggregate function that returns the mode for categorical features, and the mean for numerical features."""
+    """Aggregate function that returns the mode for categorical features, and the
+    mean for numerical features."""
     if is_float_dtype(column):
         return column.mean()
     elif is_integer_dtype(column):
@@ -65,7 +69,8 @@ def squash(dataset, threshold, similarity="euclidean"):
     Args:
         dataset (Dataset): Dataset to squash.
         threshold (float): Similarity threshold. Should be between 0 and 1.
-        similarity (Literal["euclidean", "cosine"]): Similarity measure for comparing transactions (euclidean or cosine). Default: 'euclidean'.
+        similarity (Literal["euclidean", "cosine"]): Similarity measure for comparing
+         transactions (euclidean or cosine). Default: 'euclidean'.
 
     Returns:
         Dataset: Squashed dataset.

@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt
+
 from niaarm import Dataset, get_rules
 from niaarm.visualize import hill_slopes
 

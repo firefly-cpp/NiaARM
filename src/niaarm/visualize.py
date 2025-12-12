@@ -1,20 +1,24 @@
+from itertools import combinations
+
 import matplotlib.pyplot as plt
-from matplotlib.cm import ScalarMappable
-from matplotlib.colors import Normalize
 import numpy as np
+import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import pandas as pd
+from matplotlib.cm import ScalarMappable
+from matplotlib.colors import Normalize
 from sklearn.cluster import KMeans
-from itertools import combinations
 
 
 def hill_slopes(rule, transactions):
     """Visualize rule as hill slopes.
 
-    **Reference:** Fister, I. et al. (2020). Visualization of Numerical Association Rules by Hill Slopes.
-    In: Analide, C., Novais, P., Camacho, D., Yin, H. (eds) Intelligent Data Engineering and Automated Learning – IDEAL 2020.
-    IDEAL 2020. Lecture Notes in Computer Science(), vol 12489. Springer, Cham. https://doi.org/10.1007/978-3-030-62362-3_10
+    **Reference:** Fister, I. et al. (2020). Visualization of Numerical Association
+    Rules by Hill Slopes.
+    In: Analide, C., Novais, P., Camacho, D., Yin, H. (eds) Intelligent Data
+    Engineering and Automated Learning – IDEAL 2020.
+    IDEAL 2020. Lecture Notes in Computer Science(), vol 12489. Springer,
+    Cham. https://doi.org/10.1007/978-3-030-62362-3_10
 
     Args:
         rule (Rule): Association rule to visualize.
@@ -121,7 +125,8 @@ def scatter_plot(rules, metrics, interactive=False):
     Visualize rules/rule as scatter plot
     Args:
         rules (Rule): Association rule or rules to visualize.
-        metrics (tuple): Metrics to display in visualization_examples. Maximum of 2 metrics.
+        metrics (tuple): Metrics to display in visualization_examples. Maximum of 2
+        metrics.
         interactive (bool): Make plot interactive. Default: ``False``
 
     Returns:
@@ -160,8 +165,11 @@ def scatter_plot(rules, metrics, interactive=False):
     # Use plotly for interactive scatter plot visualization_examples
     if interactive:
         # Set title
-        title = f'Interactive scatter plot for {len(rules)} rules' \
-            if len(rules) > 1 else "Interactive scatter plot for rule"
+        title = (
+            f"Interactive scatter plot for {len(rules)} rules"
+            if len(rules) > 1
+            else "Interactive scatter plot for rule"
+        )
         # Create figure
         fig = px.scatter(
             data_frame=df,
@@ -170,16 +178,16 @@ def scatter_plot(rules, metrics, interactive=False):
             y=metrics[1],
             color="lift",
             size="lift",
-            hover_name="rule"
+            hover_name="rule",
         )
 
         # Set titles and colorbar
         fig.update_layout(
             xaxis_title=metrics[0],
             yaxis_title=metrics[1],
-            coloraxis_colorbar=dict(
-                title="lift",
-            )
+            coloraxis_colorbar={
+                "title": "lift",
+            },
         )
 
         return fig
@@ -187,8 +195,11 @@ def scatter_plot(rules, metrics, interactive=False):
     # Use matplotlib for static scatter plot visualization_examples
     else:
         # Set title
-        title = f'Scatter plot for {len(rules)} rules' \
-            if len(rules) > 1 else 'Scatter plot for rule'
+        title = (
+            f"Scatter plot for {len(rules)} rules"
+            if len(rules) > 1
+            else "Scatter plot for rule"
+        )
         plt.title(title)
         # Set figure size
         plt.figure(figsize=(24, 14))
@@ -256,7 +267,8 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
         return data_frame
 
     def encode_antecedents(data_frame):
-        # Get unique antecedents from the dataframe (for mapping we need only unique antecedents)
+        # Get unique antecedents from the dataframe (for mapping we need only unique
+        # antecedents)
         antecedents = data_frame["antecedent"].unique()
 
         # Create dictionary that maps each antecedent to an integer
@@ -264,7 +276,8 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
         for i, antecedent in enumerate(antecedents):
             ant_to_int[antecedent] = i
 
-        # Create new column in dataframe where each antecedent is replaced by its corresponding integer from the
+        # Create new column in dataframe where each antecedent is replaced by its
+        # corresponding integer from the
         # dictionary
         data_frame["antecedent_int"] = data_frame["antecedent"].map(ant_to_int)
 
@@ -273,7 +286,9 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
 
     def perform_clustering(data_frame, num_clusters):
         # Create clusters
-        kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(data_frame[["antecedent_int"]])
+        kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(
+            data_frame[["antecedent_int"]]
+        )
 
         # Assigns each antecedent into a cluster
         data_frame["cluster"] = kmeans.labels_
@@ -284,8 +299,9 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
     def find_most_interesting_items(data_frame):
         cluster_to_ant = {}
 
-        # Iterate through each rule and append the antecedent and support to the corresponding cluster
-        for index, rule in data_frame.iterrows():
+        # Iterate through each rule and append the antecedent and support to the
+        # corresponding cluster
+        for _index, rule in data_frame.iterrows():
             cluster = rule["cluster"]
             if cluster not in cluster_to_ant:
                 cluster_to_ant[cluster] = []
@@ -296,18 +312,22 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
         # Sort cluster for clarity
         cluster_to_ant = dict(sorted(cluster_to_ant.items()))
 
-        # Dictionary where keys are clusters and values are the most interesting antecedent
+        # Dictionary where keys are clusters and values are the most interesting
+        # antecedent
         most_interesting_antecedent_from_clusters = {}
         for cluster, ant in cluster_to_ant.items():
             # Determine most interesting rule
             # Can add more metrics if needed
             most_interesting_rule = max(ant, key=lambda metric: metric[1])
-            most_interesting_antecedent_from_clusters[cluster] = most_interesting_rule[0]
+            most_interesting_antecedent_from_clusters[cluster] = most_interesting_rule[
+                0
+            ]
 
         return cluster_to_ant, most_interesting_antecedent_from_clusters
 
     def create_cluster_descriptions(cluster_to_ant, most_interesting, data_frame):
-        # Create a description for every cluster, where each cluster has the total number of rules in the cluster
+        # Create a description for every cluster, where each cluster has the total
+        # number of rules in the cluster
         cluster_desc = {}
         for cluster, ant in cluster_to_ant.items():
             # Collect unique antecedents
@@ -322,7 +342,10 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
             num_rules = len(ant)
 
             # Create description
-            cluster_desc[cluster] = "{} rules; {{{}}}, +{} items".format(num_rules, most_interesting[cluster], total_items)
+            cluster_desc[cluster] = (
+                f"{num_rules} rules; {{{most_interesting[cluster]}}}, +{total_items} "
+                f"items"
+            )
 
         # Creates a new column with these descriptions.
         data_frame["cluster_description"] = data_frame["cluster"].map(cluster_desc)
@@ -341,14 +364,16 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
 
         # Prepare data for plot
         plot_data = []
-        for index, rule in data_frame.iterrows():
-            plot_data.append({
-                "cluster": rule["cluster_description"],
-                "consequent": rule["consequent"],
-                "support": rule["support"],
-                "lift": rule["lift"],
-                "size": rule["support"] * 1000
-            })
+        for _index, rule in data_frame.iterrows():
+            plot_data.append(
+                {
+                    "cluster": rule["cluster_description"],
+                    "consequent": rule["consequent"],
+                    "support": rule["support"],
+                    "lift": rule["lift"],
+                    "size": rule["support"] * 1000,
+                }
+            )
 
         # Create DataFrame
         plot_data_frame = pd.DataFrame(plot_data)
@@ -365,13 +390,17 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
     df = perform_clustering(df, k)
 
     # Find the most interesting item in each cluster
-    cluster_to_antecedents, cluster_to_most_interesting = find_most_interesting_items(df)
+    cluster_to_antecedents, cluster_to_most_interesting = find_most_interesting_items(
+        df
+    )
 
     # Maps each rules cluster with the most interesting antecedent in the cluster
     df["grouped_antecedent"] = df["cluster"].map(cluster_to_most_interesting)
 
     # Create descriptions for clusters
-    df, cluster_descriptions = create_cluster_descriptions(cluster_to_antecedents, cluster_to_most_interesting, df)
+    df, cluster_descriptions = create_cluster_descriptions(
+        cluster_to_antecedents, cluster_to_most_interesting, df
+    )
 
     # Get data for plotting
     plot_df, consequent_to_int, consequents = create_plot_data(df)
@@ -389,23 +418,23 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
             labels={
                 "cluster": "Grouped Antecedents",
                 "consequent": "Consequents",
-                "lift": "Lift"
-            }
+                "lift": "Lift",
+            },
         )
 
         fig.update_layout(
             xaxis_title="Items in LHS Groups",
             yaxis_title="RHS",
-            coloraxis_colorbar=dict(
-                title="Lift",
-                orientation="h",
-                x=0.5,
-                y=-0.3,
-                xanchor="center",
-                yanchor="top"
-            ),
-            xaxis=dict(side="top"),
-            yaxis=dict(side="right")
+            coloraxis_colorbar={
+                "title": "Lift",
+                "orientation": "h",
+                "x": 0.5,
+                "y": -0.3,
+                "xanchor": "center",
+                "yanchor": "top",
+            },
+            xaxis={"side": "top"},
+            yaxis={"side": "right"},
         )
 
         return fig
@@ -414,7 +443,7 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
     else:
         fig, ax = plt.subplots(figsize=(24, 14))
         scatter_plots = []
-        for idx, row in plot_df.iterrows():
+        for _idx, row in plot_df.iterrows():
             x = list(cluster_descriptions.values()).index(row["cluster"])
             y = consequent_to_int[row["consequent"]]
             size = row["size"]
@@ -427,7 +456,7 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
                 cmap="plasma",
                 alpha=0.6,
                 edgecolors="w",
-                linewidth=0.5
+                linewidth=0.5,
             )
 
             scatter_plots.append(scatter)
@@ -435,7 +464,12 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
         ax.set_xlabel("Items in LHS Groups")
         ax.set_ylabel("RHS")
         ax.set_xticks(np.arange(k))
-        ax.set_xticklabels([cluster_descriptions[i] for i in range(k)], rotation=-35, ha="right", rotation_mode="anchor")
+        ax.set_xticklabels(
+            [cluster_descriptions[i] for i in range(k)],
+            rotation=-35,
+            ha="right",
+            rotation_mode="anchor",
+        )
         ax.set_yticks(np.arange(len(consequents)))
         ax.set_yticklabels(consequents)
         ax.xaxis.set_label_position("top")
@@ -451,15 +485,18 @@ def grouped_matrix_plot(rules, metrics, k=5, interactive=False):
 
         return plt
 
+
 def two_key_plot(rules, metrics, interactive=False):
     """
-    Visualize rules as a two key plot with two primary metrics (support, confidence) and rule order.
-    
+    Visualize rules as a two key plot with two primary metrics (support, confidence)
+    and rule order.
+
     Args:
         rules (Rule): Association rule or rules to visualize.
-        metrics (tuple): Two metrics to display on the x and y axes. 'order' will be used for point color.
+        metrics (tuple): Two metrics to display on the x and y axes. 'order' will be
+        used for point color.
         interactive (bool): Make plot interactive. Default: False.
-    
+
     Returns:
         Figure or plot.
     """
@@ -474,20 +511,21 @@ def two_key_plot(rules, metrics, interactive=False):
             "rule": [],
             metrics[0]: [],
             metrics[1]: [],
-            "order": []  # Store rule order (length)
+            "order": [],  # Store rule order (length)
         }
 
         for rule in rules:
             data["rule"].append(rule.__repr__())
             data[metrics[0]].append(getattr(rule, metrics[0]))
             data[metrics[1]].append(getattr(rule, metrics[1]))
-            
-            # Calculate order dynamically as the total number of items in antecedent and consequent
-            if hasattr(rule, 'antecedent') and hasattr(rule, 'consequent'):
+
+            # Calculate order dynamically as the total number of items in antecedent
+            # and consequent
+            if hasattr(rule, "antecedent") and hasattr(rule, "consequent"):
                 rule_order = len(rule.antecedent) + len(rule.consequent)
             else:
                 rule_order = 0  # Fallback if structure is missing
-            
+
             data["order"].append(rule_order)
 
         # Return as DataFrame
@@ -503,9 +541,12 @@ def two_key_plot(rules, metrics, interactive=False):
 
     # Interactive plot using Plotly
     if interactive:
-        title = f'Interactive two-key plot for {len(rules)} rules' \
-            if len(rules) > 1 else "Interactive two-key plot for rule"
-        
+        title = (
+            f"Interactive two-key plot for {len(rules)} rules"
+            if len(rules) > 1
+            else "Interactive two-key plot for rule"
+        )
+
         # Create figure
         fig = px.scatter(
             data_frame=df,
@@ -515,12 +556,10 @@ def two_key_plot(rules, metrics, interactive=False):
             hover_name="rule",
             title=title,
             labels={"color": "order"},
-            color_discrete_sequence=px.colors.qualitative.Plotly
+            color_discrete_sequence=px.colors.qualitative.Plotly,
         )
         fig.update_layout(
-            xaxis_title=metrics[0],
-            yaxis_title=metrics[1],
-            legend_title = "Order"
+            xaxis_title=metrics[0], yaxis_title=metrics[1], legend_title="Order"
         )
         return fig
 
@@ -531,7 +570,7 @@ def two_key_plot(rules, metrics, interactive=False):
         # Map each order to a unique color
         unique_orders = sorted(df["order"].unique())
         color_map = plt.colormaps.get_cmap("Set1")
-        color_indices = np.linspace(0, 1, len(unique_orders)) 
+        color_indices = np.linspace(0, 1, len(unique_orders))
         colors = [color_map(i) for i in color_indices]
         color_mapping = {order: colors[i] for i, order in enumerate(unique_orders)}
 
@@ -540,17 +579,13 @@ def two_key_plot(rules, metrics, interactive=False):
             subset = df[df["order"] == order]
             x_data = np.array(subset[metrics[0]].tolist())
             y_data = np.array(subset[metrics[1]].tolist())
-			
+
             plt.scatter(
-                x_data,
-                y_data,
-                label=order,
-                color=color_mapping[order],
-                alpha=0.7
+                x_data, y_data, label=order, color=color_mapping[order], alpha=0.7
             )
 
         # Add legend and labels
-        plt.title(f'Two-key plot for {len(rules)} rules')
+        plt.title(f"Two-key plot for {len(rules)} rules")
         plt.xlabel(metrics[0])
         plt.ylabel(metrics[1])
         plt.legend(title="Order")
@@ -561,17 +596,17 @@ def two_key_plot(rules, metrics, interactive=False):
 def sankey_diagram(rules, interestingness_measure, M=4):
     """
     Visualize rules as a sankey diagram.
-    
+
     Args:
         rules (Rule): Association rule or rules to visualize.
-        interestingness_measures (str): Interestingness measure Z = {supp, cons, lift},reflecting the quality of a particular connection.
+        interestingness_measures (str): Interestingness measure Z = {supp, cons,
+        lift},reflecting the quality of a particular connection.
         m (int): Maximum number of rules to be selected for visualization. Default: 4
-    
+
     Returns:
         Figure or plot.
     """
 
-    
     def compute_similarity(rule1, rule2):
         """Compute similarity between two rules."""
         ant_inter = len(set(str(rule1.antecedent)) & set(str(rule2.antecedent)))
@@ -590,33 +625,37 @@ def sankey_diagram(rules, interestingness_measure, M=4):
             adjacency_matrix[j, i] = similarity
 
         return adjacency_matrix
-    
+
     def knapsack_selection(adj_matrix, rules, M):
         fitness_scores = np.array([rule.fitness for rule in rules])
         N = len(rules)  # number of rules
-        weights = np.ones(N) # all rules have the same weight
+        weights = np.ones(N)  # all rules have the same weight
         similarity_weight = 1.0
         fitness_weight = 0.5
-        combined_profits = similarity_weight * np.sum(adj_matrix) + fitness_weight * fitness_scores # combined similarities with fitness for values
-    
+        combined_profits = (
+            similarity_weight * np.sum(adj_matrix) + fitness_weight * fitness_scores
+        )  # combined similarities with fitness for values
+
         selected = np.zeros(N, dtype=int)
-    
+
         # Initialize DP table
         dp = np.zeros((N + 1, M + 1))
         for i in range(1, N + 1):
             for w in range(1, M + 1):
                 if weights[i - 1] <= w:
-                    dp[i, w] = max(dp[i - 1, w], dp[i - 1, w - 1] + combined_profits[i - 1])
+                    dp[i, w] = max(
+                        dp[i - 1, w], dp[i - 1, w - 1] + combined_profits[i - 1]
+                    )
                 else:
                     dp[i, w] = dp[i - 1, w]
-    
+
         # Backtrack to find selected rules
         w = M
         for i in range(N, 0, -1):
             if dp[i, w] != dp[i - 1, w]:
                 selected[i - 1] = 1
                 w -= 1
-    
+
         selected_rules = [rules[i] for i in range(N) if selected[i]]
 
         return selected_rules
@@ -624,31 +663,31 @@ def sankey_diagram(rules, interestingness_measure, M=4):
     def prepare_data(rules, M, interestingness_measure):
         if not rules:
             return [], [], [], []
-			
+
         adj_matrix = build_adjacency_matrix(rules)
         selected_rules = knapsack_selection(adj_matrix, rules, M)
 
-        sources=[]
-        targets=[] 
-        values=[] 
-        labels=[]
+        sources = []
+        targets = []
+        values = []
+        labels = []
         node_indices = {}
 
         for rule in selected_rules:
-			# Ensure all antecedents and consequents exist in the node list
+            # Ensure all antecedents and consequents exist in the node list
             for item in rule.antecedent + rule.consequent:
                 item_str = str(item)
                 if item_str not in node_indices:
                     node_indices[item_str] = len(labels)
                     labels.append(item_str)
 
-			# Connect each antecedent to each consequent
+            # Connect each antecedent to each consequent
             for antecedent in rule.antecedent:
                 for consequent in rule.consequent:
                     sources.append(node_indices[str(antecedent)])
                     targets.append(node_indices[str(consequent)])
 
-					# Assign measure value for each connection
+                    # Assign measure value for each connection
                     if hasattr(rule, interestingness_measure):
                         measure_value = getattr(rule, interestingness_measure)
                     else:
@@ -659,21 +698,21 @@ def sankey_diagram(rules, interestingness_measure, M=4):
 
     labels, sources, targets, values = prepare_data(rules, M, interestingness_measure)
 
-	# Visualization using Plotly
-    fig = go.Figure(go.Sankey(
-        node=dict(
-            pad=15, 
-            thickness=20, 
-            line=dict(color='black', width=0.5),
-            label=labels
-        ),
-        link=dict(
-            source=sources,
-            target=targets,
-            value=values
+    # Visualization using Plotly
+    fig = go.Figure(
+        go.Sankey(
+            node={
+                "pad": 15,
+                "thickness": 20,
+                "line": {"color": "black", "width": 0.5},
+                "label": labels,
+            },
+            link={"source": sources, "target": targets, "value": values},
         )
-    ))
-    fig.update_layout(title_text=f'Sankey Diagram of Association Rules ({interestingness_measure})', font_size=10)
-    
-    return fig       
-	
+    )
+    fig.update_layout(
+        title_text=f"Sankey Diagram of Association Rules ({interestingness_measure})",
+        font_size=10,
+    )
+
+    return fig

@@ -1,51 +1,80 @@
-[tool.poetry]
+[project]
 name = "niaarm"
 version = "0.4.5"
 description = "A minimalistic framework for numerical association rule mining"
-authors = ["Žiga Stupan <ziga.stupan1@student.um.si>", "Iztok Fister Jr. <iztok@iztok-jr-fister.eu>"]
-keywords = ['association rule mining', 'data science', 'numerical association rule mining', 'preprocessing', 'visualization']
-homepage = "https://github.com/firefly-cpp/NiaARM"
-repository = "https://github.com/firefly-cpp/NiaARM"
-documentation = "https://niaarm.readthedocs.io/en/latest/"
-license = "MIT"
+authors = [
+    { name = "Žiga Stupan", email = "ziga.stupan1@student.um.si" },
+    { name = "Iztok Fister Jr.", email = "iztok@iztok-jr-fister.eu" },
+]
+requires-python = ">=3.11"
 readme = "README.md"
-
-include = [
-    { path="LICENSE", format="sdist" },
-    { path="CHANGELOG.md", format="sdist" },
-    { path="CITATION.cff", format="sdist" },
-    { path="niaarm.1", format="sdist" },
+license = "MIT"
+keywords = [
+    "association rule mining",
+    "data science",
+    "numerical association rule mining",
+    "preprocessing",
+    "visualization",
+]
+dependencies = [
+    "niapy>=2.6.1",
+    "numpy>=2.3.5",
+    "pandas>=2.3.3",
+    "nltk>=3.9.2",
+    "plotly>=6.5.0",
+    "scikit-learn>=1.8.0",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.10,<=3.14"
-niapy = "^2.6.1"
-numpy = ">=1.22.4"
-pandas = "^2.2.2"
-nltk = "^3.8.1"
-tomli = { version = "^2.0.1", python = "<3.11" }
-plotly = "^5.22.0"
-scikit-learn = "^1.5.1"
+[project.urls]
+Homepage = "https://github.com/firefly-cpp/NiaARM"
+Repository = "https://github.com/firefly-cpp/NiaARM"
+Documentation = "https://niaarm.readthedocs.io/en/latest/"
 
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^3.5.0"
+[project.scripts]
+niaarm = "niaarm.cli:main"
 
-[tool.poetry.group.test.dependencies]
-pytest = "^7.4.2"
-pytest-cov = "^4.1.0"
-pytest-randomly = "^3.15.0"
+[dependency-groups]
+dev = [
+    { include-group = "pre-commit" },
+    { include-group = "test" },
+    { include-group = "lint" },
+]
+test = [
+    "pytest>=9.0.0",
+    "pytest-cov>=7.0.0",
+    "pytest-randomly>=4.0.1",
+]
+lint = [
+    "ruff>=0.14.9",
+]
+pre-commit = [
+    "pre-commit>=4.5.0"
+]
+docs = [
+    "sphinx-rtd-theme>=3.0.2",
+    "sphinxcontrib-bibtex>=2.6.5",
+    "sphinx>=8.2.3",
+]
 
-[tool.poetry.group.docs]
-optional = true
-
-[tool.poetry.group.docs.dependencies]
-sphinx-rtd-theme = "^1.0.0"
-sphinxcontrib-bibtex = "^2.4.1"
-sphinx = "^7.2.6"
-
-[tool.poetry.scripts]
-niaarm = 'niaarm.cli:main'
+[tool.uv.build-backend]
+source-include = [
+    "LICENSE",
+    "CHANGELOG.md",
+    "CITATION.cff",
+    "niaarm.1",
+]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.9.17,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
