@@ -1,4 +1,4 @@
-name: NiaARM
+name: NiaARM Tests
 
 on:
   push:
