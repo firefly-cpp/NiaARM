@@ -1,11 +1,11 @@
-from unittest import TestCase
-from niaarm.niaarm import NiaARM, _cut_point
-from niaarm.feature import Feature
-from niaarm.dataset import Dataset
 import os
+from unittest import TestCase
+
+from niaarm.dataset import Dataset
+from niaarm.feature import Feature
+from niaarm.niaarm import NiaARM, _cut_point
 
 
-# The basic test for checking the identification of the appropriate cut point of association rule.
 class TestCutPoint(TestCase):
     # let's borrow a test case from Wikipedia:
     # https://en.wikipedia.org/wiki/Lift_(data_mining)

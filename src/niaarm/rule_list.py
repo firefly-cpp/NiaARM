@@ -1,5 +1,6 @@
-from collections import UserList
 import csv
+from collections import UserList
+
 import numpy as np
 
 
@@ -7,7 +8,7 @@ class RuleList(UserList):
     """A list of rules."""
 
     def get(self, metric):
-        """Get values of `metric` for each rule as a numpy array.
+        """Get values of ``metric`` for each rule as a numpy array.
 
         Args:
             metric (str): Metric.
@@ -22,7 +23,7 @@ class RuleList(UserList):
         """Sort rules by metric.
 
         Args:
-            by (str): Metric to sort rules by. Default: ``'fitness'``.
+            by (str): Metric to sort rules by. Default: `'fitness'`.
             reverse (bool): Sort in descending order. Default: ``True``.
 
         """
@@ -109,21 +110,23 @@ class RuleList(UserList):
         string = (
             f"STATS:\n"
             f"Total rules: {len(self)}\n"
-            f'Average fitness: {self.mean("fitness")}\n'
-            f'Average support: {self.mean("support")}\n'
-            f'Average confidence: {self.mean("confidence")}\n'
-            f'Average lift: {self.mean("lift")}\n'
-            f'Average coverage: {self.mean("coverage")}\n'
-            f'Average consequent support: {self.mean("rhs_support")}\n'
-            f'Average conviction: {self.mean("conviction")}\n'
-            f'Average amplitude: {self.mean("amplitude")}\n'
-            f'Average inclusion: {self.mean("inclusion")}\n'
-            f'Average interestingness: {self.mean("interestingness")}\n'
-            f'Average comprehensibility: {self.mean("comprehensibility")}\n'
-            f'Average netconf: {self.mean("netconf")}\n'
-            f'Average Yule\'s Q: {self.mean("yulesq")}\n'
-            f'Average Zhang\'s Metric: {self.mean("zhang")}\n'
-            f"Average antecedent length: {sum(len(rule.antecedent) for rule in self) / len(self)}\n"
-            f"Average consequent length: {sum(len(rule.consequent) for rule in self) / len(self)}\n"
+            f"Average fitness: {self.mean('fitness')}\n"
+            f"Average support: {self.mean('support')}\n"
+            f"Average confidence: {self.mean('confidence')}\n"
+            f"Average lift: {self.mean('lift')}\n"
+            f"Average coverage: {self.mean('coverage')}\n"
+            f"Average consequent support: {self.mean('rhs_support')}\n"
+            f"Average conviction: {self.mean('conviction')}\n"
+            f"Average amplitude: {self.mean('amplitude')}\n"
+            f"Average inclusion: {self.mean('inclusion')}\n"
+            f"Average interestingness: {self.mean('interestingness')}\n"
+            f"Average comprehensibility: {self.mean('comprehensibility')}\n"
+            f"Average netconf: {self.mean('netconf')}\n"
+            f"Average Yule's Q: {self.mean('yulesq')}\n"
+            f"Average Zhang's Metric: {self.mean('zhang')}\n"
+            f"Average antecedent length: "
+            f"{sum(len(rule.antecedent) for rule in self) / len(self)}\n"
+            f"Average consequent length: "
+            f"{sum(len(rule.consequent) for rule in self) / len(self)}\n"
         )
         return string

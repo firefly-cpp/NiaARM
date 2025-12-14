@@ -1,13 +1,15 @@
 import os
 import string
-import numpy as np
-import pandas as pd
 from collections import Counter
 from pathlib import Path
+
+import numpy as np
+import pandas as pd
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-from niaarm.rule import Rule
+
 from niaarm.niaarm import NiaARM, _cut_point
+from niaarm.rule import Rule
 
 
 def normalize(a, order=2, axis=-1):
@@ -21,9 +23,9 @@ class Document:
 
     Args:
         text (str): Document text.
-        language (str): Document language. Used for tokenization and stopword removal. Default: 'english'.
-        remove_stopwords (bool): If ``True``, remove stopwords from text. Default: ``True``.
-        lowercase (bool): If ``True``, make text lowercase. Default: ``True``.
+        language (str): Document language. Default: 'english'.
+        remove_stopwords (bool): Remove stopwords from text. Default: ``True``.
+        lowercase (bool): Make text lowercase. Default: ``True``.
 
     """
 
@@ -76,8 +78,8 @@ class Document:
             path (str): Path to file.
             encoding (str): Encoding of the file. Default: 'utf-8'.
             language (str): Language of the file. Default: 'english'.
-            remove_stopwords (bool): If ``True``, remove stopwords from text. Default: ``True``.
-            lowercase (bool): If ``True``, make text lowercase. Default: ``True``.
+            remove_stopwords (bool): Remove stopwords from text. Default: ``True``.
+            lowercase (bool): Make text lowercase. Default: ``True``.
 
         Returns:
             Document: The constructed document.
@@ -91,7 +93,8 @@ class Corpus:
     """The text corpus class.
 
     Args:
-        documents (Optional[list[Document]]): List of documents. If ``None``, an empty list will be created. Default: ``None``.
+        documents (list[Document] | None): List of documents.
+         If ``None``, an empty list will be created. Default: ``None``.
 
     """
 
@@ -132,8 +135,8 @@ class Corpus:
         Args:
             lst (list[str]): List of documents as strings.
             language (str): Language of the file. Default: 'english'.
-            remove_stopwords (bool): If ``True``, remove stopwords from text. Default: ``True``.
-            lowercase (bool): If ``True``, make text lowercase. Default: ``True``.
+            remove_stopwords (bool): Remove stopwords from text. Default: ``True``.
+            lowercase (bool): Make text lowercase. Default: ``True``.
 
         Returns:
             Corpus: The constructed corpus.
@@ -158,8 +161,8 @@ class Corpus:
             path (str): Path to directory.
             encoding (str): Encoding of the files. Default: 'utf-8'.
             language (str): Language of the files. Default: 'english'.
-            remove_stopwords (bool): If ``True``, remove stopwords from text. Default: ``True``.
-            lowercase (bool): If ``True``, make text lowercase. Default: ``True``.
+            remove_stopwords (bool): Remove stopwords from text. Default: ``True``.
+            lowercase (bool): Make text lowercase. Default: ``True``.
 
         Returns:
             Corpus: The constructed corpus.
@@ -179,8 +182,7 @@ class Corpus:
         """Get the tf-idf weights matrix as a pandas DataFrame.
 
         Args:
-            smooth (bool): Smooth idf by adding one to the numerator and the denominator to prevent division by 0 errors.
-             Default: ``True``.
+            smooth (bool): Apply smoothing. Default: ``True``.
             norm (int): Order of the norm to normalize the matrix with. Default: 2.
 
         Returns:
@@ -210,15 +212,14 @@ class Corpus:
 class TextRule(Rule):
     r"""Class representing a text association rule.
 
-    The class contains all the metrics in :class:`~niaarm.rule.Rule`, except for amplitude, which returns nan.
-
     Args:
         antecedent (list[str]): A list of antecedent terms of the text rule.
         consequent (list[str]): A list of consequent terms of the text rule.
-        fitness (Optional[float]): Fitness value of the text rule.
-        transactions (Optional[pandas.DataFrame]): The tf-idf matrix as a pandas DataFrame.
-        threshold (Optional[float]): Threshold of tf-idf weights. If a weight is less than or equal to the
-         threshold, the term is not included in the transaction. Default: 0.
+        fitness (float | None): Fitness value of the text rule.
+        transactions (pandas.DataFrame | None): The tf-idf matrix.
+        threshold (float | None): Threshold of tf-idf weights.
+         If a weight is less than or equal to the threshold,
+         the term is not included in the transaction. Default: 0.
 
     Attributes:
         aws: The sum of tf-idf values for all the terms in the rule.
@@ -302,19 +303,23 @@ class NiaARTM(NiaARM):
 
     The implementation is composed of ideas found in the following paper:
 
-    * I. Fister, S. Deb, I. Fister, „Population-based metaheuristics for Association Rule Text Mining“,
-      in Proceedings of the 2020 4th International Conference on Intelligent Systems, Metaheuristics & Swarm Intelligence,
+    * I. Fister, S. Deb, I. Fister, „Population-based metaheuristics for Association
+      Rule Text Mining“,
+      in Proceedings of the 2020 4th International Conference on Intelligent Systems,
+      Metaheuristics & Swarm Intelligence,
       New York, NY, USA, mar. 2020, pp. 19–23. doi: 10.1145/3396474.3396493.
 
     Args:
-        max_terms (int): Maximum number of terms in association rule..
-        features (list[str]): List of unique terms in the corpus.
+        max_terms (int): Maximum number of terms in association rule.
+        terms(list[str]): List of unique terms in the corpus.
         transactions (pandas.Dataframe): The tf-idf matrix.
-        metrics (Union[Dict[str, float], Sequence[str]]): Metrics to take into account when computing the fitness.
-         Metrics can either be passed as a Dict of pairs {'metric_name': <weight of metric>} or
-         a sequence of metrics as strings, in which case, the weights of the metrics will be set to 1.
-        threshold (Optional[float]): Threshold of tf-idf weights. If a weight is less than or equal to the
-         threshold, the term is not included in the transaction. Default: 0.
+        metrics (dict[str, float] | Sequence[str]): Metrics to take into account when
+         computing the fitness.
+         Metrics can either be passed as a dict of {<metric name>: <weight>} or
+         a sequence of metrics as strings, in which case, the weights will default to 1.
+        threshold (float | None): Threshold of tf-idf weights.
+         If a weight is less than or equal to the threshold,
+         the term is not included in the transaction. Default: 0.
         logging (bool): Enable logging of fitness improvements. Default: ``False``.
 
     Attributes:

@@ -1,8 +1,9 @@
-from niaarm.rule import Rule
-from niaarm.feature import Feature
-from niaarm.rule_list import RuleList
-from niapy.problems import Problem
 import numpy as np
+from niapy.problems import Problem
+
+from niaarm.feature import Feature
+from niaarm.rule import Rule
+from niaarm.rule_list import RuleList
 
 
 class NiaARM(Problem):
@@ -11,23 +12,27 @@ class NiaARM(Problem):
     The implementation is composed of ideas found in the following papers:
 
     * I. Fister Jr., A. Iglesias, A. Gálvez, J. Del Ser, E. Osaba, I Fister.
-      [Differential evolution for association rule mining using categorical and numerical attributes]
+      [Differential evolution for association rule mining using categorical and
+      numerical attributes]
       (http://www.iztok-jr-fister.eu/static/publications/231.pdf)
-      In: Intelligent data engineering and automated learning - IDEAL 2018, pp. 79-88, 2018.
+      In: Intelligent data engineering and automated learning - IDEAL 2018,
+      pp. 79-88, 2018.
 
     * I. Fister Jr., V. Podgorelec, I. Fister.
       [Improved Nature-Inspired Algorithms for Numeric Association Rule Mining]
       (https://link.springer.com/chapter/10.1007/978-3-030-68154-8_19)
-      In: Vasant P., Zelinka I., Weber GW. (eds.) Intelligent Computing and Optimization. ICO 2020.
+      In: Vasant P., Zelinka I., Weber GW. (eds.) Intelligent Computing and
+      Optimization. ICO 2020.
       Advances in Intelligent Systems and Computing, vol 1324. Springer, Cham.
 
     Args:
         dimension (int): Dimension of the optimization problem for the dataset.
         features (list[Feature]): List of the dataset's features.
         transactions (pandas.Dataframe): The dataset's transactions.
-        metrics (Union[Dict[str, float], Sequence[str]]): Metrics to take into account when computing the fitness.
-         Metrics can either be passed as a Dict of pairs {'metric_name': <weight of metric>} or
-         a sequence of metrics as strings, in which case, the weights of the metrics will be set to 1.
+        metrics (dict[str, float] | Sequence[str]): Metrics to take into account when
+         computing the fitness. Metrics can either be passed as a Dict of pairs
+         {'metric_name': <weight>} or a sequence of metrics as strings, in which case,
+         the weights of the metrics will be set to 1.
         logging (bool): Enable logging of fitness improvements. Default: ``False``.
 
     Attributes:

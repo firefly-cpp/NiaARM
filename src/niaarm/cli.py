@@ -1,23 +1,20 @@
 import argparse
-from inspect import getmodule, getmembers, isfunction
 import os
-from pathlib import Path
 import platform
 import subprocess
 import sys
-
-try:
-    import tomllib
-except ImportError:
-    import tomli as tomllib
+import tomllib
+from inspect import getmembers, getmodule, isfunction
+from pathlib import Path
 
 import numpy as np
-import niaarm
-from niaarm import NiaARM, Dataset, get_rules, squash
-from niapy.util.factory import get_algorithm
-from niapy.util import distances, repair
-from niapy.algorithms.other import mts
 from niapy.algorithms.basic import de
+from niapy.algorithms.other import mts
+from niapy.util import distances, repair
+from niapy.util.factory import get_algorithm
+
+import niaarm
+from niaarm import Dataset, NiaARM, get_rules, squash
 
 DEFAULT_CONFIG = {
     "input_file": None,
@@ -42,7 +39,8 @@ DEFAULT_CONFIG = {
 def get_parser():
     parser = argparse.ArgumentParser(
         prog="niaarm",
-        description="Perform ARM, output mined rules as csv, get mined rules' statistics",
+        description="Perform ARM, output mined rules as csv, get mined rules' "
+        "statistics",
     )
     parser.add_argument(
         "-v",
@@ -117,7 +115,7 @@ def get_parser():
 
 
 def deep_update(dictionary, other):
-    """Same as `dict.update` but for nested dictionaries."""
+    """Same as ``dict.update`` but for nested dictionaries."""
     updated_dict = dictionary.copy()
     for k, v in other.items():
         if (
@@ -289,7 +287,7 @@ def main():
         return 1
 
     weights = weights if weights else [1] * len(metrics)
-    metrics = dict(zip(metrics, weights))
+    metrics = dict(zip(metrics, weights, strict=True))
 
     try:
         dataset = Dataset(config["input_file"])

@@ -4,9 +4,10 @@ identification of data types of features as well as a corresponding
 borders for numerical attributes.
 """
 
-from unittest import TestCase
-from niaarm.dataset import Dataset
 import os
+from unittest import TestCase
+
+from niaarm.dataset import Dataset
 
 
 class TestReadCSVAbalone(TestCase):

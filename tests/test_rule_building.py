@@ -3,11 +3,12 @@ Test intended for testing the main procedure for building
 an association rule from candidate solutions.
 """
 
+import os
 from unittest import TestCase
-from niaarm.niaarm import NiaARM
+
 from niaarm.dataset import Dataset
 from niaarm.feature import Feature
-import os
+from niaarm.niaarm import NiaARM
 
 
 class TestBuildRuleA(TestCase):
