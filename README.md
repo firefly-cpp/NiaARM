@@ -31,7 +31,7 @@
   <a href="https://github.com/firefly-cpp/NiaARM/blob/main/LICENSE">
     <img alt="GitHub license" src="https://img.shields.io/github/license/firefly-cpp/niaarm.svg" />
   </a>
-  <img alt="NiaARM" src="https://github.com/firefly-cpp/niaarm/actions/workflows/test.yml/badge.svg" />
+  <img alt="NiaARM" src="https://github.com/firefly-cpp/niaarm/actions/workflows/ci.yml/badge.svg" />
   <img alt="Documentation status" src="https://readthedocs.org/projects/niaarm/badge/?version=latest" />
 </p>
 
