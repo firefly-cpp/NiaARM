@@ -15,7 +15,7 @@ class Rule:
     Attributes:
         cls.metrics (tuple[str]): List of all available interestingness measures.
         support: Support is defined on an itemset as the proportion of transactions
-        that contain the attribute :math:`X`.
+         that contain the attribute :math:`X`.
 
          :math:`supp(X) = \frac{n_{X}}{|D|},`
 
@@ -32,7 +32,7 @@ class Rule:
          Interest Measures for Association Rules,
          2015, URL: https://mhahsler.github.io/arules/docs/measures
         confidence: Confidence of the rule, defined as the proportion of transactions
-        that contain
+         that contain
          the consequent in the set of transactions that contain the antecedent. This
          proportion is an estimate
          of the probability of seeing the consequent, if the antecedent is present in
@@ -46,8 +46,8 @@ class Rule:
          Interest Measures for Association Rules,
          2015, URL: https://mhahsler.github.io/arules/docs/measures
         lift: Lift measures how many times more often the antecedent and the
-        consequent Y
-         occur together than expected if they were statistically independent.
+         consequent Y occur together than expected if they were statistically
+         independent.
 
          :math:`lift(X \implies Y) = \frac{conf(X \implies Y)}{supp(Y)}`
 
@@ -57,10 +57,8 @@ class Rule:
          Interest Measures for Association Rules,
          2015, URL: https://mhahsler.github.io/arules/docs/measures
         coverage: Coverage, also known as antecedent support, is an estimate of the
-        probability that
-         the rule applies to a randomly selected transaction. It is the proportion of
-         transactions
-         that contain the antecedent.
+         probability that the rule applies to a randomly selected transaction.
+         It is the proportion of transactions that contain the antecedent.
 
          :math:`cover(X \implies Y) = supp(X)`
 
@@ -79,8 +77,7 @@ class Rule:
          Interest Measures for Association Rules,
          2015, URL: https://mhahsler.github.io/arules/docs/measures
         conviction: Conviction can be interpreted as the ratio of the expected
-        frequency that the antecedent occurs without
-         the consequent.
+         frequency that the antecedent occurs without the consequent.
 
          :math:`conv(X \implies Y) = \frac{1 - supp(Y)}{1 - conf(X \implies Y)}`
 
@@ -91,8 +88,7 @@ class Rule:
          Interest Measures for Association Rules,
          2015, URL: https://mhahsler.github.io/arules/docs/measures
         inclusion: Inclusion is defined as the ratio between the number of attributes
-        of the rule
-         and all attributes in the database.
+         of the rule and all attributes in the database.
 
          :math:`inclusion(X \implies Y) = \frac{|X \cup Y|}{m},`
 
@@ -108,7 +104,7 @@ class Rule:
          Computing and Optimization. ICO 2020. Advances in
          Intelligent Systems and Computing, vol 1324. Springer, Cham.
         amplitude: Amplitude measures the quality of a rule, preferring attributes
-        with smaller intervals.
+         with smaller intervals.
 
          :math:`ampl(X \implies Y) = 1 - \frac{1}{n}\sum_{k = 1}^{n}{\frac{Ub_k -
          Lb_k}{max(o_k) - min(o_k)}},`
@@ -143,8 +139,7 @@ class Rule:
          intelligence-based algorithms for numerical
          association rule mining. arXiv preprint arXiv:2010.15524 (2020).
         comprehensibility: Comprehensibility of the rule. Rules with fewer attributes
-        in the consequent are more
-         comprehensible.
+         in the consequent are more comprehensible.
 
          :math:`comp(X \implies Y) = \frac{log(1 + |Y|)}{log(1 + |X \cup Y|)}`
 
@@ -170,7 +165,7 @@ class Rule:
          Conference (UBMYK), 2019, pp. 1-6,
          doi: 10.1109/UBMYK48245.2019.8965539.
         yulesq: The Yule's Q metric represents the correlation between two possibly
-        related dichotomous events.
+         related dichotomous events.
 
          :math:`yulesq(X \implies Y) =
          \frac{supp(X \implies Y)supp(\neg X \implies \neg Y) - supp(X \implies \neg
@@ -188,8 +183,8 @@ class Rule:
          Conference (UBMYK), 2019, pp. 1-6,
          doi: 10.1109/UBMYK48245.2019.8965539.
         zhang: Zheng's metric measures the strength of association (positive or
-        negative) between the antecedent and consequent, taking into account both
-        their co-occurrence and non-co-occurrence.
+         negative) between the antecedent and consequent, taking into account both
+         their co-occurrence and non-co-occurrence.
 
          :math:`zhang(X \implies Y) =
          \frac{conf(X \implies Y) - conf(\neg X \implies Y)}{max\{conf(X \implies Y),
@@ -204,8 +199,8 @@ class Rule:
          Applications, 2000, pp. 245–256. doi: 10.1007/3-540-45571-X_31.
 
         leverage: difference between the frequency of antecedent and the consequent
-        appearing together and the expected
-        frequency of them appearing separately based on their individual support
+         appearing together and the expected frequency of them appearing separately
+         based on their individual support
 
          :math:`leverage(X \implies Y) = support(X \implies Y) - (support(X) \times
          support(Y))`
