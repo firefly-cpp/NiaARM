@@ -318,7 +318,7 @@ added to the :mod:`niaarm.mine` module.
     Rules exported to output.csv
 
 Interestingness measures
------------------
+------------------------
 
 The framework currently implements the following interestingness measures (metrics):
 
