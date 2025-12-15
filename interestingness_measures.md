@@ -1,4 +1,4 @@
-# Interest Measures
+# Interestingness measures
 
 ## Support
 

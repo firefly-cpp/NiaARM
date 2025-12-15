@@ -108,7 +108,7 @@ objective, unconstrained maximization problem (more details on this approach can
 `here <https://link.springer.com/chapter/10.1007/978-3-030-68154-8_19>`__ and
 `here <http://www.iztok-jr-fister.eu/static/publications/231.pdf>`__).
 To summarize, for each solution vector a :class:`~niaarm.rule.Rule` is built,
-and it's fitness is computed as a weighted sum of selected interest measures (metrics).
+and it's fitness is computed as a weighted sum of selected interestingness measures (metrics).
 The rule is then appended to a list of rules, which can be accessed through the NiaARM class.
 
 The :class:`~niaarm.niaarm.NiaARM` class takes the dataset's
@@ -317,10 +317,10 @@ added to the :mod:`niaarm.mine` module.
     Run time: 13.37s
     Rules exported to output.csv
 
-Interest Measures
+Interestingness measures
 -----------------
 
-The framework currently implements the following interest measures (metrics):
+The framework currently implements the following interestingness measures (metrics):
 
 - Support
 - Confidence
@@ -336,7 +336,7 @@ The framework currently implements the following interest measures (metrics):
 - Yule's Q [#fn]_
 - Zhang's Metric [#fn]_
 
-More information about these interest measures can be found in the API reference
+More information about these interestingness measures can be found in the API reference
 of the :class:`~niaarm.rule.Rule` class.
 
 .. rubric:: Footnotes

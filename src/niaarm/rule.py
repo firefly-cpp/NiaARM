@@ -13,7 +13,7 @@ class Rule:
         transactions (pandas.DataFrame | None): Transactional database.
 
     Attributes:
-        cls.metrics (tuple[str]): List of all available interest measures.
+        cls.metrics (tuple[str]): List of all available interestingness measures.
         support: Support is defined on an itemset as the proportion of transactions
         that contain the attribute :math:`X`.
 

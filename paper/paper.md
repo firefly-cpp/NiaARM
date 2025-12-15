@@ -53,19 +53,19 @@ analyzed statistically, or visualized using the visualization methods implemente
 Numerical Association Rule Mining plays a vital role in the data revolution era [@telikani_survey_2020]. Several research
 papers that present NARM methods exist, but universal software where all primary tasks of NARM, i.e., preprocessing, searching
 for association rules, and visualization, is lacking. The NiaARM framework provides users with methods that allow them to
-preprocess their data, implement several interest measures, and powerful visualization techniques. In a nutshell, the benefits
+preprocess their data, implement several interestingness measures, and powerful visualization techniques. In a nutshell, the benefits
 of the NiaARM framework are:
 
 1. A simple way to mine association rules on numerical, categorical, or mixed attribute-type datasets.
 
 2. Combined with the NiaPy library, it allows testing out the proposed approach using arbitrary nature-inspired algorithms.
 
-3. A vast collection of implemented popular interest measures to measure the mined rules' quality.
+3. A vast collection of implemented popular interestingness measures to measure the mined rules' quality.
 
 4. Powerful visualization methods.
 
 5. A simple command-line interface for easier handling with the proposed tool.
 
-To the authors' knowledge, NiaARM is one of only three publicly available software solutions that implement any form of numerical association rule mining, the other two being KEEL [@alcala2009keel] and uARMSolver [@fister_uarmsolver_2020]. KEEL is a software tool used to assess evolutionary algorithms for machine learning problems of various kinds such as regression, classiﬁcation, unsupervised learning, etc. It's a GUI application written in Java primarily intended for research and educational purposes. Although its scope is much wider it also includes some popular algorithms for numerical association rule mining including GAR, GENAR and MODENAR. The uARMSolver framework, written in C++, also implements the ARM-DE algorithm. Comparatively, NiaARM offers better ease of use, the ability to use arbitrary nature-inspired algorithms from the NiaPy framework (uARMSolver only implements DE and PSO), and the ability to optimize using more interest measures.
+To the authors' knowledge, NiaARM is one of only three publicly available software solutions that implement any form of numerical association rule mining, the other two being KEEL [@alcala2009keel] and uARMSolver [@fister_uarmsolver_2020]. KEEL is a software tool used to assess evolutionary algorithms for machine learning problems of various kinds such as regression, classiﬁcation, unsupervised learning, etc. It's a GUI application written in Java primarily intended for research and educational purposes. Although its scope is much wider it also includes some popular algorithms for numerical association rule mining including GAR, GENAR and MODENAR. The uARMSolver framework, written in C++, also implements the ARM-DE algorithm. Comparatively, NiaARM offers better ease of use, the ability to use arbitrary nature-inspired algorithms from the NiaPy framework (uARMSolver only implements DE and PSO), and the ability to optimize using more interestingness measures.
 
 # References

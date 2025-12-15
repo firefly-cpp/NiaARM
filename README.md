@@ -218,11 +218,10 @@ problem.rules.sort()
 problem.rules.to_csv('output.csv')
 ```
 
-#### Interest measures
+#### Interestingness measures
 
-The framework implements several popular interest measures, which can be used to compute the fitness function value of rules
-and for assessing the quality of the mined rules. A full list of the implemented interest measures along with their descriptions
-and equations can be found [here](interest_measures.md).
+The framework implements several popular interestingness measures, which can be used to compute the fitness function value of rules
+and for assessing the quality of the mined rules. A full list of the implemented interestingness measures along with their definitions can be found [here](interestingness_measures.md).
 
 ### Visualization
 
