@@ -36,5 +36,5 @@ print("Lift: ", rules[3].lift)
 print("\nMetrics:", metrics)
 
 # Visualize sankey diagram
-fig = sankey_diagram(rules=rules, interestingness_measure="support", M=4)
+fig = sankey_diagram(rules=rules, interestingness_measure="support", max_rules=4)
 fig.show()
