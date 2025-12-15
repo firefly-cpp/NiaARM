@@ -20,15 +20,15 @@ class TestSankeyDiagram(unittest.TestCase):
         cls.rules = [cls.rule1, cls.rule2, cls.rule3]
 
     def test_sankey_output_type(self):
-        fig = sankey_diagram(self.rules, "support", M=3)
+        fig = sankey_diagram(self.rules, "support", max_rules=3)
         self.assertEqual(fig.__class__.__name__, "Figure")
 
     def test_sankey_structure(self):
-        fig = sankey_diagram(self.rules, "support", M=3)
+        fig = sankey_diagram(self.rules, "support", max_rules=3)
         self.assertTrue("source" in fig.data[0].link)
 
     def test_sankey_values(self):
-        fig = sankey_diagram(self.rules, "support", M=3)
+        fig = sankey_diagram(self.rules, "support", max_rules=3)
         link_data = fig.data[0].link
         flow_values = link_data["value"]
         expected_links = sum(
@@ -37,13 +37,13 @@ class TestSankeyDiagram(unittest.TestCase):
         self.assertEqual(len(flow_values), expected_links)
 
     def test_sankey_with_custom_fitness(self):
-        fig = sankey_diagram(self.rules, "support", M=2)
+        fig = sankey_diagram(self.rules, "support", max_rules=2)
         link_data = fig.data[0].link
         flow_values = link_data["value"]
         self.assertGreater(len(flow_values), 0)
 
     def test_sankey_no_empty_rules(self):
-        fig = sankey_diagram([], "support", M=3)
+        fig = sankey_diagram([], "support", max_rules=3)
         self.assertEqual(len(fig.data[0].link["source"]), 0)
         self.assertEqual(len(fig.data[0].link["target"]), 0)
         self.assertEqual(len(fig.data[0].link["value"]), 0)

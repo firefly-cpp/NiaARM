@@ -1,6 +1,10 @@
 import os
 from unittest import TestCase
 
+import matplotlib
+
+matplotlib.use("Agg")
+
 import numpy as np
 
 from niaarm import Dataset, Feature, Rule

@@ -1,5 +1,9 @@
 from unittest import TestCase
 
+import matplotlib
+
+matplotlib.use("Agg")
+
 import matplotlib.pyplot as plt
 
 from niaarm.visualize import two_key_plot
