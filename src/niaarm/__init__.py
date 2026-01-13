@@ -8,4 +8,4 @@ from niaarm.rule_list import RuleList
 
 __all__ = ["NiaARM", "Dataset", "Feature", "Rule", "RuleList", "get_rules", "squash"]
 
-__version__ = "0.4.5"
+__version__ = "0.4.6"

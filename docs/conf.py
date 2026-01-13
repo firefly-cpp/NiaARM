@@ -18,11 +18,11 @@ sys.path.insert(0, str(Path("..", "src").resolve()))
 # -- Project information -----------------------------------------------------
 
 project = "NiaARM"
-copyright = "2022-2025, Žiga Stupan, Iztok Fister Jr."
+copyright = "2022-2026, Žiga Stupan, Iztok Fister Jr."
 author = "Žiga Stupan, Iztok Fister Jr."
 
 # The full version, including alpha/beta/rc tags
-release = "0.4.5"
+release = "0.4.6"
 
 
 # -- General configuration ---------------------------------------------------
