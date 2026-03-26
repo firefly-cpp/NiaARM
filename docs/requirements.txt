@@ -92,7 +92,7 @@ pyyaml==6.0.3
     # via pybtex
 regex==2025.11.3
     # via nltk
-requests==2.32.5
+requests==2.33.0
     # via sphinx
 roman-numerals-py==3.1.0
     # via sphinx
