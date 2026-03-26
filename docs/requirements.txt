@@ -46,7 +46,7 @@ narwhals==2.13.0
     # via plotly
 niapy==2.6.1
     # via niaarm (pyproject.toml)
-nltk==3.9.2
+nltk==3.9.4
     # via niaarm (pyproject.toml)
 numpy==2.3.5
     # via
