@@ -8,7 +8,10 @@
 - Iztok Fister, Jr.
 
 ## Contributors (alphabetically)
-- Ben Beasly
+- Ben Beasley
 - Dušan Fister
 - Erkan Karabulut
+- @howsunjow
+- Miha Bukovnik
 - Tadej Lahovnik
+- Tilen Hliš
