@@ -709,7 +709,7 @@ wheels = [
 
 [[package]]
 name = "niaarm"
-version = "0.4.6"
+version = "0.4.7"
 source = { editable = "." }
 dependencies = [
     { name = "niapy" },
@@ -747,7 +747,7 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "niapy", specifier = ">=2.6.1" },
+    { name = "niapy", specifier = ">=2.7.0" },
     { name = "nltk", specifier = ">=3.9.2" },
     { name = "numpy", specifier = ">=2.3.5" },
     { name = "pandas", specifier = ">=2.3.3" },
@@ -778,7 +778,7 @@ test = [
 
 [[package]]
 name = "niapy"
-version = "2.6.1"
+version = "2.7.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "matplotlib" },
@@ -786,9 +786,9 @@ dependencies = [
     { name = "openpyxl" },
     { name = "pandas" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/21/27/cc01e2eefba904f796a960c5e7ae2162b127446c769f3a9a2abbdf1c2373/niapy-2.6.1.tar.gz", hash = "sha256:f9d466de990db60ab186a74cba795277093c87571a41ef0ac9328ceb2c2d4883", size = 195092, upload-time = "2025-11-24T11:03:02.548Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/03/64/5d96cd653783e98280e53174f8e6de01731df618a09885b6426d8324d6ee/niapy-2.7.0.tar.gz", hash = "sha256:f158cbd2ca0ca39f21abdb30dadd12718c73379d10218262981299ed166a3e04", size = 216189, upload-time = "2026-02-06T12:47:38.855Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8b/91/dd88cbb554c66de7f9c72a719c99e7fc23fb8fd677722b8db6510ce49b38/niapy-2.6.1-py3-none-any.whl", hash = "sha256:34d34f76d8cdb8640ee78084ebb07da1882c60aa2575caa013f6538ff96174d8", size = 188002, upload-time = "2025-11-24T11:03:01.23Z" },
+    { url = "https://files.pythonhosted.org/packages/41/16/62f06d98dfd4c19c9f48b05f14b3b1eb82018bf076a3d895f4fdafd798ef/niapy-2.7.0-py3-none-any.whl", hash = "sha256:3f30c8268d99bd5ff76ed01969dae44de1f15fb639dcdf7a9cd7a345f4c6b5a8", size = 191893, upload-time = "2026-02-06T12:47:37.225Z" },
 ]
 
 [[package]]
