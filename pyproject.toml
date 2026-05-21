@@ -1,6 +1,6 @@
 [project]
 name = "niaarm"
-version = "0.4.6"
+version = "0.4.7"
 description = "A minimalistic framework for numerical association rule mining"
 authors = [
     { name = "Žiga Stupan", email = "ziga.stupan1@student.um.si" },
@@ -17,7 +17,7 @@ keywords = [
     "visualization",
 ]
 dependencies = [
-    "niapy>=2.6.1",
+    "niapy>=2.7.0",
     "numpy>=2.3.5",
     "pandas>=2.3.3",
     "nltk>=3.9.2",
